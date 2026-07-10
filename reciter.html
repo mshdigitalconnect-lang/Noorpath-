@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NoorPath — Reciter Pro (AL Siraat–style features)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16335E;--g2:#2C5C9E;--gp:#E8EEF8;
+  --gl:#F0C040;--gold:#C9860A;
+  --night:#060A14;--cream:#FDFCF7;
+  --text:#1A2233;--soft:#7C8FB0;
+  --green:#2E7D32;--orange:#EF6C00;--red:#C62828;
+  --r:18px;--sh:0 4px 24px rgba(44,92,158,0.13);
+}
+html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* SHELL */
+.nav{background:linear-gradient(135deg,var(--g),#0d3520);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:30}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.nav-mark{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.nav-text{font-size:17px;font-weight:900}
+.nav-sub{color:var(--gl);font-size:9px;font-weight:700;letter-spacing:1px}
+.nav-back{background:rgba(255,255,255,0.12);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+
+/* TAB BAR */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:14px 16px;background:#fff;border-bottom:1px solid #eee;-webkit-overflow-scrolling:touch}
+.tab{flex-shrink:0;background:var(--gp);border:1.5px solid transparent;border-radius:100px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--g);cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.tab.active{background:var(--g);color:#fff}
+
+/* PAGES */
+.page{display:none;padding:18px;max-width:760px;margin:0 auto}
+.page.active{display:block}
+.hdr{margin-bottom:16px}
+.hdr-eyebrow{font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.hdr-title{font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px}
+.hdr-sub{font-size:13px;color:var(--soft);line-height:1.6}
+
+/* RECITER */
+.script-toggle{display:flex;background:#fff;border-radius:12px;padding:4px;margin-bottom:14px;box-shadow:var(--sh);width:fit-content}
+.script-btn{background:transparent;border:none;padding:8px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:var(--soft);cursor:pointer;border-radius:9px}
+.script-btn.active{background:var(--g);color:#fff}
+
+.verse-card{background:#fff;border-radius:18px;padding:22px;box-shadow:var(--sh);margin-bottom:14px}
+.verse-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:11px;color:var(--soft);font-weight:700;letter-spacing:1px}
+.verse-num{background:var(--g);color:#fff;font-weight:900;border-radius:8px;padding:3px 10px;font-size:11px}
+.verse-arabic{font-family:'Amiri',serif;font-size:30px;direction:rtl;line-height:2;text-align:right;color:var(--text)}
+.verse-arabic.indopak{font-family:'Scheherazade New',serif;font-size:34px;line-height:2.1}
+.word{cursor:pointer;padding:2px 4px;border-radius:6px;transition:background 0.2s;display:inline-block}
+.word:hover{background:#FFF8E1}
+.word.good{background:#E8F5E9;color:var(--green)}
+.word.warn{background:#FFF3E0;color:var(--orange)}
+.word.bad{background:#FFEBEE;color:var(--red);text-decoration:underline wavy var(--red)}
+.verse-trans{font-size:13px;color:var(--soft);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px dashed #e8e8e0}
+
+.controls{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);margin-bottom:14px}
+.mic-row{display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap}
+.mic-btn{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,#C62828,#E53935);border:none;color:#fff;font-size:30px;cursor:pointer;box-shadow:0 8px 24px rgba(198,40,40,0.4);transition:transform 0.15s}
+.mic-btn:hover{transform:scale(1.05)}
+.mic-btn.listening{animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,0.5)}70%{box-shadow:0 0 0 20px rgba(198,40,40,0)}100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}}
+.btn-secondary{background:var(--gp);color:var(--g);border:none;border-radius:12px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer}
+.btn-secondary:hover{background:#d4ebe0}
+.btn-primary{background:var(--g);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer}
+.btn-primary:hover{background:var(--g2)}
+
+.transcript{margin-top:14px;background:#FAFAFA;border-radius:12px;padding:12px;font-size:13px;color:var(--soft);min-height:38px;font-style:italic}
+.result{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.result-chip{background:#fff;border:1.5px solid #e8e8e0;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:800}
+.result-chip.good{border-color:var(--green);color:var(--green);background:#E8F5E9}
+.result-chip.warn{border-color:var(--orange);color:var(--orange);background:#FFF3E0}
+.result-chip.bad{border-color:var(--red);color:var(--red);background:#FFEBEE}
+
+/* SPEED */
+.speed-row{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.speed-pill{background:var(--gp);border:none;border-radius:100px;padding:8px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--g);cursor:pointer}
+.speed-pill.active{background:var(--g);color:#fff}
+
+/* COMPARE WITH QARI */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:560px){.compare-grid{grid-template-columns:1fr}}
+.compare-side{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh);text-align:center}
+.compare-side h4{font-size:13px;font-weight:900;color:var(--text);margin-bottom:8px}
+.compare-side .sub{font-size:11px;color:var(--soft);margin-bottom:14px}
+.qari-pick{width:100%;padding:8px;border:1.5px solid #e8e8e0;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;background:#fff}
+.play-circle{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 6px 18px rgba(44,92,158,0.3)}
+
+/* PROGRESS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh);text-align:center}
+.stat-num{font-size:28px;font-weight:900;color:var(--g);line-height:1}
+.stat-lbl{font-size:11px;color:var(--soft);font-weight:800;letter-spacing:1px;margin-top:6px;text-transform:uppercase}
+.bar-wrap{height:10px;background:#EEE;border-radius:100px;overflow:hidden;margin-top:8px}
+.bar{height:100%;background:linear-gradient(90deg,var(--g),var(--gl));border-radius:100px;transition:width 0.6s}
+.history-list{background:#fff;border-radius:18px;padding:6px;box-shadow:var(--sh)}
+.history-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #f4f4ef;font-size:13px}
+.history-row:last-child{border-bottom:none}
+.history-row .label{font-weight:800;color:var(--text)}
+.history-row .date{font-size:11px;color:var(--soft)}
+.history-row .acc{font-weight:900}
+.empty{padding:40px 20px;text-align:center;color:var(--soft);font-size:14px}
+
+/* MAKHARIJ */
+.mak-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.mak-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);text-align:center;cursor:pointer;transition:transform 0.15s}
+.mak-card:hover{transform:translateY(-3px)}
+.mak-letter{font-family:'Amiri',serif;font-size:54px;color:var(--g);line-height:1;margin-bottom:6px}
+.mak-name{font-size:13px;font-weight:900;color:var(--text);margin-bottom:2px}
+.mak-tip{font-size:11px;color:var(--soft);line-height:1.5}
+.mak-region{display:inline-block;background:var(--gp);color:var(--g);font-size:10px;font-weight:900;border-radius:100px;padding:3px 10px;margin-top:8px}
+
+/* MAKHARIJ DETAIL MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(13,31,20,0.85);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:24px;padding:26px;max-width:420px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.4);max-height:90vh;overflow-y:auto}
+.modal-letter{font-family:'Amiri',serif;font-size:96px;color:var(--g);line-height:1;margin-bottom:6px}
+.modal-name{font-size:18px;font-weight:900;color:var(--text);margin-bottom:14px}
+.head-svg{width:200px;height:200px;margin:8px auto 14px;display:block}
+.modal-desc{font-size:13px;color:var(--soft);line-height:1.7;text-align:left;background:#FAFAFA;border-radius:12px;padding:14px;margin-bottom:14px}
+.modal-close{background:var(--g);color:#fff;border:none;border-radius:12px;padding:10px 20px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer}
+
+/* DOWNLOAD MANAGER */
+.dl-list{background:#fff;border-radius:18px;padding:6px;box-shadow:var(--sh)}
+.dl-row{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid #f4f4ef;gap:12px}
+.dl-row:last-child{border-bottom:none}
+.dl-info{flex:1;min-width:0}
+.dl-name{font-weight:800;font-size:14px;color:var(--text)}
+.dl-meta{font-size:11px;color:var(--soft);margin-top:2px}
+.dl-prog{height:6px;background:#EEE;border-radius:100px;overflow:hidden;margin-top:8px;display:none}
+.dl-prog.show{display:block}
+.dl-prog .fill{height:100%;width:0;background:var(--g);border-radius:100px;transition:width 0.4s}
+.dl-btn{background:var(--g);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif}
+.dl-btn.done{background:#E8F5E9;color:var(--green)}
+
+/* TAJWEED RULES GLOSSARY */
+.tjw-cats{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
+.tjw-cat{flex-shrink:0;background:#fff;border:1.5px solid #e8e8e0;border-radius:100px;padding:7px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--soft);cursor:pointer;white-space:nowrap}
+.tjw-cat.active{background:var(--g);color:#fff;border-color:var(--g)}
+.tjw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tjw-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);cursor:pointer;transition:transform 0.15s;border-left:5px solid #ccc;display:flex;flex-direction:column;gap:6px}
+.tjw-card:hover{transform:translateY(-3px)}
+.tjw-card .ar{font-family:'Amiri',serif;font-size:30px;line-height:1;color:var(--text)}
+.tjw-card .nm{font-size:14px;font-weight:900;color:var(--text)}
+.tjw-card .tag{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--soft)}
+.tjw-card .tip{font-size:12px;color:var(--soft);line-height:1.5}
+.tjw-badge{display:inline-block;background:var(--g);color:#fff;font-size:10px;font-weight:900;letter-spacing:2px;border-radius:100px;padding:3px 12px}
+.tjw-arabic{font-family:'Amiri',serif;font-size:54px;color:var(--g);line-height:1;margin-top:6px}
+.tjw-letters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.tjw-letter{font-family:'Amiri',serif;font-size:26px;background:#FAFAFA;border:1.5px solid #e8e8e0;border-radius:10px;padding:4px 12px;color:var(--text);cursor:pointer;transition:background 0.15s}
+.tjw-letter:hover{background:var(--gp);border-color:var(--g)}
+.tjw-examples{display:flex;flex-direction:column;gap:10px}
+.tjw-example{background:#FAFAFA;border-radius:14px;padding:14px;border:1.5px solid #f0f0e8;cursor:pointer;transition:all 0.15s}
+.tjw-example:hover{background:#fff;border-color:var(--g)}
+.tjw-example .ear{font-family:'Amiri',serif;font-size:24px;color:var(--text);direction:rtl;text-align:right;line-height:1.6}
+.tjw-example .latin{font-size:12px;color:var(--g);font-weight:800;margin-top:4px;font-style:italic}
+.tjw-example .meaning{font-size:11px;color:var(--soft);margin-top:2px}
+.tjw-example .play-tag{display:inline-block;background:var(--gl);color:var(--night);font-size:9px;font-weight:900;letter-spacing:1px;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--night);color:#fff;border-radius:100px;padding:12px 22px;font-weight:800;font-size:13px;box-shadow:0 12px 40px rgba(0,0,0,0.3);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:300}
+.toast.show{opacity:1}
+
+/* PRACTICE WORD MODAL */
+.word-modal-arabic{font-family:'Amiri',serif;font-size:64px;color:var(--g);margin:8px 0 4px}
+.word-modal-trans{font-size:14px;color:var(--soft);margin-bottom:18px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="landing.html" class="nav-logo">
+    <div class="nav-mark">🕌</div>
+    <div>
+      <div class="nav-text">NoorPath <span style="color:var(--gl)">Reciter Pro</span></div>
+      <div class="nav-sub">AL-SIRAAT–STYLE LEARNING</div>
+    </div>
+  </a>
+  <button class="nav-back" onclick="history.back()">← Back</button>
+</nav>
+
+<!-- TABS -->
+<div class="tabs" data-no-tilt>
+  <button class="tab active" data-page="recite">🎙️ Recite + AI Eval</button>
+  <button class="tab" data-page="compare">🎧 Compare with Qari</button>
+  <button class="tab" data-page="makharij">👄 Makharij Guide</button>
+  <button class="tab" data-page="tajweed">📚 Tajweed Rules</button>
+  <button class="tab" data-page="progress">📊 Progress</button>
+  <button class="tab" data-page="downloads">⬇️ Offline Downloads</button>
+</div>
+
+<!-- ============ PAGE 1: RECITE WITH AI EVAL ============ -->
+<section class="page active" id="page-recite">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 1 / 6 · POWERED BY REAL AI</div>
+    <div class="hdr-title">Recite with word-by-word AI Tajweed grading</div>
+    <div class="hdr-sub">Apni recitation karo — backend AI (OpenAI Whisper + GPT-4.1-mini) har word ko Tajweed ke hisaab se grade karega. <b style="color:var(--green)">Green</b> = correct, <b style="color:var(--orange)">Orange</b> = needs improvement, <b style="color:var(--red)">Red</b> = mistake. Har word pe hover karke per-Tajweed note dekho, ya word pe click karke isolated practice karo.</div>
+  </div>
+
+  <!-- Surah & Ayah picker -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:end" data-no-tilt>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:10px;font-weight:900;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px">SURAH</div>
+      <select id="surahPick" class="qari-pick" style="margin-bottom:0"></select>
+    </div>
+    <div style="width:130px">
+      <div style="font-size:10px;font-weight:900;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px">AYAH</div>
+      <select id="ayahPick" class="qari-pick" style="margin-bottom:0"></select>
+    </div>
+    <button class="btn-secondary" id="btnPrev" title="Previous ayah" style="padding:9px 12px">←</button>
+    <button class="btn-secondary" id="btnNext" title="Next ayah" style="padding:9px 12px">→</button>
+  </div>
+
+  <!-- Multi-script toggle -->
+  <div class="script-toggle" data-no-tilt>
+    <button class="script-btn active" data-script="uthmani">Uthmani</button>
+    <button class="script-btn" data-script="indopak">Indo-Pak</button>
+  </div>
+
+  <!-- Reference verse -->
+  <div class="verse-card">
+    <div class="verse-meta">
+      <span id="verseLabel">Surah Al-Fatihah · Ayah 1</span>
+      <span class="verse-num" id="verseNum">1:1</span>
+    </div>
+    <div class="verse-arabic" id="verseArabic" lang="ar"></div>
+    <div class="verse-trans" id="verseTrans"></div>
+  </div>
+
+  <!-- Mic + speed -->
+  <div class="controls">
+    <div class="mic-row">
+      <button class="btn-secondary" id="btnHear">🔊 Hear Qari</button>
+      <button class="mic-btn" id="btnMic" title="Tap to record">🎙️</button>
+      <button class="btn-secondary" id="btnReset">↻ Reset</button>
+    </div>
+    <div class="speed-row" data-no-tilt>
+      <span style="font-size:11px;font-weight:900;color:var(--soft);align-self:center;letter-spacing:1px">SPEED:</span>
+      <button class="speed-pill" data-rate="0.6">🐢 Beginner</button>
+      <button class="speed-pill active" data-rate="0.85">🚶 Slow</button>
+      <button class="speed-pill" data-rate="1">▶ Normal</button>
+      <button class="speed-pill" data-rate="1.25">🏃 Advanced</button>
+    </div>
+    <div class="transcript" id="transcript">Tap the mic, recite the verse, then tap again to stop. AI will grade word-by-word.</div>
+    <div class="result" id="resultRow"></div>
+    <div id="aiSummary" style="margin-top:10px;font-size:12px;color:var(--soft);text-align:center;font-style:italic;display:none"></div>
+  </div>
+
+  <div style="font-size:12px;color:var(--soft);text-align:center;line-height:1.7;background:#FFF8E1;border-radius:12px;padding:12px">
+    💡 Click any <b>green/orange/red</b> word above to practice it in isolation. Your accuracy is automatically saved to the Progress page.
+  </div>
+</section>
+
+<!-- ============ PAGE 2: COMPARE WITH QARI ============ -->
+<section class="page" id="page-compare">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 2 / 6</div>
+    <div class="hdr-title">Compare your recitation with a famous Qari</div>
+    <div class="hdr-sub">World-renowned Qari sun-kar saath mein recite karo. Adjust your tone and Tajweed to match.</div>
+  </div>
+
+  <div class="verse-card">
+    <div class="verse-meta">
+      <span id="cmpLabel">Surah Al-Fatihah · Ayah 1</span>
+      <span class="verse-num" id="cmpNum">1:1</span>
+    </div>
+    <div class="verse-arabic" id="cmpArabic" lang="ar"></div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-side">
+      <h4>🎧 Famous Qari</h4>
+      <div class="sub">Pick a reciter and play</div>
+      <select class="qari-pick" id="qariPick">
+        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+        <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+        <option value="ar.minshawi">Mohamed Siddiq al-Minshawi</option>
+        <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
+        <option value="ar.sudais">Abdul Rahman al-Sudais</option>
+      </select>
+      <button class="play-circle" id="qariPlay" title="Play Qari">▶</button>
+      <div style="font-size:11px;color:var(--soft);margin-top:10px" id="qariStatus">Ready</div>
+    </div>
+    <div class="compare-side">
+      <h4>🎙️ Your Recitation</h4>
+      <div class="sub">Record then playback to compare</div>
+      <button class="mic-btn" id="cmpMic" style="width:60px;height:60px;font-size:22px">🎙️</button>
+      <div style="margin-top:14px">
+        <button class="btn-secondary" id="cmpPlayMine" disabled style="opacity:0.55">▶ Play Mine</button>
+      </div>
+      <div style="font-size:11px;color:var(--soft);margin-top:10px" id="cmpStatus">No recording yet</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE 3: MAKHARIJ ============ -->
+<section class="page" id="page-makharij">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 3 / 6</div>
+    <div class="hdr-title">Visual articulation guide (Makhraj)</div>
+    <div class="hdr-sub">Har harf kahaan se nikalta hai — animated diagram ke saath. Difficult letters pe click karo.</div>
+  </div>
+  <div class="mak-grid" id="makGrid"></div>
+</section>
+
+<!-- Makhraj modal -->
+<div class="modal-bg" id="makModal">
+  <div class="modal">
+    <div class="modal-letter" id="mLetter">ع</div>
+    <div class="modal-name" id="mName">‘Ayn — Middle of Throat</div>
+    <svg class="head-svg" viewBox="0 0 200 200" id="mSvg">
+      <!-- side profile of head; region highlights inserted by JS -->
+    </svg>
+    <div class="modal-desc" id="mDesc"></div>
+    <button class="modal-close" onclick="closeMak()">Got it</button>
+  </div>
+</div>
+
+<!-- ============ PAGE 4: TAJWEED RULES ============ -->
+<section class="page" id="page-tajweed">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 4 / 6 · GLOSSARY</div>
+    <div class="hdr-title">Tajweed rules — with click-to-hear examples</div>
+    <div class="hdr-sub">Ikhfa, Idgham, Madd, Qalqalah aur baqi rules — har rule pe click karke definition, examples aur audio playback dekho. Beginner se advanced tak.</div>
+  </div>
+
+  <div class="tjw-cats" data-no-tilt id="tjwCats"></div>
+  <div class="tjw-grid" id="tjwGrid"></div>
+</section>
+
+<!-- Tajweed detail modal -->
+<div class="modal-bg" id="tjwModal">
+  <div class="modal" style="max-width:520px;text-align:left">
+    <div style="text-align:center;margin-bottom:14px">
+      <div id="tjwBadge" class="tjw-badge">RULE</div>
+      <div id="tjwArabic" class="tjw-arabic">إخفاء</div>
+      <div id="tjwName" style="font-size:18px;font-weight:900;color:var(--text);margin-top:4px">Ikhfa</div>
+      <div id="tjwSub" style="font-size:12px;color:var(--soft);font-weight:700;margin-top:2px">Partial concealment</div>
+    </div>
+    <div id="tjwDef" class="modal-desc"></div>
+    <div id="tjwLettersWrap" style="margin-bottom:12px"></div>
+    <div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:14px 0 8px">EXAMPLES · TAP TO HEAR</div>
+    <div id="tjwExamples" class="tjw-examples"></div>
+    <div style="text-align:center;margin-top:18px">
+      <button class="modal-close" onclick="closeTjw()">Got it</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAGE 5: PROGRESS ============ -->
+<section class="page" id="page-progress">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 5 / 6</div>
+    <div class="hdr-title">Your recitation progress</div>
+    <div class="hdr-sub">Auto-tracked from every recitation session. Locally saved (private).</div>
+  </div>
+  <div class="stats-grid" id="statsGrid"></div>
+  <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);margin-bottom:14px">
+    <div style="font-weight:900;font-size:14px;margin-bottom:10px;color:var(--text)">Overall accuracy</div>
+    <div class="bar-wrap"><div class="bar" id="overallBar" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--soft);margin-top:6px" id="overallTxt">No sessions yet</div>
+  </div>
+  <div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:12px 4px 8px">RECENT SESSIONS</div>
+  <div class="history-list" id="historyList"></div>
+  <div style="text-align:center;margin-top:14px">
+    <button class="btn-secondary" id="btnClearProg">Clear all progress</button>
+  </div>
+</section>
+
+<!-- ============ PAGE 5: DOWNLOADS ============ -->
+<section class="page" id="page-downloads">
+  <div class="hdr">
+    <div class="hdr-eyebrow">PAGE 6 / 6</div>
+    <div class="hdr-title">Offline downloads</div>
+    <div class="hdr-sub">Surahs aur Qari recordings phone par save kar lo — internet ke bina bhi seekho.</div>
+  </div>
+  <div class="dl-list" id="dlList"></div>
+  <div style="font-size:12px;color:var(--soft);text-align:center;margin-top:14px;background:#FAFAFA;border-radius:12px;padding:12px;line-height:1.7">
+    📦 Downloaded items aapke device par local storage mein safe rahenge aur Reciter Pro mein offline play hoonge.
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script src="surahs-data.js"></script>
+<script>
+/* =================== DATA =================== */
+// Reference verses are loaded from /surahs-data.js (window.SURAHS).
+// VERSE is the *currently selected* verse, rebuilt by setVerse().
+let VERSE = {
+  surah:   1,
+  ayah:    1,
+  label:   "Al-Fatihah",
+  arabic:  "ٱلْفَاتِحَة",
+  words:    ["بِسْمِ", "ٱللَّهِ", "ٱلرَّحْمَٰنِ", "ٱلرَّحِيمِ"],
+  words_ip: ["بِسْمِ", "اللّٰہِ", "الرَّحْمٰنِ", "الرَّحِیْمِ"],
+  trans:   "In the name of Allah — the Most Gracious, the Most Merciful."
+};
+// keep these aliases so existing renderVerse() code keeps working
+VERSE.ar_uthmani = VERSE.words;
+VERSE.ar_indopak = VERSE.words_ip;
+
+const MAKHARIJ = [
+  { letter:"ا", name:"Alif", region:"Jawf (oral cavity)", regionClass:"jawf",
+    tip:"Long 'aa' — open air, no contact.",
+    desc:"Alif aawazon mein lammbi 'aa' deti hai. Yeh harf hawa ke saath jawf (mouth cavity) se aata hai — tongue ya hont kahin nahin touch karte. Mouth ko relax rakho, sound ko free flow karne do."},
+  { letter:"ح", name:"Ḥā", region:"Middle of throat", regionClass:"throat-mid",
+    tip:"Whispered 'h' from throat middle.",
+    desc:"Halq ke beech wale hisse se aata hai. Hath gale par rakho — vibration nahi hogi (whisper sound). Mouth thoda open, jaise garam saans chhod rahe ho."},
+  { letter:"ع", name:"ʿAyn", region:"Middle of throat", regionClass:"throat-mid",
+    tip:"Voiced — squeeze throat middle.",
+    desc:"Halq ke beech (same as Ha) lekin awaaz ke saath. Throat ko thoda squeeze karo. Beginners ke liye sabse difficult harf — practice karo daily."},
+  { letter:"خ", name:"Khā", region:"Top of throat", regionClass:"throat-top",
+    tip:"Like clearing throat softly.",
+    desc:"Halq ke uparla hissa — jaise hum 'ckhh' bolte hain throat saaf karte waqt. Tongue back uthayi jaye, lekin tongue palate ko touch nahi karti."},
+  { letter:"غ", name:"Ghayn", region:"Top of throat", regionClass:"throat-top",
+    tip:"Voiced gargle from top throat.",
+    desc:"Same place as Khā but voiced — jaise gargle karte waqt aati hai. Mouth ke piche se gehri awaaz."},
+  { letter:"ق", name:"Qāf", region:"Deep tongue + soft palate", regionClass:"tongue-back",
+    tip:"Back of tongue meets uvula.",
+    desc:"Zubaan ka peechla hissa upper soft palate (taluw) ko touch karta hai. Sound mouth ke peeche se deep aati hai — 'K' nahi, 'Q' jaisa heavy."},
+  { letter:"ص", name:"Ṣād", region:"Tongue tip + front teeth", regionClass:"teeth",
+    tip:"Heavy 'S' with cupped tongue.",
+    desc:"Zabaan ki tip front teeth ke piche. Heavy/full-mouth sound — air ko cup-shape se nikalna. Light 's' (س) se zyada bhari."},
+  { letter:"ض", name:"Ḍād", region:"Side of tongue + molars", regionClass:"tongue-side",
+    tip:"Unique to Arabic — side of tongue.",
+    desc:"Zabaan ka kinara (side) upper molars ko touch karta hai. Sirf Arabic mein hai — practice karo dheere dheere."},
+  { letter:"ط", name:"Ṭā", region:"Tongue tip + upper gum", regionClass:"teeth",
+    tip:"Heavy 'T' with explosion.",
+    desc:"Zabaan ki tip upper gum line ko touch karti hai. Heavy explosive sound — full mouth. Light 'ت' se distinct."},
+  { letter:"ر", name:"Rā", region:"Tongue tip — tap/roll", regionClass:"teeth",
+    tip:"Light tap or roll the tongue.",
+    desc:"Zabaan ki tip upper gum ke pass tap karti hai. Single tap for light, multiple taps (rolled R) for emphasized — depending on harakah."},
+  { letter:"ث", name:"Thā", region:"Tongue tip between teeth", regionClass:"teeth",
+    tip:"Like English 'th' in 'three'.",
+    desc:"Zabaan ki tip upper teeth ke kinare ke beech rakho — air slip karne do. Aap 'three' English mein bolne wala sound."},
+  { letter:"ذ", name:"Dhāl", region:"Tongue tip between teeth", regionClass:"teeth",
+    tip:"Voiced 'th' as in 'this'.",
+    desc:"Same position as Thā lekin voiced — jaise 'this' mein hota hai."}
+];
+
+const DOWNLOADS = [
+  { id:"fatiha", name:"Surah Al-Fatihah · Alafasy", size:"3.2 MB" },
+  { id:"baqarah", name:"Surah Al-Baqarah · Husary", size:"86 MB" },
+  { id:"ikhlas", name:"Surah Al-Ikhlas · Minshawi", size:"0.8 MB" },
+  { id:"yaseen", name:"Surah Ya-Sin · Sudais", size:"32 MB" },
+  { id:"rahman", name:"Surah Ar-Rahman · Abdul Basit", size:"18 MB" },
+  { id:"kahf", name:"Surah Al-Kahf · Alafasy", size:"58 MB" },
+  { id:"mulk", name:"Surah Al-Mulk · Husary", size:"7.4 MB" },
+  { id:"qaida", name:"Complete Urdu Qaida Audio Pack", size:"42 MB" }
+];
+
+/* ===== TAJWEED RULES GLOSSARY ===== */
+const TAJWEED_CATS = [
+  { id: "all",    label: "All rules" },
+  { id: "noon",   label: "Noon Sakinah & Tanween" },
+  { id: "madd",   label: "Madd (Elongation)" },
+  { id: "meem",   label: "Meem Sakinah" },
+  { id: "misc",   label: "Other essentials" }
+];
+
+const TAJWEED = [
+  {
+    id: "izhar", cat: "noon", color: "#16335E",
+    ar: "إِظْهَار", name: "Izhar", sub: "Clear pronunciation",
+    tip: "Noon sakinah / tanween clearly pronounced before throat letters.",
+    def: "Jab noon sakinah (نْ) ya tanween (ـً ـٍ ـٌ) ke baad throat letters (ء ه ع ح غ خ) aaye, to noon ko bilkul saaf adaa karo — koi hiding ya ghunnah nahi.",
+    letters: ["ء","ه","ع","ح","غ","خ"],
+    examples: [
+      { ar:"مِنْ هَادٍ",       lat:"min haad",       mean:"From a guide" },
+      { ar:"عَذَابٌ أَلِيمٌ",   lat:"ʿadhābun alīm",  mean:"A painful punishment" },
+      { ar:"يَنْحِتُونَ",       lat:"yanḥitūn",       mean:"They carve" }
+    ]
+  },
+  {
+    id: "idgham", cat: "noon", color: "#7A5CFF",
+    ar: "إِدْغَام", name: "Idgham", sub: "Merging with ghunnah / without",
+    tip: "Noon sakinah merges into the next letter (ي ر م ل و ن).",
+    def: "Noon sakinah ya tanween ke baad ye 6 letters aaye to noon agle harf mein merge ho jata hai. Ghunnah ke saath: ي ن م و. Ghunnah ke bina: ل ر.",
+    letters: ["ي","ر","م","ل","و","ن"],
+    examples: [
+      { ar:"مَنْ يَعْمَلْ",     lat:"mayyaʿmal",       mean:"Whoever does (with ghunnah)" },
+      { ar:"مِنْ رَبِّهِمْ",     lat:"mir rabbihim",   mean:"From their Lord (no ghunnah)" },
+      { ar:"غَفُورٌ رَّحِيمٌ",   lat:"ghafūrur raḥīm", mean:"Forgiving, Merciful" }
+    ]
+  },
+  {
+    id: "iqlab", cat: "noon", color: "#EF6C00",
+    ar: "إِقْلَاب", name: "Iqlab", sub: "Conversion to meem",
+    tip: "Noon sakinah / tanween before ب becomes hidden meem.",
+    def: "Jab noon sakinah ya tanween ke baad sirf حrf 'ب' aaye, to noon ko 'meem' (م) mein convert karke 2-count ghunnah ke saath padha jata hai.",
+    letters: ["ب"],
+    examples: [
+      { ar:"مِنۢ بَعْدِ",        lat:"mim baʿdi",       mean:"After (lit. 'from after')" },
+      { ar:"سَمِيعٌۢ بَصِيرٌ",    lat:"samīʿum baṣīr",   mean:"All-Hearing, All-Seeing" },
+      { ar:"أَنۢبِيَاءَ",         lat:"ambiyāʾ",         mean:"Prophets" }
+    ]
+  },
+  {
+    id: "ikhfa", cat: "noon", color: "#C62828",
+    ar: "إِخْفَاء", name: "Ikhfa", sub: "Partial hiding (15 letters)",
+    tip: "Noon sakinah partially hidden before 15 letters — with ghunnah.",
+    def: "Sabse common rule. Noon sakinah / tanween ke baad ye 15 letters aaye to noon ko hide karke, lips slightly open, 2-count ghunnah ke saath uchaaro: ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك.",
+    letters: ["ت","ث","ج","د","ذ","ز","س","ش","ص","ض","ط","ظ","ف","ق","ك"],
+    examples: [
+      { ar:"مِنْ قَبْلُ",         lat:"min qablu",       mean:"From before" },
+      { ar:"كُنْتُمْ",            lat:"kuntum",          mean:"You all were" },
+      { ar:"يَنْصُرُونَ",          lat:"yanṣurūn",        mean:"They help" }
+    ]
+  },
+  {
+    id: "ghunnah", cat: "meem", color: "#AD1457",
+    ar: "غُنَّة", name: "Ghunnah", sub: "2-count nasal sound",
+    tip: "Hold the nasal sound for 2 counts on noon/meem with shadda.",
+    def: "Jab noon ya meem par shadda (ـّ) ho, to 2-count tak naak se ghunnah lazim hai. Beghair ghunnah ke padhna mistake hai.",
+    letters: ["نّ","مّ"],
+    examples: [
+      { ar:"إِنَّ",                lat:"inna",            mean:"Indeed" },
+      { ar:"ثُمَّ",                lat:"thumma",          mean:"Then" },
+      { ar:"مِمَّا",               lat:"mimmā",           mean:"From what" }
+    ]
+  },
+  {
+    id: "ikhfa-shafawi", cat: "meem", color: "#4527A0",
+    ar: "إِخْفَاء شَفَوِي", name: "Ikhfa Shafawi", sub: "Lip-level hiding",
+    tip: "Meem sakinah partially hidden before ب — lips touch lightly.",
+    def: "Meem sakinah (مْ) ke baad agar ب aaye, to meem ko lightly hide karo aur 2-count ghunnah lagaaо. Lips lightly touch but no full closure.",
+    letters: ["ب"],
+    examples: [
+      { ar:"هُمْ بِهَا",          lat:"hum bihā",        mean:"They, with it" },
+      { ar:"رَبَّكُمْ بِالنَّاسِ",  lat:"rabbakum bin-nās",mean:"Your Lord of mankind" }
+    ]
+  },
+  {
+    id: "madd-tabii", cat: "madd", color: "#0277BD",
+    ar: "مَدّ طَبِيعِي", name: "Madd Tabi'i", sub: "Natural — 2 counts",
+    tip: "Long vowel held for exactly 2 counts. Default madd.",
+    def: "Jab kisi madd-letter (ا, و, ي) par koi sukoon ya hamza na ho, to use 2 counts tak khinch ke padho. Yahi sabse common madd hai.",
+    letters: ["ا","و","ي"],
+    examples: [
+      { ar:"قَالَ",                lat:"qāla",            mean:"He said (2 counts on ا)" },
+      { ar:"يَقُولُ",              lat:"yaqūlu",          mean:"He says (2 counts on و)" },
+      { ar:"قِيلَ",                lat:"qīla",            mean:"It was said (2 counts on ي)" }
+    ]
+  },
+  {
+    id: "madd-muttasil", cat: "madd", color: "#0288D1",
+    ar: "مَدّ وَاجِب مُتَّصِل", name: "Madd Wajib Muttasil", sub: "Connected — 4 to 5 counts",
+    tip: "Madd letter + hamza in the SAME word → 4–5 counts.",
+    def: "Jab madd-letter (ا و ي) ke turant baad usi word mein hamza (ء) aaye, to madd ko 4 ya 5 counts tak khinchna lazim hai.",
+    letters: ["ا+ء","و+ء","ي+ء"],
+    examples: [
+      { ar:"جَاۤءَ",                lat:"jāāāʾa",          mean:"He came (4–5 counts on ا)" },
+      { ar:"السَّمَآءِ",            lat:"as-samāāāʾi",     mean:"The sky" },
+      { ar:"سُوۤءِ",                lat:"sūūūʾi",          mean:"Evil" }
+    ]
+  },
+  {
+    id: "madd-munfasil", cat: "madd", color: "#039BE5",
+    ar: "مَدّ جَائِز مُنْفَصِل", name: "Madd Jaiz Munfasil", sub: "Separated — 4–5 counts",
+    tip: "Madd letter at word end + hamza at next word start → 4–5 counts.",
+    def: "Jab madd-letter pehle word ke end mein ho aur hamza dusre word ke shuru mein, to madd ko 4 ya 5 counts tak khinchna jaiz (allowed) hai — preferred 4 counts.",
+    letters: ["ا‧ء","و‧ء","ي‧ء"],
+    examples: [
+      { ar:"يَا أَيُّهَا",           lat:"yāāā ayyuhā",    mean:"O you (4 counts)" },
+      { ar:"فِي أَنْفُسِكُمْ",       lat:"fīī anfusikum",  mean:"In yourselves" },
+      { ar:"قَالُوا آمَنَّا",        lat:"qālū āmannā",    mean:"They said: we believed" }
+    ]
+  },
+  {
+    id: "madd-lazim", cat: "madd", color: "#01579B",
+    ar: "مَدّ لَازِم", name: "Madd Lazim", sub: "Compulsory — 6 counts",
+    tip: "Madd letter + sukoon → MUST be 6 counts. Strongest madd.",
+    def: "Sabse lambi madd. Jab madd-letter ke baad sukoon-wali harf aaye (chahe ek word mein ho ya alag), to madd ko 6 counts tak khinchna lazim hai.",
+    letters: ["ا+ـْـ","و+ـْـ","ي+ـْـ"],
+    examples: [
+      { ar:"الۤمۤ",                lat:"alif-lām-mīīīm",  mean:"Alif-Lām-Mīm (6 counts)" },
+      { ar:"الْحَآقَّةُ",           lat:"al-ḥāāāqqah",     mean:"The Inevitable Reality" },
+      { ar:"الضَّآلِّينَ",          lat:"aḍ-ḍāāāllīn",     mean:"Those astray" }
+    ]
+  },
+  {
+    id: "qalqalah", cat: "misc", color: "#6A1B9A",
+    ar: "قَلْقَلَة", name: "Qalqalah", sub: "Echo / bounce",
+    tip: "Echo sound on قُطْبُ جَدٍ when they carry sukoon.",
+    def: "Jab letters ق ط ب ج د par sukoon ho (rest position), to inko echo / bounce ke saath padho. Word-end mein zyada strong (qalqalah kubrā), beech mein halki (sughrā).",
+    letters: ["ق","ط","ب","ج","د"],
+    examples: [
+      { ar:"يَخْلُقْ",              lat:"yakhluq (echo)",  mean:"He creates" },
+      { ar:"الْفَلَقِ",              lat:"al-falaq",        mean:"The daybreak (strong echo on ق)" },
+      { ar:"أَحَدْ",                 lat:"aḥad (echo)",     mean:"One" }
+    ]
+  },
+  {
+    id: "shadda", cat: "misc", color: "#558B2F",
+    ar: "شَدَّة", name: "Shadda", sub: "Doubling / emphasis",
+    tip: "Letter is pronounced twice — once sakin, once moving.",
+    def: "Shadda ( ـّ ) ka matlab hai letter ko 2 baar adaa karna: pehle sakinah (rest), phir uski harakah ke saath. Jaldi mat karo — pause clearly.",
+    letters: ["ـّ"],
+    examples: [
+      { ar:"رَبِّ",                  lat:"rab-bi",          mean:"My Lord" },
+      { ar:"الَّذِي",                lat:"al-la-dhī",       mean:"The one who" },
+      { ar:"كَلَّا",                 lat:"kal-lā",          mean:"Nay!" }
+    ]
+  }
+];
+
+let TJW_CAT = "all";
+function renderTajweedCats(){
+  $("#tjwCats").innerHTML = TAJWEED_CATS.map(c =>
+    `<button class="tjw-cat ${c.id===TJW_CAT?'active':''}" data-cat="${c.id}">${c.label}</button>`
+  ).join("");
+  $$(".tjw-cat", $("#tjwCats")).forEach(b => b.addEventListener("click", () => {
+    TJW_CAT = b.dataset.cat;
+    renderTajweedCats();
+    renderTajweedGrid();
+  }));
+}
+function renderTajweedGrid(){
+  const list = TAJWEED.filter(t => TJW_CAT === "all" || t.cat === TJW_CAT);
+  $("#tjwGrid").innerHTML = list.map(t => `
+    <div class="tjw-card" data-id="${t.id}" style="border-left-color:${t.color}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="ar" lang="ar" style="color:${t.color}">${t.ar}</div>
+        <div style="flex:1">
+          <div class="nm">${t.name}</div>
+          <div class="tag" style="color:${t.color}">${t.sub.toUpperCase()}</div>
+        </div>
+      </div>
+      <div class="tip">${t.tip}</div>
+    </div>
+  `).join("");
+  $$(".tjw-card", $("#tjwGrid")).forEach(c => c.addEventListener("click", () => openTjw(c.dataset.id)));
+}
+function openTjw(id){
+  const t = TAJWEED.find(x => x.id === id); if (!t) return;
+  $("#tjwBadge").textContent = TAJWEED_CATS.find(c => c.id === t.cat)?.label.toUpperCase() || "RULE";
+  $("#tjwBadge").style.background = t.color;
+  $("#tjwArabic").textContent = t.ar; $("#tjwArabic").style.color = t.color;
+  $("#tjwName").textContent = t.name;
+  $("#tjwSub").textContent = t.sub;
+  $("#tjwDef").textContent = t.def;
+  $("#tjwLettersWrap").innerHTML = t.letters && t.letters.length
+    ? `<div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:14px 0 8px">APPLIES TO · TAP A LETTER</div>
+       <div class="tjw-letters">${t.letters.map(l => `<span class="tjw-letter" data-l="${l.replace(/"/g,'&quot;')}">${l}</span>`).join("")}</div>`
+    : "";
+  $("#tjwExamples").innerHTML = t.examples.map((e,i) => `
+    <div class="tjw-example" data-i="${i}">
+      <div class="ear" lang="ar">${e.ar}<span class="play-tag">▶ TAP</span></div>
+      <div class="latin">${e.lat}</div>
+      <div class="meaning">${e.mean}</div>
+    </div>
+  `).join("");
+  // Wire example clicks → TTS playback
+  $$(".tjw-example", $("#tjwExamples")).forEach(node => node.addEventListener("click", () => {
+    const ex = t.examples[parseInt(node.dataset.i)];
+    speakArabic(ex.ar, 0.7);
+    toast("▶ Playing example");
+  }));
+  // Wire letter clicks → say the letter
+  $$(".tjw-letter", $("#tjwLettersWrap")).forEach(node => node.addEventListener("click", () => {
+    speakArabic(node.dataset.l, 0.7);
+  }));
+  $("#tjwModal").classList.add("open");
+}
+function closeTjw(){ $("#tjwModal").classList.remove("open"); }
+
+/* =================== STATE =================== */
+const SCRIPT_KEY = "noorpath_reciter_script_v1";
+function loadScriptPref(){
+  try {
+    const v = localStorage.getItem(SCRIPT_KEY);
+    return (v === "uthmani" || v === "indopak") ? v : "uthmani";
+  } catch (e) { return "uthmani"; }
+}
+const state = {
+  script: loadScriptPref(),
+  rate: 0.85,
+  status: Array(VERSE.words.length).fill("idle"), // idle | good | warn | bad
+  recording: false,
+  cmpRecording: false,
+  cmpBlob: null,
+  qariAudio: null
+};
+
+/* =================== UTIL =================== */
+const $ = (q, r=document) => r.querySelector(q);
+const $$ = (q, r=document) => Array.from(r.querySelectorAll(q));
+function toast(msg, dur=1800){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._tm); t._tm = setTimeout(()=>t.classList.remove("show"), dur);
+}
+
+/* =================== SURAH PICKER =================== */
+function findSurah(n){ return (window.SURAHS||[]).find(s => s.n === n); }
+function findVerse(s, i){ return (s?.verses||[]).find(v => v.i === i); }
+
+function populateSurahPicker(){
+  const sel = $("#surahPick");
+  sel.innerHTML = (window.SURAHS||[]).map(s =>
+    `<option value="${s.n}">${s.n}. ${s.name} · ${s.arabic} · ${s.count} ayah${s.count>1?"s":""}</option>`
+  ).join("");
+  sel.value = String(VERSE.surah);
+  populateAyahPicker();
+}
+function populateAyahPicker(){
+  const s = findSurah(parseInt($("#surahPick").value));
+  const sel = $("#ayahPick");
+  sel.innerHTML = (s?.verses||[]).map(v => `<option value="${v.i}">Ayah ${v.i}</option>`).join("");
+  sel.value = String(VERSE.ayah);
+}
+function setVerse(surahN, ayahN){
+  const s = findSurah(surahN); if (!s) return;
+  let v = findVerse(s, ayahN); if (!v) { v = s.verses[0]; ayahN = v.i; }
+  VERSE = {
+    surah: s.n, ayah: v.i,
+    label: s.name, arabic: s.arabic,
+    words: v.words.slice(),
+    words_ip: (v.words_ip || v.words).slice(),
+    trans: v.trans
+  };
+  VERSE.ar_uthmani = VERSE.words;
+  VERSE.ar_indopak = VERSE.words_ip;
+  state.status = Array(VERSE.words.length).fill("idle");
+  state.lastNotes = [];
+  // Sync header labels & translation
+  const lbl = `Surah ${s.name} · Ayah ${v.i}`;
+  const num = `${s.n}:${v.i}`;
+  if ($("#verseLabel")) $("#verseLabel").textContent = lbl;
+  if ($("#verseNum"))   $("#verseNum").textContent   = num;
+  if ($("#verseTrans")) $("#verseTrans").textContent = v.trans;
+  if ($("#cmpLabel"))   $("#cmpLabel").textContent   = lbl;
+  if ($("#cmpNum"))     $("#cmpNum").textContent     = num;
+  // Re-render both verse cards
+  renderVerse("verseArabic");
+  renderVerse("cmpArabic");
+  // Reset any prior eval UI on the Recite page
+  if ($("#transcript")) $("#transcript").textContent = "Tap the mic, recite this verse, then tap again to stop. AI will grade word-by-word.";
+  if ($("#resultRow"))  $("#resultRow").innerHTML = "";
+  if ($("#aiSummary"))  { $("#aiSummary").textContent = ""; $("#aiSummary").style.display = "none"; }
+  // Reflect selects (defensive)
+  if ($("#surahPick") && $("#surahPick").value != String(s.n)) $("#surahPick").value = String(s.n);
+  if ($("#ayahPick")  && $("#ayahPick").value  != String(v.i)) $("#ayahPick").value  = String(v.i);
+}
+
+/* =================== TABS =================== */
+$$(".tab").forEach(btn => btn.addEventListener("click", () => {
+  $$(".tab").forEach(b => b.classList.remove("active"));
+  $$(".page").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  $("#page-" + btn.dataset.page).classList.add("active");
+  if (btn.dataset.page === "progress")  renderProgress();
+  if (btn.dataset.page === "downloads") renderDownloads();
+  if (btn.dataset.page === "makharij")  renderMakharij();
+  if (btn.dataset.page === "tajweed")   renderTajweed();
+}));
+
+function renderTajweed(){
+  if ($("#tjwGrid").dataset.rendered) return;
+  renderTajweedCats();
+  renderTajweedGrid();
+  $("#tjwGrid").dataset.rendered = "1";
+  $("#tjwModal").addEventListener("click", (e) => { if (e.target.id === "tjwModal") closeTjw(); });
+}
+
+/* =================== RECITER =================== */
+function renderVerse(targetId){
+  const words = state.script === "uthmani" ? VERSE.ar_uthmani : VERSE.ar_indopak;
+  const el = $("#" + targetId);
+  el.classList.toggle("indopak", state.script === "indopak");
+  el.innerHTML = words.map((w,i) => {
+    const cls = state.status[i] && state.status[i] !== "idle" ? state.status[i] : "";
+    return `<span class="word ${cls}" data-i="${i}" data-no-tilt>${w}</span>`;
+  }).join(" ");
+  $$(".word", el).forEach(node => node.addEventListener("click", () => openWordPractice(parseInt(node.dataset.i))));
+}
+
+$$(".script-btn").forEach(b => b.addEventListener("click", () => {
+  $$(".script-btn").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  state.script = b.dataset.script;
+  try { localStorage.setItem(SCRIPT_KEY, state.script); } catch (e) {}
+  renderVerse("verseArabic");
+  renderVerse("cmpArabic");
+  toast("Default script saved: " + (state.script === "uthmani" ? "Uthmani" : "Indo-Pak"));
+}));
+
+$$(".speed-pill").forEach(b => b.addEventListener("click", () => {
+  $$(".speed-pill").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  state.rate = parseFloat(b.dataset.rate);
+}));
+
+/* Picker change handlers + navigation */
+function onSurahChange(){
+  const s = findSurah(parseInt($("#surahPick").value));
+  populateAyahPicker();
+  setVerse(s.n, s.verses[0].i);
+}
+function onAyahChange(){
+  setVerse(parseInt($("#surahPick").value), parseInt($("#ayahPick").value));
+}
+function goRel(delta){
+  const s = findSurah(VERSE.surah);
+  const idx = s.verses.findIndex(v => v.i === VERSE.ayah);
+  const nextIdx = idx + delta;
+  if (nextIdx >= 0 && nextIdx < s.verses.length) {
+    setVerse(s.n, s.verses[nextIdx].i);
+  } else {
+    // Cross to next/prev surah
+    const sIdx = window.SURAHS.findIndex(x => x.n === s.n);
+    const nextSIdx = sIdx + delta;
+    if (nextSIdx >= 0 && nextSIdx < window.SURAHS.length) {
+      const ns = window.SURAHS[nextSIdx];
+      const targetV = delta > 0 ? ns.verses[0].i : ns.verses[ns.verses.length-1].i;
+      setVerse(ns.n, targetV);
+    } else {
+      toast(delta > 0 ? "End of available surahs" : "Start of available surahs");
+    }
+  }
+}
+
+/* Speak full verse in Arabic (browser TTS) */
+function speakArabic(text, rate=state.rate){
+  if (!("speechSynthesis" in window)) { toast("TTS not supported"); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA"; u.rate = rate; u.pitch = 1;
+  // try to pick Arabic voice
+  const voices = speechSynthesis.getVoices();
+  const ar = voices.find(v => v.lang.startsWith("ar"));
+  if (ar) u.voice = ar;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+$("#btnHear").addEventListener("click", () => {
+  speakArabic(VERSE.words.join(" "), state.rate);
+  toast("🔊 Playing verse (speed " + state.rate + "x)");
+});
+
+$("#btnReset").addEventListener("click", () => {
+  state.status = Array(VERSE.words.length).fill("idle");
+  renderVerse("verseArabic");
+  $("#transcript").textContent = "Tap the mic, recite this verse, then tap again to stop. AI will grade word-by-word.";
+  $("#resultRow").innerHTML = "";
+  if ($("#aiSummary")) { $("#aiSummary").textContent = ""; $("#aiSummary").style.display = "none"; }
+});
+
+/* Now powered by our Cloudflare Worker → OpenRouter (Whisper STT + AI grading). */
+const AI_WORKER_URL = 'https://noorpath.visiter.workers.dev';
+
+let recMain = null, recChunks = [], recStream = null;
+
+async function startMic(){
+  if (!navigator.mediaDevices) { toast("Mic not supported on this browser"); return; }
+  try {
+    recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) { toast("Mic permission denied"); return; }
+  recChunks = [];
+  recMain = new MediaRecorder(recStream);
+  recMain.ondataavailable = (e) => recChunks.push(e.data);
+  recMain.onstop = async () => {
+    recStream.getTracks().forEach(t => t.stop());
+    const blob = new Blob(recChunks, { type: recChunks[0]?.type || "audio/webm" });
+    $("#btnMic").classList.remove("listening");
+    state.recording = false;
+    await gradeWithBackend(blob);
+  };
+  recMain.start();
+  state.recording = true;
+  $("#btnMic").classList.add("listening");
+  $("#transcript").textContent = "● Recording… recite the verse, then tap the mic again to stop";
+  $("#resultRow").innerHTML = "";
+  $("#aiSummary").style.display = "none";
+}
+function stopMic(){
+  if (recMain && state.recording) { try { recMain.stop(); } catch(e){} }
+}
+$("#btnMic").addEventListener("click", () => state.recording ? stopMic() : startMic());
+
+async function gradeWithBackend(blob){
+  $("#transcript").textContent = "🤖 Transcribing & grading with AI…";
+  const fd = new FormData();
+  const ext = (blob.type.includes("webm") ? "webm" : blob.type.includes("ogg") ? "ogg" : blob.type.includes("mp4") ? "m4a" : "webm");
+  fd.append("mode", "grade");
+  fd.append("audio", blob, "recitation." + ext);
+  fd.append("reference_words", JSON.stringify(VERSE.words));
+  fd.append("surah_label", `${VERSE.label} ${VERSE.surah}:${VERSE.ayah}`);
+  try {
+    const r = await fetch(AI_WORKER_URL, { method: "POST", body: fd });
+    if (!r.ok) {
+      const txt = await r.text();
+      throw new Error("HTTP " + r.status + ": " + txt.slice(0, 200));
+    }
+    const data = await r.json();
+    if (data.error) throw new Error(data.error.message);
+    applyAiGrading(data);
+  } catch (e) {
+    console.error(e);
+    $("#transcript").textContent = "AI grading failed — " + e.message;
+    toast("AI grading failed");
+  }
+}
+
+function applyAiGrading(data){
+  // Update word colours based on AI verdict
+  state.status = (data.words || []).map(w => w.status || "bad");
+  state.lastNotes = (data.words || []).map(w => w.note || "");
+  renderVerse("verseArabic");
+  // Attach per-word tooltip (title) for the note
+  $$(".word", $("#verseArabic")).forEach((node, i) => {
+    if (state.lastNotes[i]) node.setAttribute("title", state.lastNotes[i]);
+  });
+
+  $("#transcript").textContent = "🗣️  Heard: " + (data.transcript || "—");
+  const good = state.status.filter(s => s === "good").length;
+  const warn = state.status.filter(s => s === "warn").length;
+  const bad  = state.status.filter(s => s === "bad").length;
+  const acc  = typeof data.accuracy === "number" ? data.accuracy : 0;
+  $("#resultRow").innerHTML = `
+    <span class="result-chip good">✅ ${good} correct</span>
+    <span class="result-chip warn">⚠ ${warn} close</span>
+    <span class="result-chip bad">❌ ${bad} mistake</span>
+    <span class="result-chip" style="font-weight:900">📊 ${acc}% accuracy</span>
+  `;
+  if (data.summary) {
+    $("#aiSummary").textContent = "💬 " + data.summary;
+    $("#aiSummary").style.display = "block";
+  }
+  saveSession(acc, good, warn, bad);
+  if (acc >= 80)      toast("MashaAllah! " + acc + "% — excellent");
+  else if (acc >= 50) toast("Good — " + acc + "% · check orange/red words");
+  else                toast("Keep practising — tap any red word to retry");
+}
+
+/* Word practice modal */
+function openWordPractice(i){
+  const ar = (state.script === "uthmani" ? VERSE.ar_uthmani : VERSE.ar_indopak)[i];
+  const mb = $("#makModal");
+  $("#mLetter").textContent = ar;
+  $("#mName").textContent = `${VERSE.label} ${VERSE.surah}:${VERSE.ayah} — word ${i+1}`;
+  $("#mDesc").innerHTML = `<b>Practice this word in isolation.</b><br/>Tap to hear it slowly, then repeat 5× before continuing.<br/><br/><button class="btn-primary" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 0.6)">▶ Play slow</button> &nbsp; <button class="btn-secondary" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 1)">▶ Normal</button>`;
+  $("#mSvg").innerHTML = "";
+  mb.classList.add("open");
+}
+
+/* =================== COMPARE WITH QARI =================== */
+const QARI_BASE = "https://cdn.islamic.network/quran/audio/128";
+$("#qariPlay").addEventListener("click", () => {
+  const ed = $("#qariPick").value;
+  // Surah:Ayah → islamic.network expects a global ayah index. We instead play the
+  // full surah which is the public file path.
+  const url = `${QARI_BASE}/${ed}/${VERSE.surah}.mp3`;
+  if (state.qariAudio) { state.qariAudio.pause(); state.qariAudio = null; }
+  const a = new Audio(url);
+  a.playbackRate = state.rate;
+  a.onplay  = () => $("#qariStatus").textContent = `▶ Playing Surah ${VERSE.label} (${VERSE.surah})`;
+  a.onended = () => $("#qariStatus").textContent = "Done";
+  a.onerror = () => $("#qariStatus").textContent = "Audio source unavailable — try another Qari";
+  a.play().catch(() => $("#qariStatus").textContent = "Tap again to start");
+  state.qariAudio = a;
+});
+
+/* Mic recording for compare side */
+let mediaRec = null, chunks = [];
+$("#cmpMic").addEventListener("click", async () => {
+  if (state.cmpRecording) {
+    mediaRec && mediaRec.stop();
+    return;
+  }
+  if (!navigator.mediaDevices) { toast("MediaRecorder not supported"); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRec = new MediaRecorder(stream);
+    chunks = [];
+    mediaRec.ondataavailable = (e) => chunks.push(e.data);
+    mediaRec.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      state.cmpBlob = new Blob(chunks, { type: chunks[0]?.type || "audio/webm" });
+      $("#cmpStatus").textContent = "Recorded ✓ — tap Play Mine";
+      $("#cmpPlayMine").disabled = false; $("#cmpPlayMine").style.opacity = 1;
+      $("#cmpMic").classList.remove("listening");
+      state.cmpRecording = false;
+    };
+    mediaRec.start();
+    state.cmpRecording = true;
+    $("#cmpMic").classList.add("listening");
+    $("#cmpStatus").textContent = "● Recording… tap to stop";
+  } catch(e) { toast("Mic permission denied"); }
+});
+$("#cmpPlayMine").addEventListener("click", () => {
+  if (!state.cmpBlob) return;
+  const url = URL.createObjectURL(state.cmpBlob);
+  const a = new Audio(url);
+  a.play();
+});
+
+/* =================== MAKHARIJ =================== */
+function renderMakharij(){
+  const grid = $("#makGrid");
+  if (grid.dataset.rendered) return;
+  grid.innerHTML = MAKHARIJ.map((m,i) => `
+    <div class="mak-card" data-i="${i}">
+      <div class="mak-letter">${m.letter}</div>
+      <div class="mak-name">${m.name}</div>
+      <div class="mak-tip">${m.tip}</div>
+      <span class="mak-region">${m.region}</span>
+    </div>
+  `).join("");
+  $$(".mak-card", grid).forEach(c => c.addEventListener("click", () => openMak(parseInt(c.dataset.i))));
+  grid.dataset.rendered = "1";
+}
+function headSvg(region){
+  // Side profile of a head with highlight zone for makhraj region
+  const zones = {
+    "jawf":         '<ellipse cx="115" cy="105" rx="14" ry="10" fill="#F0C040" opacity="0.85"/>',
+    "throat-mid":   '<rect x="98" y="125" width="14" height="22" rx="4" fill="#EF6C00" opacity="0.9"/>',
+    "throat-top":   '<rect x="98" y="115" width="14" height="14" rx="4" fill="#EF6C00" opacity="0.9"/>',
+    "tongue-back":  '<ellipse cx="113" cy="118" rx="14" ry="6" fill="#C62828" opacity="0.85"/>',
+    "tongue-side":  '<path d="M95 112 Q120 122 132 110" stroke="#C62828" stroke-width="5" fill="none" opacity="0.9"/>',
+    "teeth":        '<rect x="125" y="108" width="20" height="6" fill="#16335E" opacity="0.85"/>'
+  };
+  return `<svg viewBox="0 0 200 200">
+    <defs><linearGradient id="gskin" x2="0" y2="1"><stop offset="0" stop-color="#FFE0B2"/><stop offset="1" stop-color="#FFCC80"/></linearGradient></defs>
+    <!-- head profile -->
+    <path d="M50 60 Q60 30 100 30 Q150 30 160 70 Q165 100 155 120 L160 130 L150 138 L150 150 Q150 170 130 175 L130 188 L70 188 L70 160 Q50 150 50 120 Z" fill="url(#gskin)" stroke="#A1887F" stroke-width="2"/>
+    <!-- eye -->
+    <circle cx="130" cy="78" r="3" fill="#3E2723"/>
+    <!-- nose -->
+    <path d="M160 90 L168 102 L160 106" stroke="#A1887F" stroke-width="2" fill="none"/>
+    <!-- mouth -->
+    <path d="M130 112 Q140 116 148 112" stroke="#5D4037" stroke-width="2" fill="none"/>
+    <!-- inner mouth/throat outline -->
+    <path d="M125 108 Q120 130 110 150" stroke="#8D6E63" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+    ${zones[region] || ""}
+    <!-- label arrow -->
+    <circle cx="178" cy="105" r="4" fill="#0A1428"/>
+    <line x1="178" y1="105" x2="155" y2="120" stroke="#0A1428" stroke-width="1.4"/>
+    <text x="178" y="100" text-anchor="middle" font-size="10" font-weight="900" fill="#0A1428">Makhraj</text>
+  </svg>`;
+}
+function openMak(i){
+  const m = MAKHARIJ[i];
+  $("#mLetter").textContent = m.letter;
+  $("#mName").textContent = m.name + " — " + m.region;
+  $("#mSvg").outerHTML = `<div id="mSvg" class="head-svg">${headSvg(m.regionClass)}</div>`;
+  $("#mDesc").innerHTML = m.desc + `<br/><br/><button class="btn-primary" onclick="speakArabic('${m.letter}',0.7)">▶ Hear letter</button>`;
+  $("#makModal").classList.add("open");
+}
+function closeMak(){ $("#makModal").classList.remove("open"); }
+$("#makModal").addEventListener("click", (e) => { if (e.target.id === "makModal") closeMak(); });
+
+/* =================== PROGRESS =================== */
+const KEY = "noorpath_reciter_progress_v1";
+function loadProg(){ try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ return []; } }
+function saveSession(acc, good, warn, bad){
+  const list = loadProg();
+  list.unshift({
+    t: Date.now(),
+    surah: `${VERSE.label} ${VERSE.surah}:${VERSE.ayah}`,
+    acc, good, warn, bad
+  });
+  localStorage.setItem(KEY, JSON.stringify(list.slice(0, 30)));
+  // Update the daily-streak set
+  try { window.NoorPathStreak && window.NoorPathStreak.markSessionToday(); } catch (e) {}
+}
+function renderProgress(){
+  const list = loadProg();
+  const total = list.length;
+  const avg = total ? Math.round(list.reduce((a,b)=>a+b.acc,0)/total) : 0;
+  const best = total ? Math.max(...list.map(x=>x.acc)) : 0;
+  const goodSum = list.reduce((a,b)=>a+b.good,0);
+  $("#statsGrid").innerHTML = `
+    <div class="stat"><div class="stat-num">${total}</div><div class="stat-lbl">Sessions</div></div>
+    <div class="stat"><div class="stat-num">${avg}%</div><div class="stat-lbl">Avg accuracy</div></div>
+    <div class="stat"><div class="stat-num">${best}%</div><div class="stat-lbl">Best score</div></div>
+    <div class="stat"><div class="stat-num">${goodSum}</div><div class="stat-lbl">Words correct</div></div>
+  `;
+  $("#overallBar").style.width = avg + "%";
+  $("#overallTxt").textContent = total
+    ? `${total} session${total>1?"s":""} · last on ${new Date(list[0].t).toLocaleString()}`
+    : "No sessions yet — start reciting on the Recite tab.";
+  if (!total) { $("#historyList").innerHTML = `<div class="empty">No history yet. Your sessions will appear here.</div>`; return; }
+  $("#historyList").innerHTML = list.map(x => `
+    <div class="history-row">
+      <div>
+        <div class="label">${x.surah}</div>
+        <div class="date">${new Date(x.t).toLocaleString()}</div>
+      </div>
+      <div class="acc" style="color:${x.acc>=80?"var(--green)":x.acc>=50?"var(--orange)":"var(--red)"}">${x.acc}%</div>
+    </div>
+  `).join("");
+}
+$("#btnClearProg").addEventListener("click", () => {
+  if (!confirm("Clear all recitation progress?")) return;
+  localStorage.removeItem(KEY); renderProgress(); toast("Progress cleared");
+});
+
+/* =================== DOWNLOADS =================== */
+const DLKEY = "noorpath_downloads_v1";
+function loadDl(){ try { return JSON.parse(localStorage.getItem(DLKEY)) || {}; } catch(e){ return {}; } }
+function saveDl(o){ localStorage.setItem(DLKEY, JSON.stringify(o)); }
+function renderDownloads(){
+  const owned = loadDl();
+  $("#dlList").innerHTML = DOWNLOADS.map(d => `
+    <div class="dl-row" data-id="${d.id}">
+      <div class="dl-info">
+        <div class="dl-name">${d.name}</div>
+        <div class="dl-meta">${d.size} · MP3 · Offline-capable</div>
+        <div class="dl-prog"><div class="fill"></div></div>
+      </div>
+      <button class="dl-btn ${owned[d.id]?"done":""}" data-id="${d.id}">${owned[d.id]?"✓ Saved":"⬇ Download"}</button>
+    </div>
+  `).join("");
+  $$(".dl-btn", $("#dlList")).forEach(btn => btn.addEventListener("click", () => simulateDownload(btn.dataset.id)));
+}
+function simulateDownload(id){
+  const row  = $(`.dl-row[data-id="${id}"]`);
+  const btn  = $(`.dl-btn[data-id="${id}"]`);
+  const prog = $(".dl-prog", row);
+  const fill = $(".fill", prog);
+  if (btn.classList.contains("done")) { toast("Already downloaded"); return; }
+  prog.classList.add("show");
+  let p = 0; btn.disabled = true; btn.textContent = "0%";
+  const tick = setInterval(() => {
+    p += Math.random()*12 + 6;
+    if (p >= 100) { p = 100; clearInterval(tick); finishDl(); }
+    fill.style.width = p + "%";
+    btn.textContent = Math.round(p) + "%";
+  }, 220);
+  function finishDl(){
+    const owned = loadDl(); owned[id] = Date.now(); saveDl(owned);
+    btn.disabled = false; btn.classList.add("done"); btn.textContent = "✓ Saved";
+    setTimeout(() => prog.classList.remove("show"), 800);
+    toast("Saved offline — works without internet");
+  }
+}
+
+/* =================== INIT =================== */
+function init(){
+  populateSurahPicker();
+  // Reflect the persisted script preference in the toggle buttons
+  $$(".script-btn").forEach(b => b.classList.toggle("active", b.dataset.script === state.script));
+  // Deep link: ?s=<surah>&a=<ayah>
+  let targetS = VERSE.surah, targetA = VERSE.ayah;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ps = parseInt(params.get("s") || ""), pa = parseInt(params.get("a") || "");
+    if (ps && findSurah(ps)) { targetS = ps; targetA = pa && findVerse(findSurah(ps), pa) ? pa : 1; }
+  } catch (e) {}
+  setVerse(targetS, targetA);
+  renderMakharij();
+  // Hook picker change events
+  $("#surahPick").addEventListener("change", onSurahChange);
+  $("#ayahPick").addEventListener("change", onAyahChange);
+  $("#btnPrev").addEventListener("click", () => goRel(-1));
+  $("#btnNext").addEventListener("click", () => goRel(+1));
+  // Pre-load voice list so first speakArabic call has voices
+  if ("speechSynthesis" in window) speechSynthesis.getVoices();
+}
+window.addEventListener("DOMContentLoaded", init);
+window.addEventListener("beforeunload", () => { if (state.qariAudio) state.qariAudio.pause(); });
+</script>
+
+</body>
+</html>

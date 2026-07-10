@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NoorPath — Islamic Learning App</title>
+<meta name="description" content="Quran, Seerat, Hadees, Prayer Times, Qibla — Complete Islamic Learning for the whole family."/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16335E;--g2:#2C5C9E;--gp:#E8EEF8;
+  --gold:#C9860A;--gl:#F0C040;
+  --night:#060A14;--night2:#0D1C33;
+  --cream:#FDFCF7;--text:#1A2233;--soft:#7C8FB0;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--night);color:#fff;overflow-x:hidden}
+
+/* ── NAVBAR ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(9,15,10,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(240,192,64,0.12);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 14px rgba(44,92,158,0.5)}
+.nav-logo-text{font-size:22px;font-weight:900;color:#fff}
+.nav-logo-text span{color:var(--gl)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{color:rgba(255,255,255,0.65);font-weight:700;font-size:14px;text-decoration:none;padding:8px 16px;border-radius:10px;transition:all 0.2s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.nav-cta{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff!important;border-radius:12px;padding:10px 22px!important;box-shadow:0 4px 14px rgba(44,92,158,0.4)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* ── HERO BANNER SLIDER ── */
+.hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+
+/* Slides */
+.slides-container{position:absolute;inset:0;z-index:0}
+.slide{
+  position:absolute;inset:0;opacity:0;
+  transition:opacity 1.2s ease;
+  background-size:cover;background-position:center;
+}
+.slide.active{opacity:1}
+
+/* Slide 1 — Seerat audio */
+.slide-1{background:linear-gradient(180deg,rgba(4,8,18,0.5) 0%,rgba(6,10,20,0.7) 55%,rgba(4,8,18,0.95) 100%),linear-gradient(90deg,rgba(6,10,20,0.8) 0%,rgba(6,10,20,0.1) 50%,rgba(6,10,20,0.7) 100%),url('images/slide1.jpg');background-size:cover;background-position:center}
+/* Slide 2 — Riyad-us-Saliheen */
+.slide-2{background:linear-gradient(180deg,rgba(4,8,18,0.5) 0%,rgba(6,10,20,0.7) 55%,rgba(4,8,18,0.95) 100%),linear-gradient(90deg,rgba(6,10,20,0.8) 0%,rgba(6,10,20,0.1) 50%,rgba(6,10,20,0.7) 100%),url('images/slide2.jpg');background-size:cover;background-position:center}
+/* Slide 3 — Qibla & Prayer */
+.slide-3{background:linear-gradient(180deg,rgba(4,8,18,0.5) 0%,rgba(6,10,20,0.7) 55%,rgba(4,8,18,0.95) 100%),linear-gradient(90deg,rgba(6,10,20,0.8) 0%,rgba(6,10,20,0.1) 50%,rgba(6,10,20,0.7) 100%),url('images/slide3.jpg');background-size:cover;background-position:center}
+/* Slide 4 — AI Tutor */
+.slide-4{background:linear-gradient(180deg,rgba(4,8,18,0.5) 0%,rgba(6,10,20,0.7) 55%,rgba(4,8,18,0.95) 100%),linear-gradient(90deg,rgba(6,10,20,0.8) 0%,rgba(6,10,20,0.1) 50%,rgba(6,10,20,0.7) 100%),url('images/slide4.jpg');background-size:cover;background-position:center}
+
+/* Animated particles/stars */
+.particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;border-radius:50%;
+  animation:floatUp linear infinite;
+  opacity:0;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:1}
+  90%{opacity:0.6}
+  100%{transform:translateY(-10vh) scale(1);opacity:0}
+}
+
+/* Islamic geometric overlay */
+.geo-overlay{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%,rgba(240,192,64,0.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 8%,rgba(255,255,255,0.5) 0%,transparent 100%),
+    radial-gradient(2px 2px at 50% 25%,rgba(240,192,64,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 75% 12%,rgba(255,255,255,0.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 30%,rgba(240,192,64,0.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 45%,rgba(255,255,255,0.3) 0%,transparent 100%),
+    radial-gradient(2px 2px at 60% 55%,rgba(240,192,64,0.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 92% 65%,rgba(255,255,255,0.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 75%,rgba(240,192,64,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 85%,rgba(255,255,255,0.3) 0%,transparent 100%);
+}
+
+/* Crescent moon animation */
+.crescent{
+  position:absolute;right:8%;top:12%;z-index:3;
+  width:120px;height:120px;
+  border-radius:50%;
+  box-shadow:inset -30px 8px 0 rgba(240,192,64,0.85);
+  animation:moonGlow 4s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 30px rgba(240,192,64,0.3));
+}
+@keyframes moonGlow{
+  0%{filter:drop-shadow(0 0 20px rgba(240,192,64,0.2)) brightness(0.9)}
+  100%{filter:drop-shadow(0 0 50px rgba(240,192,64,0.5)) brightness(1.1)}
+}
+
+/* Big rotating geometric ring */
+.geo-ring{
+  position:absolute;right:-150px;top:50%;transform:translateY(-50%);
+  width:700px;height:700px;
+  border-radius:50%;
+  border:1px solid rgba(240,192,64,0.08);
+  animation:slowSpin 40s linear infinite;
+  z-index:2;
+}
+.geo-ring::before{
+  content:'';position:absolute;inset:40px;border-radius:50%;
+  border:1px solid rgba(240,192,64,0.06);
+  animation:slowSpin 25s linear infinite reverse;
+}
+.geo-ring::after{
+  content:'';position:absolute;inset:80px;border-radius:50%;
+  border:2px solid rgba(44,92,158,0.15);
+  animation:slowSpin 20s linear infinite;
+}
+@keyframes slowSpin{to{transform:rotate(360deg)}}
+
+/* Hero content */
+.hero-content{
+  position:relative;z-index:10;
+  width:100%;max-width:1200px;margin:0 auto;
+  padding:140px 40px 80px;
+  display:grid;grid-template-columns:1fr 400px;gap:60px;align-items:center;
+}
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;padding:120px 24px 60px}
+  .hero-phone-wrap{display:none}
+}
+
+/* Animated badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(240,192,64,0.12);
+  border:1px solid rgba(240,192,64,0.3);
+  border-radius:100px;padding:8px 18px;
+  font-size:13px;font-weight:800;color:var(--gl);
+  margin-bottom:24px;
+  animation:badgePulse 3s ease-in-out infinite;
+}
+@keyframes badgePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(240,192,64,0.2)}
+  50%{box-shadow:0 0 0 8px rgba(240,192,64,0)}
+}
+
+/* Big animated title */
+.hero-title{
+  font-size:clamp(38px,5.5vw,72px);
+  font-weight:900;line-height:1.05;
+  margin-bottom:20px;
+  color:#fff;
+}
+.hero-title .line1{
+  display:block;
+  background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.85) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fadeSlideUp 0.8s ease both;
+}
+.hero-title .line2{
+  display:block;
+  background:linear-gradient(135deg,var(--gl),#ffb700,var(--gl));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fadeSlideUp 0.8s 0.2s ease both, shimmer 3s linear infinite;
+}
+.hero-title .line3{
+  display:block;
+  font-family:'Amiri',serif;font-size:0.7em;
+  color:rgba(240,192,64,0.7);
+  -webkit-text-fill-color:rgba(240,192,64,0.7);
+  animation:fadeSlideUp 0.8s 0.4s ease both;
+}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+
+.hero-sub{
+  color:rgba(255,255,255,0.6);font-size:17px;line-height:1.75;
+  margin-bottom:36px;max-width:520px;
+  animation:fadeSlideUp 0.8s 0.5s ease both;
+}
+
+/* CTA Buttons */
+.hero-btns{
+  display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;
+  animation:fadeSlideUp 0.8s 0.6s ease both;
+}
+.btn-glow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--g),var(--g2));
+  color:#fff;text-decoration:none;
+  padding:16px 32px;border-radius:16px;
+  font-weight:900;font-size:16px;
+  box-shadow:0 6px 30px rgba(44,92,158,0.5);
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.btn-glow::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.btn-glow:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(44,92,158,0.6)}
+.btn-glow:hover::before{opacity:1}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(255,255,255,0.2);
+  color:#fff;text-decoration:none;
+  padding:15px 28px;border-radius:16px;
+  font-weight:800;font-size:15px;
+  transition:all 0.3s;backdrop-filter:blur(10px);
+}
+.btn-outline:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
+
+/* Trust bar */
+.hero-trust{
+  display:flex;gap:20px;flex-wrap:wrap;
+  animation:fadeSlideUp 0.8s 0.7s ease both;
+}
+.trust-pill{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:100px;padding:7px 14px;
+  font-size:13px;font-weight:700;color:rgba(255,255,255,0.75);
+}
+
+/* Phone mockup */
+.hero-phone-wrap{position:relative;animation:phoneFloat 4s ease-in-out infinite}
+@keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.phone-frame-hero{
+  width:280px;margin:0 auto;
+  background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);
+  border-radius:44px;padding:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.08),inset 0 0 0 1px rgba(255,255,255,0.05);
+  position:relative;
+}
+.phone-frame-hero::before{
+  content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);
+  width:80px;height:6px;background:rgba(255,255,255,0.15);border-radius:10px;z-index:10;
+}
+.phone-screen-hero{
+  background:linear-gradient(160deg,#060A14,#0D1C33);
+  border-radius:32px;overflow:hidden;min-height:500px;
+}
+.ps-top{
+  background:linear-gradient(135deg,#16335E,#0d3520);
+  padding:28px 20px 20px;text-align:center;
+  border-bottom:1px solid rgba(240,192,64,0.15);
+}
+.ps-bismillah{font-family:'Amiri',serif;font-size:22px;color:var(--gl);margin-bottom:4px}
+.ps-appname{font-size:16px;font-weight:900;color:#fff}
+.ps-tagline{font-size:11px;color:rgba(255,255,255,0.5);font-weight:700;letter-spacing:1.5px}
+.ps-modules{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+.ps-mod{border-radius:14px;padding:12px 10px;text-align:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08)}
+.ps-mod-icon{font-size:22px;margin-bottom:4px}
+.ps-mod-name{font-size:10px;font-weight:800;color:rgba(255,255,255,0.8)}
+.ps-chat{margin:0 12px 12px;background:rgba(44,92,158,0.15);border-radius:14px;padding:10px 12px;border:1px solid rgba(44,92,158,0.3)}
+.ps-chat-line{font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px;line-height:1.4}
+.ps-chat-line:last-child{color:var(--gl);font-weight:700;margin-bottom:0}
+
+/* Slide progress dots */
+.slide-dots{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:20;
+}
+.slide-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;transition:all 0.3s;
+}
+.slide-dot.active{width:28px;border-radius:4px;background:var(--gl)}
+
+/* Slide text animator */
+.slide-texts{
+  position:absolute;top:100px;left:0;right:0;
+  text-align:center;z-index:15;pointer-events:none;
+  padding:0 24px;
+}
+.slide-text{
+  opacity:0;transform:translateY(-12px);
+  transition:all 0.8s ease;position:absolute;width:100%;left:0;
+}
+.slide-text.active{opacity:1;transform:translateY(0);position:relative}
+.slide-text-arabic{font-family:'Amiri',serif;font-size:clamp(18px,3.4vw,30px);color:var(--gl);margin-bottom:6px;text-shadow:0 4px 20px rgba(0,0,0,0.6)}
+.slide-text-eng{font-size:clamp(11px,1.8vw,14px);color:rgba(255,255,255,0.65);font-weight:700;letter-spacing:1.5px;text-shadow:0 2px 10px rgba(0,0,0,0.6)}
+@media(max-width:600px){.slide-texts{top:78px}}
+
+/* ── MARQUEE STRIP ── */
+.marquee-strip{
+  background:linear-gradient(135deg,var(--g),var(--g2));
+  padding:14px 0;overflow:hidden;position:relative;z-index:10;
+}
+.marquee-track{
+  display:flex;gap:40px;width:max-content;
+  animation:marquee 20s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  white-space:nowrap;font-size:14px;font-weight:800;color:rgba(255,255,255,0.9);
+  display:flex;align-items:center;gap:10px;
+}
+.marquee-sep{color:rgba(255,255,255,0.3)}
+
+/* ── FEATURES SECTION ── */
+.section-wrap{padding:90px 40px;max-width:1200px;margin:0 auto}
+@media(max-width:640px){.section-wrap{padding:60px 20px}}
+
+.sec-eyebrow{
+  display:inline-block;background:rgba(240,192,64,0.1);
+  border:1px solid rgba(240,192,64,0.25);
+  border-radius:100px;padding:6px 16px;
+  font-size:12px;font-weight:800;color:var(--gl);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;
+}
+.sec-title{
+  font-size:clamp(28px,4vw,48px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:14px;
+}
+.sec-title span{
+  background:linear-gradient(135deg,var(--gl),#ffb700);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sec-sub{color:rgba(255,255,255,0.45);font-size:16px;line-height:1.7;margin-bottom:52px;max-width:540px}
+
+/* Features grid */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.feat-grid{grid-template-columns:1fr}}
+.feat-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:22px;padding:28px 24px;
+  transition:all 0.3s;cursor:default;
+  position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top left,rgba(44,92,158,0.15),transparent 70%);
+  opacity:0;transition:opacity 0.3s;
+}
+.feat-card:hover{transform:translateY(-6px);border-color:rgba(240,192,64,0.2);background:rgba(255,255,255,0.07)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{font-size:36px;margin-bottom:14px;display:block}
+.feat-name{font-size:17px;font-weight:900;color:#fff;margin-bottom:8px}
+.feat-desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7}
+.feat-tag{
+  display:inline-block;margin-top:14px;
+  background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.2);
+  border-radius:8px;padding:3px 10px;font-size:11px;font-weight:800;color:var(--gl);
+}
+
+/* ── MODULES BANNER (horizontal scroll) ── */
+.modules-section{background:linear-gradient(180deg,var(--night) 0%,#0A1428 50%,var(--night) 100%);padding:80px 0}
+.modules-header{padding:0 40px 40px;max-width:1200px;margin:0 auto}
+@media(max-width:640px){.modules-header{padding:0 20px 30px}}
+.modules-scroll{
+  display:flex;gap:16px;
+  padding:0 40px 20px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.modules-scroll::-webkit-scrollbar{display:none}
+.mod-card{
+  flex-shrink:0;width:220px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;padding:24px 20px;
+  transition:all 0.3s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.mod-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  border-radius:0 0 22px 22px;
+  opacity:0;transition:opacity 0.3s;
+}
+.mod-card:hover{transform:translateY(-8px) scale(1.02);border-color:rgba(240,192,64,0.25)}
+.mod-card:hover::after{opacity:1}
+.mod-card-icon{font-size:38px;margin-bottom:14px}
+.mod-card-name{font-size:15px;font-weight:900;color:#fff;margin-bottom:6px}
+.mod-card-desc{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:12px}
+.mod-card-pills{display:flex;gap:5px;flex-wrap:wrap}
+.mod-pill{background:rgba(255,255,255,0.07);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800;color:rgba(255,255,255,0.5)}
+
+/* Module colors */
+.mod-arabic{border-top:3px solid #4CAF50;background:linear-gradient(160deg,rgba(76,175,80,0.06),transparent)}
+.mod-urdu{border-top:3px solid #2196F3;background:linear-gradient(160deg,rgba(33,150,243,0.06),transparent)}
+.mod-english{border-top:3px solid #FF9800;background:linear-gradient(160deg,rgba(255,152,0,0.06),transparent)}
+.mod-duas{border-top:3px solid #9C27B0;background:linear-gradient(160deg,rgba(156,39,176,0.06),transparent)}
+.mod-seerat{border-top:3px solid var(--gl);background:linear-gradient(160deg,rgba(240,192,64,0.06),transparent)}
+.mod-riyad{border-top:3px solid #00BCD4;background:linear-gradient(160deg,rgba(0,188,212,0.06),transparent)}
+.mod-quran{border-top:3px solid #F44336;background:linear-gradient(160deg,rgba(244,67,54,0.06),transparent)}
+.mod-prayer{border-top:3px solid #8BC34A;background:linear-gradient(160deg,rgba(139,195,74,0.06),transparent)}
+
+/* ── STATS ── */
+.stats-section{
+  background:linear-gradient(135deg,var(--g),var(--g2));
+  padding:60px 40px;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;max-width:1000px;margin:0 auto;text-align:center}
+@media(max-width:700px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-num{font-size:clamp(36px,5vw,56px);font-weight:900;color:#fff;line-height:1}
+.stat-label{font-size:14px;color:rgba(255,255,255,0.65);font-weight:700;margin-top:6px}
+
+/* ── TESTIMONIALS ── */
+.testi-section{padding:80px 40px;background:var(--night)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
+@media(max-width:900px){.testi-grid{grid-template-columns:1fr}}
+.testi-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);
+  border-radius:22px;padding:28px;
+}
+.testi-stars{color:var(--gl);font-size:18px;margin-bottom:12px}
+.testi-text{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:18px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:18px}
+.testi-name{font-size:14px;font-weight:800;color:#fff}
+.testi-role{font-size:12px;color:rgba(255,255,255,0.4)}
+
+/* ── CTA SECTION ── */
+.cta-section{
+  padding:100px 40px;text-align:center;
+  background:radial-gradient(ellipse at center,rgba(44,92,158,0.3) 0%,transparent 70%),var(--night);
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ';
+  font-family:'Amiri',serif;font-size:clamp(32px,5vw,60px);
+  color:rgba(240,192,64,0.06);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;pointer-events:none;
+}
+.cta-title{font-size:clamp(28px,4vw,48px);font-weight:900;color:#fff;margin-bottom:14px}
+.cta-title span{color:var(--gl)}
+.cta-sub{color:rgba(255,255,255,0.5);font-size:16px;margin-bottom:36px}
+
+/* ── FOOTER ── */
+.footer{
+  background:#060B16;
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:50px 40px 30px;
+}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;max-width:1100px;margin:0 auto 40px}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
+.footer-brand-name{font-size:22px;font-weight:900;color:#fff;margin-bottom:8px}
+.footer-brand-name span{color:var(--gl)}
+.footer-tagline{color:rgba(255,255,255,0.35);font-size:14px;line-height:1.7}
+.footer-col-title{font-size:13px;font-weight:800;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.footer-link{display:block;color:rgba(255,255,255,0.5);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:8px;transition:color 0.2s}
+.footer-link:hover{color:var(--gl)}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-copy{color:rgba(255,255,255,0.25);font-size:13px}
+.footer-arabic{font-family:'Amiri',serif;color:rgba(240,192,64,0.4);font-size:16px}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🕌</div>
+    <div class="nav-logo-text">Noor<span>Path</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#modules" class="nav-link">Modules</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="app.html" class="nav-link nav-cta">🚀 Open App</a>
+  </div>
+</nav>
+
+<!-- HERO WITH LIVE BANNER SLIDER -->
+<section class="hero">
+  <!-- Background slides -->
+  <div class="slides-container">
+    <div class="slide slide-1 active"></div>
+    <div class="slide slide-2"></div>
+    <div class="slide slide-3"></div>
+    <div class="slide slide-4"></div>
+  </div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Overlays -->
+  <div class="geo-overlay"></div>
+  <div class="geo-ring"></div>
+  <div class="crescent"></div>
+
+  <!-- Main content -->
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">🌙 &nbsp;10,000+ Muslim Families Trust NoorPath</div>
+      <h1 class="hero-title">
+        <span class="line1">Complete Islamic</span>
+        <span class="line2">Learning Hub</span>
+        <span class="line3">راہِ نور — راستہ روشنی کا</span>
+      </h1>
+      <p class="hero-sub">
+        Quran, Seerat-un-Nabi ﷺ, Riyad-us-Saliheen, Prayer Times, Qibla Compass — sab kuch ek jagah. AI-powered Islamic education for the whole family.
+      </p>
+      <div class="hero-btns">
+        <a href="app.html" class="btn-glow">🚀 Abhi Shuru Karo — Free</a>
+        <a href="reciter.html" class="btn-glow" style="background:linear-gradient(135deg,#C9860A,#F0C040);color:#0A1428">🎙️ Reciter Pro — NEW</a>
+        <a href="#modules" class="btn-outline">📖 Modules Dekho</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-pill">⭐⭐⭐⭐⭐ 4.9 Rating</div>
+        <div class="trust-pill">👨‍👩‍👧 10K+ Families</div>
+        <div class="trust-pill">🚫 Ad-Free</div>
+        <div class="trust-pill">📵 Offline Works</div>
+      </div>
+    </div>
+
+    <!-- Phone mockup -->
+    <div class="hero-phone-wrap">
+      <div class="phone-frame-hero">
+        <div class="phone-screen-hero">
+          <div class="ps-top">
+            <div class="ps-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</div>
+            <div class="ps-appname">NoorPath ✨</div>
+            <div class="ps-tagline">ISLAMIC LEARNING HUB</div>
+          </div>
+          <div class="ps-modules">
+            <div class="ps-mod"><div class="ps-mod-icon">🕌</div><div class="ps-mod-name">Arabic</div></div>
+            <div class="ps-mod"><div class="ps-mod-icon">📖</div><div class="ps-mod-name">Urdu Qaida</div></div>
+            <div class="ps-mod"><div class="ps-mod-icon">☪️</div><div class="ps-mod-name">Seerat ﷺ</div></div>
+            <div class="ps-mod"><div class="ps-mod-icon">📗</div><div class="ps-mod-name">Riyad</div></div>
+            <div class="ps-mod"><div class="ps-mod-icon">🕋</div><div class="ps-mod-name">Qibla</div></div>
+            <div class="ps-mod"><div class="ps-mod-icon">🕐</div><div class="ps-mod-name">Namaz</div></div>
+          </div>
+          <div class="ps-chat">
+            <div class="ps-chat-line">🤖 As-salamu alaykum! Aaj kya seekhna hai?</div>
+            <div class="ps-chat-line">📿 SubhanAllah 33x — Tasbeeh shuru karo</div>
+            <div class="ps-chat-line">☀️ Fajr — 04:32 AM • Aaj ka din mubarak ho!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide bottom text -->
+  <div class="slide-texts">
+    <div class="slide-text active" id="st-0">
+      <div class="slide-text-arabic">سیرت النبی ﷺ — مکمل آڈیو بک</div>
+      <div class="slide-text-eng">SEERAT-UN-NABI • COMPLETE AUDIO IN URDU</div>
+    </div>
+    <div class="slide-text" id="st-1">
+      <div class="slide-text-arabic">رياض الصالحين — ۳۵ احادیث اردو ترجمہ</div>
+      <div class="slide-text-eng">RIYAD-US-SALIHEEN • 35 AHADITH WITH URDU MEANING</div>
+    </div>
+    <div class="slide-text" id="st-2">
+      <div class="slide-text-arabic">قبلہ نما • نماز کے اوقات • تسبیح کاؤنٹر</div>
+      <div class="slide-text-eng">QIBLA COMPASS • PRAYER TIMES • TASBEEH COUNTER</div>
+    </div>
+    <div class="slide-text" id="st-3">
+      <div class="slide-text-arabic">عربی • اردو • انگریزی — AI استاد کے ساتھ</div>
+      <div class="slide-text-eng">ARABIC • URDU • ENGLISH • AI ISLAMIC TUTOR</div>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="slide-dots">
+    <div class="slide-dot active" onclick="goSlide(0)"></div>
+    <div class="slide-dot" onclick="goSlide(1)"></div>
+    <div class="slide-dot" onclick="goSlide(2)"></div>
+    <div class="slide-dot" onclick="goSlide(3)"></div>
+  </div>
+</section>
+
+<!-- DAILY: STREAK + TODAY'S PICK (Reciter Pro daily retention) -->
+<section class="daily-section" data-no-tilt>
+  <style>
+    .daily-section{background:linear-gradient(180deg,#0f2d1a,#0a200f);padding:50px 20px 40px;position:relative}
+    .daily-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.05fr 1.95fr;gap:24px}
+    @media (max-width:880px){.daily-wrap{grid-template-columns:1fr}}
+    .daily-card{background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid rgba(240,192,64,0.18);border-radius:24px;padding:28px;position:relative;overflow:hidden;backdrop-filter:blur(8px)}
+    .daily-eyebrow{font-size:11px;font-weight:900;color:#F0C040;letter-spacing:3px;margin-bottom:10px}
+    .daily-title{font-size:22px;font-weight:900;color:#fff;margin-bottom:6px}
+    .daily-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:18px}
+    .streak-flame{position:absolute;top:-10px;right:-10px;font-size:120px;opacity:0.06;pointer-events:none;line-height:1}
+    .streak-num{font-size:64px;font-weight:900;line-height:1;background:linear-gradient(135deg,#ffb27a,#F0C040,#ff5cc8);-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:baseline;gap:8px}
+    .streak-num small{font-size:18px;color:rgba(255,255,255,0.7);font-weight:800;-webkit-text-fill-color:rgba(255,255,255,0.7)}
+    .streak-meta{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
+    .streak-meta div{font-size:11px;color:rgba(255,255,255,0.55);font-weight:800;letter-spacing:1px}
+    .streak-meta div b{display:block;color:#fff;font-size:18px;letter-spacing:0;margin-top:2px}
+    .streak-dots{display:flex;gap:6px;margin-top:14px}
+    .streak-dot{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.4);font-weight:900}
+    .streak-dot.done{background:linear-gradient(135deg,#ffb27a,#F0C040);color:#0A1428}
+    .streak-dot.today{box-shadow:0 0 0 3px rgba(240,192,64,0.35)}
+    .pick-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,0.55);font-weight:800;letter-spacing:1.5px}
+    .pick-num{background:#F0C040;color:#0A1428;padding:4px 12px;border-radius:8px;font-size:11px;font-weight:900}
+    .pick-arabic{font-family:'Amiri',serif;font-size:32px;color:#fff;line-height:2;direction:rtl;text-align:right;margin-bottom:18px;text-shadow:0 0 30px rgba(240,192,64,0.15)}
+    .pick-trans{color:rgba(255,255,255,0.7);font-size:14px;line-height:1.7;margin-bottom:22px;border-top:1px dashed rgba(240,192,64,0.2);padding-top:14px}
+    .pick-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#F0C040,#E6A010);color:#0A1428;padding:13px 22px;border-radius:100px;font-weight:900;text-decoration:none;font-size:14px;transition:transform 0.15s,box-shadow 0.2s;box-shadow:0 8px 28px rgba(240,192,64,0.3)}
+    .pick-cta:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(240,192,64,0.45)}
+    .pick-rule-tag{display:inline-block;background:rgba(240,192,64,0.12);color:#F0C040;border:1px solid rgba(240,192,64,0.3);border-radius:8px;padding:3px 10px;font-size:10px;font-weight:900;letter-spacing:1.2px;margin-left:8px;vertical-align:middle}
+  </style>
+
+  <div class="daily-wrap">
+    <!-- Streak card -->
+    <div class="daily-card" id="streakCard">
+      <div class="streak-flame">🔥</div>
+      <div class="daily-eyebrow">RECITATION STREAK</div>
+      <div class="daily-title" id="streakTitle">Build your daily habit</div>
+      <div class="daily-sub" id="streakSub">Practice at least one ayah every day with Reciter Pro AI — your streak grows automatically.</div>
+      <div class="streak-num" id="streakNum">0 <small>days</small></div>
+      <div class="streak-meta">
+        <div>LONGEST<b id="streakLongest">0d</b></div>
+        <div>TOTAL DAYS<b id="streakTotal">0</b></div>
+        <div>TODAY<b id="streakToday">—</b></div>
+      </div>
+      <div class="streak-dots" id="streakDots"></div>
+    </div>
+
+    <!-- Today's Pick card -->
+    <div class="daily-card" id="pickCard">
+      <div class="pick-meta">
+        <span>🌙 TODAY'S PICK · <span id="pickDate"></span></span>
+        <span class="pick-num" id="pickNum">…</span>
+      </div>
+      <div class="daily-title" style="margin-bottom:4px"><span id="pickSurahName">Loading…</span> <span class="pick-rule-tag" id="pickTag">DAILY</span></div>
+      <div class="daily-sub" style="margin-bottom:14px" id="pickAyahLabel"></div>
+      <div class="pick-arabic" id="pickArabic" lang="ar"></div>
+      <div class="pick-trans" id="pickTrans"></div>
+      <a class="pick-cta" id="pickCta" href="reciter.html">🎙️ Recite this verse now →</a>
+    </div>
+  </div>
+
+  <script src="surahs-data.js"></script>
+  <script src="streak-utils.js"></script>
+  <script>
+  (function(){
+    function pad(n){ return n<10?"0"+n:""+n; }
+    function fmtDate(d){
+      const m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return m[d.getMonth()] + " " + pad(d.getDate());
+    }
+    function init(){
+      // Streak
+      const s = (window.NoorPathStreak && window.NoorPathStreak.computeStreak) ? window.NoorPathStreak.computeStreak() : { current:0,longest:0,totalDays:0,todayDone:false };
+      document.getElementById("streakNum").innerHTML = s.current + ' <small>day' + (s.current===1?"":"s") + '</small>';
+      document.getElementById("streakLongest").textContent = s.longest + "d";
+      document.getElementById("streakTotal").textContent = s.totalDays;
+      document.getElementById("streakToday").textContent = s.todayDone ? "Done ✓" : "Pending";
+      document.getElementById("streakToday").style.color = s.todayDone ? "#A5D6A7" : "#F0C040";
+      if (s.current >= 7) {
+        document.getElementById("streakTitle").textContent = s.current + "-day streak — MashaAllah!";
+        document.getElementById("streakSub").textContent  = "Keep going — every day extends the chain.";
+      } else if (s.current >= 1) {
+        document.getElementById("streakTitle").textContent = "Streak: " + s.current + " day" + (s.current===1?"":"s") + ".";
+        document.getElementById("streakSub").textContent  = "Recite at least one ayah today to extend it.";
+      }
+      // Build last-7-days dots ending today
+      const dots = document.getElementById("streakDots");
+      const set = new Set((window.NoorPathStreak && window.NoorPathStreak.loadDates()) || []);
+      let html = "";
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(Date.now() - i*86400000);
+        const k = d.toISOString().slice(0,10);
+        const done = set.has(k);
+        const today = i === 0;
+        html += '<div class="streak-dot ' + (done?'done':'') + ' ' + (today?'today':'') + '" title="' + k + '">' + d.getDate() + '</div>';
+      }
+      dots.innerHTML = html;
+
+      // Today's Pick
+      if (window.NoorPathStreak && window.NoorPathStreak.pickVerseForToday) {
+        const p = window.NoorPathStreak.pickVerseForToday();
+        if (p) {
+          document.getElementById("pickDate").textContent = fmtDate(new Date());
+          document.getElementById("pickNum").textContent = p.surah + ":" + p.ayah;
+          document.getElementById("pickSurahName").textContent = "Surah " + p.surahName;
+          document.getElementById("pickAyahLabel").textContent = "Ayah " + p.ayah + " · " + p.surahArabic;
+          document.getElementById("pickArabic").textContent = p.words.join(" ");
+          document.getElementById("pickTrans").textContent = "“" + p.trans + "”";
+          document.getElementById("pickCta").href = "/reciter.html?s=" + p.surah + "&a=" + p.ayah;
+        }
+      }
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+    else init();
+  })();
+  </script>
+</section>
+
+<!-- MARQUEE STRIP -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">🕌 Arabic Alphabet <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📖 Urdu Qaida <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🔤 English ABC <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🤲 Daily Duas <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">☪️ Seerat-un-Nabi ﷺ <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📗 Riyad-us-Saliheen <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🕋 Qibla Compass <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🕐 Prayer Times <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📿 Tasbeeh Counter <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📅 Islamic Calendar <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🤖 AI Islamic Tutor <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🎮 Quran Quiz <span class="marquee-sep">•</span></span>
+    <!-- duplicate for seamless -->
+    <span class="marquee-item">🕌 Arabic Alphabet <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📖 Urdu Qaida <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🔤 English ABC <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🤲 Daily Duas <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">☪️ Seerat-un-Nabi ﷺ <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📗 Riyad-us-Saliheen <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🕋 Qibla Compass <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🕐 Prayer Times <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📿 Tasbeeh Counter <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">📅 Islamic Calendar <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🤖 AI Islamic Tutor <span class="marquee-sep">•</span></span>
+    <span class="marquee-item">🎮 Quran Quiz <span class="marquee-sep">•</span></span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div><div class="stat-num" data-target="10000">0</div><div class="stat-label">Active Families</div></div>
+    <div><div class="stat-num" data-target="90">0</div><div class="stat-label">Lessons & Modules</div></div>
+    <div><div class="stat-num">4.9★</div><div class="stat-label">Average Rating</div></div>
+    <div><div class="stat-num" data-target="35">0</div><div class="stat-label">Ahadith in Riyad</div></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div id="features" style="background:linear-gradient(180deg,var(--night),#08101F)">
+<div class="section-wrap">
+  <div class="sec-eyebrow">Why NoorPath</div>
+  <h2 class="sec-title">Ek app mein <span>sab kuch</span></h2>
+  <p class="sec-sub">Islamic scholars aur education experts ke saath mil kar banaya gaya — poore ghar ke liye.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <span class="feat-icon">☪️</span>
+      <div class="feat-name">Seerat-un-Nabi ﷺ Audio</div>
+      <div class="feat-desc">10 chapters mein Nabi Pak ﷺ ki mukammal zindagi — Urdu aur Roman English mein, real human voice ke saath.</div>
+      <span class="feat-tag">Audio Book</span>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📗</span>
+      <div class="feat-name">Riyad-us-Saliheen</div>
+      <div class="feat-desc">Imam Nawawi ki mashhoor hadees ki kitab — 35 ahadith, Urdu tarjuma, Arabic text aur practical sabaq ke saath.</div>
+      <span class="feat-tag">35 Ahadith</span>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🕋</span>
+      <div class="feat-name">Qibla Compass</div>
+      <div class="feat-desc">Tumhari exact location se Kaaba ka rukh — live compass needle ke saath. Kabhi bhi, kahin bhi.</div>
+      <span class="feat-tag">Live Compass</span>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🕐</span>
+      <div class="feat-name">Prayer Times</div>
+      <div class="feat-desc">Tumhari location se 5 waqt ki namaz ke aوقات — agli namaz ka live countdown timer ke saath.</div>
+      <span class="feat-tag">Auto Location</span>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">📿</span>
+      <div class="feat-name">Tasbeeh Counter</div>
+      <div class="feat-desc">SubhanAllah, Alhamdulillah, Allahu Akbar — presets ke saath. Vibration feedback aur target complete notification.</div>
+      <span class="feat-tag">Vibration</span>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🤖</span>
+      <div class="feat-name">AI Islamic Tutor</div>
+      <div class="feat-desc">Claude AI se koi bhi Islamic sawaal poochho — Arabic, Urdu, English mein jawab milega 24/7.</div>
+      <span class="feat-tag">Claude Powered</span>
+    </div>
+    <a href="reciter.html" class="feat-card" style="text-decoration:none;color:inherit;display:block;position:relative">
+      <span style="position:absolute;top:14px;right:14px;background:#F0C040;color:#0A1428;font-size:9px;font-weight:900;padding:3px 8px;border-radius:6px;letter-spacing:1px">NEW</span>
+      <span class="feat-icon">🎙️</span>
+      <div class="feat-name">Reciter Pro · AI Evaluation</div>
+      <div class="feat-desc">Word-by-word AI feedback (green/orange/red), tap-a-word practice, compare with Qari, multi-script (Indo-Pak/Uthmani), Makharij guide, progress dashboard aur offline downloads — sab ek jagah.</div>
+      <span class="feat-tag">AL-Siraat–style</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- MODULES SLIDER -->
+<div class="modules-section" id="modules">
+  <div class="modules-header">
+    <div class="sec-eyebrow">Learning Modules</div>
+    <h2 class="sec-title" style="margin-bottom:8px">Sab kuch ek jagah <span>•</span> Swipe karo</h2>
+    <p style="color:rgba(255,255,255,0.35);font-size:14px;font-weight:700">← Scroll to explore all modules →</p>
+  </div>
+  <div class="modules-scroll">
+    <div class="mod-card mod-arabic">
+      <div class="mod-card-icon">🕌</div>
+      <div class="mod-card-name">Arabic Alphabet</div>
+      <div class="mod-card-desc">28 letters, audio pronunciation, forms & Urdu meaning.</div>
+      <div class="mod-card-pills"><span class="mod-pill">28 Letters</span><span class="mod-pill">Audio</span></div>
+    </div>
+    <div class="mod-card mod-urdu">
+      <div class="mod-card-icon">📖</div>
+      <div class="mod-card-name">Urdu Qaida</div>
+      <div class="mod-card-desc">36 Urdu letters with native audio. Quran reading foundation.</div>
+      <div class="mod-card-pills"><span class="mod-pill">36 Letters</span><span class="mod-pill">Urdu Audio</span></div>
+    </div>
+    <div class="mod-card mod-english">
+      <div class="mod-card-icon">🔤</div>
+      <div class="mod-card-name">English ABC</div>
+      <div class="mod-card-desc">26 letters with picture examples and Urdu translations.</div>
+      <div class="mod-card-pills"><span class="mod-pill">26 Letters</span><span class="mod-pill">Pictures</span></div>
+    </div>
+    <div class="mod-card mod-duas">
+      <div class="mod-card-icon">🤲</div>
+      <div class="mod-card-name">Daily Duas</div>
+      <div class="mod-card-desc">Essential duas with Arabic, Urdu transliteration and audio.</div>
+      <div class="mod-card-pills"><span class="mod-pill">Audio</span><span class="mod-pill">Transliteration</span></div>
+    </div>
+    <div class="mod-card mod-seerat">
+      <div class="mod-card-icon">☪️</div>
+      <div class="mod-card-name">Seerat-un-Nabi ﷺ</div>
+      <div class="mod-card-desc">10 chapters, mukammal audio book in Urdu & Roman English.</div>
+      <div class="mod-card-pills"><span class="mod-pill">10 Chapters</span><span class="mod-pill">Audio Book</span></div>
+    </div>
+    <div class="mod-card mod-riyad">
+      <div class="mod-card-icon">📗</div>
+      <div class="mod-card-name">Riyad-us-Saliheen</div>
+      <div class="mod-card-desc">35 ahadith, Arabic + Urdu tarjuma + audio playback.</div>
+      <div class="mod-card-pills"><span class="mod-pill">35 Ahadith</span><span class="mod-pill">Audio</span></div>
+    </div>
+    <div class="mod-card mod-quran">
+      <div class="mod-card-icon">📖</div>
+      <div class="mod-card-name">Quran Recitation</div>
+      <div class="mod-card-desc">Full Quran audio with Qari voice and Tajweed rules.</div>
+      <div class="mod-card-pills"><span class="mod-pill">Qari Voice</span><span class="mod-pill">Tajweed</span></div>
+    </div>
+    <div class="mod-card mod-prayer">
+      <div class="mod-card-icon">🕐</div>
+      <div class="mod-card-name">Prayer Times</div>
+      <div class="mod-card-desc">Auto location, 5 namaz timings, live countdown to next prayer.</div>
+      <div class="mod-card-pills"><span class="mod-pill">Live</span><span class="mod-pill">Countdown</span></div>
+    </div>
+    <a href="reciter.html" class="mod-card mod-quran" style="text-decoration:none;color:inherit;display:block">
+      <div class="mod-card-icon">🎙️</div>
+      <div class="mod-card-name">Reciter Pro <span style="background:#F0C040;color:#0A1428;font-size:9px;font-weight:900;padding:2px 6px;border-radius:6px;vertical-align:middle;margin-left:4px">NEW</span></div>
+      <div class="mod-card-desc">Word-by-word AI evaluation, compare with Qari, Makharij guide, multi-script + offline.</div>
+      <div class="mod-card-pills"><span class="mod-pill">AI Eval</span><span class="mod-pill">Makharij</span><span class="mod-pill">Offline</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testi-section" id="about">
+<div style="max-width:1100px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:50px">
+    <div class="sec-eyebrow">Families Love NoorPath</div>
+    <h2 class="sec-title">Logon ne kya kaha</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <div class="testi-text">"Mere bache ne pehli baar phone pe Seerat-un-Nabi suni aur rote rote poori audio suni. Mashallah kitna acha kaam kiya hai."</div>
+      <div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Ayesha Siddiqui</div><div class="testi-role">Mother of 3 — Karachi</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <div class="testi-text">"Riyad-us-Saliheen hadees Urdu mein sun kar dil khush ho gaya. Rooz ek hadees sunna mere routine ka hissa ban gaya hai."</div>
+      <div class="testi-author"><div class="testi-avatar">👨</div><div><div class="testi-name">Muhammad Tariq</div><div class="testi-role">Father — Lahore</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <div class="testi-text">"Qibla compass aur namaz timings ek hi jagah — bilkul perfect app hai. Mere liye travel mein bahut kaam aata hai."</div>
+      <div class="testi-author"><div class="testi-avatar">👨</div><div><div class="testi-name">Imran Ahmed</div><div class="testi-role">Student — Islamabad</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="sec-eyebrow" style="margin-bottom:20px">Abhi Shuru Karo</div>
+  <h2 class="cta-title">Apni Islamic journey <span>aaj se shuru karo</span></h2>
+  <p class="cta-sub">Bilkul free — koi signup nahi — seedha app kholo aur seekhna shuru karo</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <a href="app.html" class="btn-glow" style="font-size:18px;padding:18px 40px">🚀 App Kholo — Free</a>
+  </div>
+  <div style="margin-top:28px;font-family:'Amiri',serif;font-size:28px;color:rgba(240,192,64,0.5)">
+    بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Noor<span>Path</span> 🕌</div>
+      <div class="footer-tagline">Complete Islamic Learning Hub — Quran, Seerat, Hadees, Prayer Times, Qibla aur bahut kuch. Poore ghar ke liye, bilkul free.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">App</div>
+      <a href="app.html" class="footer-link">🚀 Open App</a>
+      <a href="#modules" class="footer-link">📚 Modules</a>
+      <a href="#features" class="footer-link">✨ Features</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Islamic</div>
+      <a href="app.html" class="footer-link">☪️ Seerat-un-Nabi ﷺ</a>
+      <a href="app.html" class="footer-link">📗 Riyad-us-Saliheen</a>
+      <a href="app.html" class="footer-link">🕋 Qibla Compass</a>
+      <a href="app.html" class="footer-link">🕐 Prayer Times</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <a href="https://wa.me/qr/2WIILW265RWEI1" class="footer-link" target="_blank" rel="noopener">💬 WhatsApp Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 NoorPath — Made with ❤️ for the Ummah</div>
+    <div class="footer-arabic">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ ﷺ</div>
+  </div>
+</footer>
+
+<script>
+// ── SLIDE BANNER ──
+let currentSlide = 0;
+const totalSlides = 4;
+
+function goSlide(n){
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.slide-dot');
+  const texts = document.querySelectorAll('.slide-text');
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  texts[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  texts[currentSlide].classList.add('active');
+}
+
+setInterval(()=>{ goSlide((currentSlide+1) % totalSlides); }, 4000);
+
+// ── PARTICLES ──
+const pc = document.getElementById('particles');
+for(let i=0;i<35;i++){
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random()*4+1;
+  const isGold = Math.random() > 0.6;
+  p.style.cssText = `
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;
+    background:${isGold?'rgba(240,192,64,':'rgba(255,255,255,'}${Math.random()*0.6+0.2});
+    animation-duration:${Math.random()*15+10}s;
+    animation-delay:${Math.random()*10}s;
+  `;
+  pc.appendChild(p);
+}
+
+// ── NAVBAR SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.querySelector('.nav').style.boxShadow =
+    window.scrollY>50 ? '0 4px 30px rgba(0,0,0,0.5)' : 'none';
+});
+
+// ── COUNT UP ANIMATION ──
+function countUp(el, target){
+  const suffix = target >= 1000 ? 'K+' : '+';
+  const end = target >= 1000 ? target/1000 : target;
+  let cur = 0; const step = end/60;
+  const t = setInterval(()=>{
+    cur = Math.min(cur+step, end);
+    el.textContent = (target>=1000 ? Math.floor(cur) : Math.floor(cur)) + suffix;
+    if(cur >= end) clearInterval(t);
+  }, 25);
+}
+
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const target = parseInt(e.target.dataset.target);
+      if(target) countUp(e.target, target);
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
