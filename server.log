@@ -1,1 +1,10 @@
 127.0.0.1 - - [25/Jul/2026 15:24:17] "GET /app.html?admin=1947 HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:22:23] "GET /app.html?admin=1947 HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:11] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:11] "GET /streak-utils.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:11] "GET /surahs-data.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:13] "GET /reciter.html HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:59] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:59] "GET /surahs-data.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:23:59] "GET /streak-utils.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2026 18:24:02] "GET /reciter.html HTTP/1.1" 200 -
