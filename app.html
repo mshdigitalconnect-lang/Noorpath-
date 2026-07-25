@@ -17,9 +17,77 @@
   --rose:#C62828;--rosep:#FFEBEE;
   --night:#060A14;--cream:#FDFCF7;
   --text:#1A2233;--soft:#7C8FB0;
-  --r:18px;--sh:0 4px 24px rgba(44,92,158,0.13);--shl:0 12px 48px rgba(44,92,158,0.18);
+  --r:20px;
+  --sh: 8px 8px 16px #e0dfd5, -8px -8px 16px #ffffff;
+  --shl: 12px 12px 24px #dbdacd, -12px -12px 24px #ffffff;
+  --sh-inset: inset 5px 5px 10px #e0dfd5, inset -5px -5px 10px #ffffff;
+  --emerald:#0d5c34;
+  --turquoise:#17a2b8;
 }
 html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── NEUMORPHIC GLOBAL CLASSES & MICRO-INTERACTIONS ── */
+.nm-card {
+  background: var(--cream);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+.nm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shl);
+}
+.nm-inset-card {
+  background: var(--cream);
+  border-radius: var(--r);
+  box-shadow: var(--sh-inset);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Animations */
+@keyframes float-cloud {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-8px) translateX(5px); }
+}
+@keyframes twinkle-star {
+  0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(15deg); }
+}
+@keyframes sway-leaf {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(6deg); }
+}
+@keyframes pulse-moon {
+  0% { filter: drop-shadow(0 0 10px rgba(240,192,64,0.3)); }
+  100% { filter: drop-shadow(0 0 25px rgba(240,192,64,0.65)); }
+}
+
+.anim-cloud { animation: float-cloud 8s ease-in-out infinite; }
+.anim-star { animation: twinkle-star 4s ease-in-out infinite; }
+.anim-leaf { animation: sway-leaf 5s ease-in-out infinite alternate; }
+.anim-moon { animation: pulse-moon 3s ease-in-out infinite alternate; }
+.mosque-glow { filter: drop-shadow(0 0 12px rgba(240,192,64,0.3)); }
+
+.btn-neumorph {
+  background: var(--cream);
+  color: var(--g);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 12px;
+  box-shadow: 4px 4px 8px #e0dfd5, -4px -4px 8px #ffffff;
+  font-family:'Nunito',sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-neumorph:hover {
+  transform: translateY(-1px);
+  box-shadow: 6px 6px 12px #dbdacd, -6px -6px 12px #ffffff;
+}
+.btn-neumorph:active {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 6px #e0dfd5, inset -3px -3px 6px #ffffff;
+}
 
 /* NAV */
 .nav{background:linear-gradient(135deg,var(--g),#0d3520);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.2)}
@@ -86,8 +154,8 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 
 /* CARDS */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
-.card{border-radius:var(--r);padding:22px 14px;text-align:center;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;border:2px solid transparent;position:relative;overflow:hidden}
-.card:hover{transform:translateY(-4px);box-shadow:var(--shl)}
+.card{border-radius:var(--r);padding:22px 14px;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);position:relative;overflow:hidden;box-shadow:var(--sh);background:var(--cream);border:1px solid rgba(255,255,255,0.7)}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shl);border-color:rgba(255,255,255,1)}
 .card-icon{font-size:40px;margin-bottom:10px;display:block}
 .card-title{font-size:16px;font-weight:800;margin-bottom:4px}
 .card-desc{font-size:12px;opacity:0.72;line-height:1.4}
@@ -267,9 +335,9 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 
 /* ALPHA GRID */
 .alpha-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;padding:18px}
-.ac{background:#fff;border-radius:14px;padding:14px 6px;text-align:center;box-shadow:var(--sh);cursor:pointer;transition:transform 0.15s;border:2px solid transparent;user-select:none}
-.ac:hover{transform:scale(1.06)}
-.ac.sel{border-color:var(--g);background:var(--gp)}
+.ac{background:var(--cream);border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--sh);cursor:pointer;transition:all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);border:1px solid rgba(255,255,255,0.6);user-select:none}
+.ac:hover{transform:translateY(-3px) scale(1.04);box-shadow:var(--shl)}
+.ac.sel{box-shadow:var(--sh-inset);background:var(--cream);border-color:rgba(22,51,94,0.3)}
 .al{font-family:'Amiri',serif;font-size:32px;color:var(--g);display:block}
 .al.u{color:var(--pur)}
 .al.e{font-family:'Nunito',sans-serif;font-weight:900;font-size:32px;color:var(--sky)}
@@ -277,7 +345,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 .am{font-size:10px;color:#999;margin-top:2px}
 
 /* DETAIL PANEL */
-.detail{background:#fff;border-radius:var(--r);padding:22px;margin:14px 18px;box-shadow:var(--shl);display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.detail{background:var(--cream);border-radius:var(--r);padding:22px;margin:14px 18px;box-shadow:var(--sh);display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;border:1px solid rgba(255,255,255,0.7)}
 .d-big{font-family:'Amiri',serif;font-size:72px;color:var(--g);line-height:1;flex-shrink:0}
 .d-big.u{color:var(--pur)}
 .d-big.e{font-family:'Nunito',sans-serif;font-weight:900;color:var(--sky)}
@@ -291,7 +359,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 .spk.e{background:var(--sky)}
 
 /* DUAS */
-.dua-card{background:#fff;border-radius:16px;padding:18px;margin:10px 18px;box-shadow:var(--sh);border-left:4px solid var(--gl)}
+.dua-card{background:var(--cream);border-radius:var(--r);padding:18px;margin:12px 18px;box-shadow:var(--sh);border-left:5px solid var(--gl);border-top:1px solid rgba(255,255,255,0.7);border-right:1px solid rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.7)}
 .dua-arabic{font-family:'Amiri',serif;font-size:26px;color:var(--g);text-align:right;direction:rtl;line-height:1.8;margin-bottom:10px}
 .dua-urdu{font-family:'Amiri',serif;font-size:16px;color:var(--pur);text-align:right;direction:rtl;margin-bottom:6px}
 .dua-en{font-size:13px;color:var(--soft);line-height:1.6;margin-bottom:10px}
@@ -724,42 +792,46 @@ function MarketingBanner(){
   );
 }
 
-function Home({user,onNav}){
+function Home({user,onNav,t}){
   const mods=[
-    {k:'arabic',icon:'bookOpen',t:'Arabic Alphabet',d:'28 letters with audio & meaning',c:'c-arabic',b:'28 Letters'},
-    {k:'urdu',icon:'book',t:'Urdu Qaida',d:'36 Urdu letters with examples',c:'c-urdu',b:'36 Letters'},
-    {k:'english',icon:'globe',t:'English ABC',d:'26 letters with Urdu meaning',c:'c-english',b:'26 Letters'},
-    {k:'duas',icon:'heart',t:'Daily Duas',d:'10 duas — Arabic, Urdu & English',c:'c-duas',b:'10 Duas'},
-    {k:'quiz',icon:'award',t:'Quiz & Games',d:'Earn stars & test knowledge',c:'c-quiz',b:'Fun!'},
-    {k:'pillars',icon:'star',t:'5 Pillars of Islam',d:'Learn the foundations of Islam',c:'c-pillars',b:'Foundation'},
-    {k:'prophets',icon:'bookOpen',t:'Prophet Stories',d:'8 Prophets — stories & lessons',c:'c-prophets',b:'8 Prophets'},
-    {k:'seerat',icon:'volume',t:'Seerat-un-Nabi ﷺ',d:'Nabi Pak ki mukammal zindagi — Audio Book',c:'c-seerat',b:'Audio Book'},
-    {k:'riyad',icon:'book',t:'Riyad-us-Saliheen',d:'Imam Nawawi ki hadees ki kitab — Urdu audio',c:'c-riyad',b:'35 Ahadith'},
-    {k:'names99',icon:'search',t:'99 Names of Allah',d:'Asmaul Husna with meanings',c:'c-names',b:'99 Names'},
-    {k:'quran',icon:'mic',t:'Listen to Quran',d:'114 Surahs — choose your favorite Qari',c:'c-quran',b:'10+ Qari'},
-    {k:'tajweed',icon:'checkCircle',t:'Tajweed Basics',d:'Learn correct Quran recitation rules',c:'c-tajweed',b:'9 Rules'},
-    {k:'fiqh',icon:'bookOpen',t:'Bunyadi Fiqh Masail',d:'Namaz, Roza, Zakat, Hajj — Hanafi & Shafi\'i',c:'c-fiqh',b:'2 Madhab'},
-    {k:'prayer',icon:'clock',t:'Prayer Times',d:'Aaj ke Namaz ke awqaat — aapke location se',c:'c-prayer',b:'Live'},
-    {k:'qibla',icon:'compass',t:'Qibla Compass',d:'Kaaba ki sahi disha maloom karen',c:'c-qibla',b:'Compass'},
-    {k:'tasbeeh',icon:'moon',t:'Tasbeeh Counter',d:'Zikr aur dua ka shumar rakhein',c:'c-tasbeeh',b:'Digital'},
-    {k:'calendar',icon:'calendar',t:'Islamic Calendar',d:'Hijri tareekh aur ahem Islamic din',c:'c-calendar',b:'Hijri'},
-    {k:'recite',icon:'mic',t:'Recitation Checker',d:'Apni Quran tilawat ka AI se andaza lagayen',c:'c-recite',b:'Beta'},
-    {k:'ai',icon:'bot',t:'AI Islamic Tutor',d:'Advanced Islamic education with AI',c:'c-ai',b:'AI Tutor'},
-    {k:'parent',icon:'user',t:'Parent Dashboard',d:'Track progress & payment history',c:'c-parent',b:'Dashboard'},
+    {k:'arabic',icon:'bookOpen',t:t.arabic,d:t.arabicDesc,c:'c-arabic',b:'28 Letters'},
+    {k:'urdu',icon:'book',t:t.urdu,d:t.urduDesc,c:'c-urdu',b:'36 Letters'},
+    {k:'english',icon:'globe',t:t.english,d:t.englishDesc,c:'c-english',b:'26 Letters'},
+    {k:'duas',icon:'heart',t:t.duas,d:t.duasDesc,c:'c-duas',b:'10 Duas'},
+    {k:'quiz',icon:'award',t:t.quiz,d:t.quizDesc,c:'c-quiz',b:'Fun!'},
+    {k:'pillars',icon:'star',t:t.pillars,d:t.pillarsDesc,c:'c-pillars',b:'Foundation'},
+    {k:'prophets',icon:'bookOpen',t:t.prophets,d:t.prophetsDesc,c:'c-prophets',b:'8 Prophets'},
+    {k:'seerat',icon:'volume',t:t.seerat,d:t.seeratDesc,c:'c-seerat',b:'Audio Book'},
+    {k:'riyad',icon:'book',t:t.riyad,d:t.riyadDesc,c:'c-riyad',b:'35 Ahadith'},
+    {k:'names99',icon:'search',t:t.names99,d:t.names99Desc,c:'c-names',b:'99 Names'},
+    {k:'quran',icon:'mic',t:t.quran,d:t.quranDesc,c:'c-quran',b:'10+ Qari'},
+    {k:'tajweed',icon:'checkCircle',t:t.tajweed,d:t.tajweedDesc,c:'c-tajweed',b:'9 Rules'},
+    {k:'fiqh',icon:'bookOpen',t:t.fiqh,d:t.fiqhDesc,c:'c-fiqh',b:'2 Madhab'},
+    {k:'prayer',icon:'clock',t:t.prayer,d:t.prayerDesc,c:'c-prayer',b:'Live'},
+    {k:'qibla',icon:'compass',t:t.qibla,d:t.qiblaDesc,c:'c-qibla',b:'Compass'},
+    {k:'tasbeeh',icon:'moon',t:t.tasbeeh,d:t.tasbeehDesc,c:'c-tasbeeh',b:'Digital'},
+    {k:'calendar',icon:'calendar',t:t.calendar,d:t.calendarDesc,c:'c-calendar',b:'Hijri'},
+    {k:'recite',icon:'mic',t:t.recite,d:t.reciteDesc,c:'c-recite',b:'Beta'},
+    {k:'ai',icon:'bot',t:t.ai,d:t.aiDesc,c:'c-ai',b:'AI Tutor'},
+    {k:'books',icon:'bookOpen',t: "AI Interactive Books 📚",d: "Generate storybooks with illustrations & audio narration!",c:'c-arabic',b:'AI Library'},
+    {k:'tracing',icon:'edit',t: "Alphabet Tracing Canvas ✍️",d: "Trace Arabic, Urdu, and English letters on a canvas with confetti!",c:'c-urdu',b:'Tracing'},
+    {k:'flashcards',icon:'globe',t: "AI Flashcards & Sheets 🗂️",d: "Generate interactive learning flashcards on core topics!",c:'c-english',b:'Flashcards'},
+    {k:'rewards',icon:'award',t: t.rewards || "Rewards & Shop",d: t.rewardsDesc || "Adopt pet companions and unlock custom avatars!",c:'c-quiz',b:'Shop'},
+    {k:'parent',icon:'user',t:t.parent,d:t.parentDesc,c:'c-parent',b:'Dashboard'},
   ];
   return(
     <>
       <div className="hero">
-        <div className="hero-pill">🌙 As-salamu alaykum!</div>
-        <div className="user-greeting">👤 {user.child?`Learning: ${user.child}`:'Welcome'} • <span style={{background:'var(--gl)',color:'var(--night)',borderRadius:'6px',padding:'1px 7px',fontSize:'11px',fontWeight:900}}>✅ HOUR ACTIVE</span></div>
+        <div className="hero-pill">🌙 {t.greeting}</div>
+        <div className="user-greeting">👤 {user.child?`Learning: ${user.child}`:'Welcome'} • <span style={{background:'var(--gl)',color:'var(--night)',borderRadius:'6px',padding:'1px 7px',fontSize:'11px',fontWeight:900}}>✅ {t.hourActive}</span></div>
         <div className="hero-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-        <div className="hero-emojis">🌙⭐🕌📚✨</div>
-        <h1 className="hero-title">NoorPath — <span className="accent">Islamic Kids</span><br/>Learning Hub</h1>
-        <p className="hero-sub">Arabic • Urdu • English • Duas • Prophets • 99 Names • AI Tutor</p>
+        <div className="hero-emojis anim-cloud" style={{fontSize:'36px',letterSpacing:'12px',margin:'14px 0'}}>🌙⭐🕌📚✨</div>
+        <h1 className="hero-title">{t.title.split('—')[0]} — <span className="accent">Islamic Kids</span><br/>Learning Hub</h1>
+        <p className="hero-sub">{t.sub}</p>
       </div>
       <MarketingBanner/>
       <div className="section">
-        <div className="sec-title">📚 All Modules Unlocked This Hour</div>
+        <div className="sec-title">📚 {t.allModules}</div>
         <div className="cards">
           {mods.map(m=>(
             <div key={m.k} className={`card ${m.c}`} onClick={()=>onNav(m.k)}>
@@ -3267,64 +3339,365 @@ Rules:
 
 /* ═══════ PARENT DASHBOARD ═══════ */
 function ParentDash({onBack,user}){
+  const [subTab, setSubTab] = useState('parent'); // 'parent' | 'teacher' | 'admin'
+  const [goal, setGoal] = useState(() => load('np_daily_goal', '30'));
+
+  // Teacher state
+  const [homeworkList, setHomeworkList] = useState(() => load('np_homework', [
+    { id: 1, title: 'Trace Arabic letter Alif 5 times ✍️', due: 'Tomorrow' },
+    { id: 2, title: 'Listen to Chapter 1 of Seerat-un-Nabi ﷺ 🌙', due: 'In 2 days' }
+  ]));
+  const [newHw, setNewHw] = useState('');
+  const [quizQuestions, setQuizQuestions] = useState(() => load('np_custom_quizzes', []));
+  const [customQ, setCustomQ] = useState('');
+  const [customA, setCustomA] = useState('');
+
+  // Admin state
+  const [promptSettings, setPromptSettings] = useState(() => load('np_system_prompt', 'You are a kind Islamic AI tutor...'));
+  const [userDb, setUserDatabase] = useState([
+    { name: 'Sabir (Sabir)', child: 'Muhammad', email: 'sabir@noorpath.com', status: 'Active' },
+    { name: 'Amina Siddiqui', child: 'Aisha', email: 'amina@noorpath.com', status: 'Active' },
+    { name: 'Demo Student', child: 'Ibrahim', email: 'demo@noorpath.com', status: 'Blocked' }
+  ]);
+  const [moderationLogs] = useState([
+    { prompt: "Who is Prophet Nuh?", status: "CLEAN", date: "Just now" },
+    { prompt: "Tell me a fable about camel", status: "CLEAN", date: "10m ago" },
+    { prompt: "Offtopic query", status: "REDIRECTED", date: "1h ago" }
+  ]);
+
   const prog=user.progress||{};
   const rows=[
-    {m:'🕌 Arabic Alphabet',total:28,done:prog.arabic||0},
-    {m:'📖 Urdu Qaida',total:36,done:prog.urdu||0},
-    {m:'🔤 English ABC',total:26,done:prog.english||0},
-    {m:'🤲 Daily Duas',total:10,done:prog.duas||0},
-    {m:'🎯 Quiz Score',total:12,done:prog.quiz||0},
+    {m: '🕌 Arabic Alphabet', total: 28, done: prog.arabic||0},
+    {m: '📖 Urdu Qaida', total: 36, done: prog.urdu||0},
+    {m: '🔤 English ABC', total: 26, done: prog.english||0},
+    {m: '🤲 Daily Duas', total: 10, done: prog.duas||0},
+    {m: '🎯 Quiz Score', total: 12, done: prog.quiz||0},
   ];
   const totalPct=Math.round(rows.reduce((a,r)=>a+r.done/r.total,0)/rows.length*100);
   const history = load('np_payment_history', []).slice().reverse();
   const totalSpent = history.reduce((sum,h)=>sum+(h.amount||0),0);
+
+  function downloadReportCard(){
+    const data = `NOORPATH REPORT CARD\n====================\nStudent: ${user.child || 'Student'}\nOverall Progress: ${totalPct}%\nStars Earned: ${user.stars || 0}\nCompleted Modules:\n` + rows.map(r=>`- ${r.m}: ${r.done}/${r.total}`).join('\n');
+    const blob = new Blob([data], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Report_Card_${user.child || 'Student'}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast("📥 Report Card downloaded successfully!");
+  }
+
+  function handleSaveGoal(val){
+    setGoal(val);
+    save('np_daily_goal', val);
+    toast(`🎯 Daily goal set to ${val} minutes!`);
+  }
+
+  function addHomework(){
+    if(!newHw.trim()) return;
+    const item = { id: Date.now(), title: newHw, due: 'In 3 days' };
+    const updated = [...homeworkList, item];
+    setHomeworkList(updated);
+    save('np_homework', updated);
+    setNewHw('');
+    toast("📝 Homework assignment added!");
+  }
+
+  function deleteHomework(id){
+    const updated = homeworkList.filter(h=>h.id !== id);
+    setHomeworkList(updated);
+    save('np_homework', updated);
+    toast("🗑️ Assignment deleted!");
+  }
+
+  function saveCustomQuiz(){
+    if(!customQ.trim() || !customA.trim()) return;
+    const item = { id: Date.now(), q: customQ, a: customA };
+    const updated = [...quizQuestions, item];
+    setQuizQuestions(updated);
+    save('np_custom_quizzes', updated);
+    setCustomQ('');
+    setCustomA('');
+    toast("🏆 Custom quiz question saved!");
+  }
+
+  function saveSystemPrompt(){
+    save('np_system_prompt', promptSettings);
+    toast("⚙️ AI Prompt Settings updated!");
+  }
+
+  function toggleUserStatus(idx){
+    const updated = [...userDb];
+    updated[idx].status = updated[idx].status === 'Active' ? 'Blocked' : 'Active';
+    setUserDatabase(updated);
+    toast(`👤 User status updated to ${updated[idx].status}!`);
+  }
+
   return(
     <>
-      <div className="lhdr"><button className="back-btn" onClick={onBack}>← Back</button><div className="l-title">👨‍👩‍👧 Parent Dashboard</div></div>
-      <div className="parent-wrap">
-        <div className="stat-grid">
-          <div className="stat-card"><div className="stat-n">{totalPct}%</div><div className="stat-l">Overall Progress</div></div>
-          <div className="stat-card"><div className="stat-n">{history.length}</div><div className="stat-l">Hours Purchased</div></div>
-          <div className="stat-card"><div className="stat-n">{user.stars||0}⭐</div><div className="stat-l">Stars Earned</div></div>
-          <div className="stat-card"><div className="stat-n" style={{fontSize:'24px',color:'var(--g)'}}>₹{totalSpent}</div><div className="stat-l">Total Spent</div></div>
-        </div>
-        <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>📊 Module Progress</div>
-        <div className="ptable">
-          <table>
-            <thead><tr><th>Module</th><th>Progress</th><th>Done</th></tr></thead>
-            <tbody>
-              {rows.map((r,i)=>(
-                <tr key={i}>
-                  <td style={{fontWeight:700}}>{r.m}</td>
-                  <td><div style={{fontSize:'11px',marginBottom:'3px'}}>{r.done}/{r.total} ({Math.round(r.done/r.total*100)}%)</div><div className="pbar"><div className="pfill" style={{width:`${r.done/r.total*100}%`}}></div></div></td>
-                  <td style={{fontWeight:700,color:r.done===r.total?'var(--g)':'var(--soft)'}}>{r.done===r.total?'✅':'🔄'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>💳 Payment History</div>
-        <div className="ptable">
-          <table>
-            <thead><tr><th>Date</th><th>Amount</th><th>Payment ID</th></tr></thead>
-            <tbody>
-              {history.length===0 && <tr><td colSpan="3" style={{textAlign:'center',color:'var(--soft)',padding:'20px'}}>No payments yet</td></tr>}
-              {history.map((h,i)=>(
-                <tr key={i}>
-                  <td style={{fontSize:'12px'}}>{new Date(h.date).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
-                  <td style={{fontWeight:700,color:'var(--g)'}}>₹{h.amount}</td>
-                  <td style={{fontSize:'11px',color:'var(--soft)',wordBreak:'break-all'}}>{h.paymentId}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="lhdr">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <div className="l-title">🕌 NoorPath Unified Portal</div>
+      </div>
+
+      <div style={{padding:'20px', maxWidth:'960px', margin:'0 auto'}}>
+        {/* SUB DASHBOARD SELECTOR TABS */}
+        <div className="tabs" style={{margin:'0 auto 20px', padding:'0', display:'flex', gap:'8px', overflowX:'auto'}} data-no-tilt>
+          <button className={`tab ${subTab==='parent'?'active':''}`} onClick={()=>setSubTab('parent')}>👨‍👩‍👧 Parent Dashboard</button>
+          <button className={`tab ${subTab==='teacher'?'active':''}`} onClick={()=>setSubTab('teacher')}>🏫 Teacher Portal</button>
+          <button className={`tab ${subTab==='admin'?'active':''}`} onClick={()=>setSubTab('admin')}>⚙️ System Admin</button>
         </div>
 
-        <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>💬 Contact Us</div>
-        <a href="https://wa.me/qr/2WIILW265RWEI1" target="_blank" rel="noopener" style={{display:'flex',alignItems:'center',gap:'12px',background:'#25D366',color:'#fff',borderRadius:'14px',padding:'16px',textDecoration:'none',fontWeight:800,fontFamily:'Nunito'}}>
-          <span style={{fontSize:'24px'}}>💬</span>
-          <span>Need help or want to talk to us? Message on WhatsApp</span>
-        </a>
+        {/* ── PARENT SUB TAB ── */}
+        {subTab === 'parent' && (
+          <div className="parent-wrap" style={{padding:'0'}}>
+            <div className="stat-grid">
+              <div className="stat-card nm-card"><div className="stat-n">{totalPct}%</div><div className="stat-l">Overall Progress</div></div>
+              <div className="stat-card nm-card"><div className="stat-n">{history.length}</div><div className="stat-l">Hours Purchased</div></div>
+              <div className="stat-card nm-card"><div className="stat-n">{user.stars||0}⭐</div><div className="stat-l">Stars Earned</div></div>
+              <div className="stat-card nm-card"><div className="stat-n" style={{fontSize:'24px',color:'var(--g)'}}>₹{totalSpent}</div><div className="stat-l">Total Spent</div></div>
+            </div>
+
+            {/* SCREEN TIME AND SET GOAL */}
+            <div className="nm-card" style={{padding:'24px', marginBottom:'24px', display:'flex', gap:'20px', flexWrap:'wrap'}}>
+              <div style={{flex:1, minWidth:'240px'}}>
+                <div style={{fontWeight:900, fontSize:'16px', color:'var(--g)', marginBottom:'10px'}}>🕒 Screen Time Analytics</div>
+                {/* Visual Bar chart representation */}
+                <div style={{display:'flex', gap:'12px', alignItems:'end', height:'100px', padding:'10px 0', borderBottom:'1px dashed #ddd'}}>
+                  <div style={{flex:1, textAlign:'center'}}><div style={{background:'var(--g)', height:'30%', borderRadius:'4px 4px 0 0'}}></div><span style={{fontSize:'9px', color:'var(--soft)'}}>Mon</span></div>
+                  <div style={{flex:1, textAlign:'center'}}><div style={{background:'var(--g)', height:'50%', borderRadius:'4px 4px 0 0'}}></div><span style={{fontSize:'9px', color:'var(--soft)'}}>Tue</span></div>
+                  <div style={{flex:1, textAlign:'center'}}><div style={{background:'var(--g)', height:'90%', borderRadius:'4px 4px 0 0'}}></div><span style={{fontSize:'9px', color:'var(--soft)'}}>Wed</span></div>
+                  <div style={{flex:1, textAlign:'center'}}><div style={{background:'var(--g)', height:'40%', borderRadius:'4px 4px 0 0'}}></div><span style={{fontSize:'9px', color:'var(--soft)'}}>Thu</span></div>
+                  <div style={{flex:1, textAlign:'center'}}><div style={{background:'var(--g)', height:'20%', borderRadius:'4px 4px 0 0'}}></div><span style={{fontSize:'9px', color:'var(--soft)'}}>Fri</span></div>
+                </div>
+                <div style={{fontSize:'12px', color:'var(--soft)', marginTop:'8px'}}>Student spent 45 minutes on average this week.</div>
+              </div>
+              <div className="nm-inset-card" style={{padding:'18px', width:'240px', minWidth:'200px'}}>
+                <div style={{fontWeight:900, fontSize:'14px', color:'var(--text)', marginBottom:'8px'}}>🎯 Set Daily Limit</div>
+                <select value={goal} onChange={e=>handleSaveGoal(e.target.value)} className="qari-pick" style={{marginBottom:'12px'}}>
+                  <option value="15">15 Minutes</option>
+                  <option value="30">30 Minutes</option>
+                  <option value="45">45 Minutes</option>
+                  <option value="60">60 Minutes</option>
+                </select>
+                <button onClick={downloadReportCard} className="btn-primary" style={{width:'100%', padding:'10px', fontSize:'13px'}}>📥 Download Report Card</button>
+              </div>
+            </div>
+
+            {/* STRENGTHS AND WEAKNESSES */}
+            <div className="nm-card" style={{padding:'20px', marginBottom:'24px'}}>
+              <div style={{fontWeight:900, fontSize:'15px', color:'var(--g)', marginBottom:'12px'}}>💡 Strong & Weak Learning Areas</div>
+              <div style={{display:'flex', gap:'10px', flexWrap:'wrap'}}>
+                <div style={{flex:1, minWidth:'180px', background:'#E8F5E9', borderRadius:'12px', padding:'14px', borderLeft:'4px solid #2E7D32'}}>
+                  <div style={{fontWeight:900, fontSize:'13px', color:'#2E7D32'}}>Strong Areas 🌟</div>
+                  <div style={{fontSize:'12px', color:'#1B5E20', marginTop:'6px'}}>Excellent progress in Arabic Alphabet and Daily Duas. Sound pronunciation matches perfectly!</div>
+                </div>
+                <div style={{flex:1, minWidth:'180px', background:'#FFF3E0', borderRadius:'12px', padding:'14px', borderLeft:'4px solid #EF6C00'}}>
+                  <div style={{fontWeight:900, fontSize:'13px', color:'#EF6C00'}}>Needs Practice 🔄</div>
+                  <div style={{fontSize:'12px', color:'#E65100', marginTop:'6px'}}>English ABC vowels need more review. Encourage practicing the tracing exercises.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>📊 Module Progress</div>
+            <div className="ptable">
+              <table>
+                <thead><tr><th>Module</th><th>Progress</th><th>Done</th></tr></thead>
+                <tbody>
+                  {rows.map((r,i)=>(
+                    <tr key={i}>
+                      <td style={{fontWeight:700}}>{r.m}</td>
+                      <td><div style={{fontSize:'11px',marginBottom:'3px'}}>{r.done}/{r.total} ({Math.round(r.done/r.total*100)}%)</div><div className="pbar"><div className="pfill" style={{width:`${r.done/r.total*100}%`}}></div></div></td>
+                      <td style={{fontWeight:700,color:r.done===r.total?'var(--g)':'var(--soft)'}}>{r.done===r.total?'✅':'🔄'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>💳 Payment History</div>
+            <div className="ptable">
+              <table>
+                <thead><tr><th>Date</th><th>Amount</th><th>Payment ID</th></tr></thead>
+                <tbody>
+                  {history.length===0 && <tr><td colSpan="3" style={{textAlign:'center',color:'var(--soft)',padding:'20px'}}>No payments yet</td></tr>}
+                  {history.map((h,i)=>(
+                    <tr key={i}>
+                      <td style={{fontSize:'12px'}}>{new Date(h.date).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+                      <td style={{fontWeight:700,color:'var(--g)'}}>₹{h.amount}</td>
+                      <td style={{fontSize:'11px',color:'var(--soft)',wordBreak:'break-all'}}>{h.paymentId}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div style={{fontWeight:900,fontSize:'18px',color:'var(--g)',marginBottom:'14px'}}>💬 Contact Us</div>
+            <a href="https://wa.me/qr/2WIILW265RWEI1" target="_blank" rel="noopener" style={{display:'flex',alignItems:'center',gap:'12px',background:'#25D366',color:'#fff',borderRadius:'14px',padding:'16px',textDecoration:'none',fontWeight:800,fontFamily:'Nunito'}}>
+              <span style={{fontSize:'24px'}}>💬</span>
+              <span>Need help or want to talk to us? Message on WhatsApp</span>
+            </a>
+          </div>
+        )}
+
+        {/* ── TEACHER SUB TAB ── */}
+        {subTab === 'teacher' && (
+          <div>
+            {/* LIVE MOCK STUDENT TRACKER */}
+            <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>🏫 Live Student Management</div>
+            <div className="ptable" style={{marginBottom:'24px'}}>
+              <table>
+                <thead><tr><th>Student Name</th><th>Current Level</th><th>Stars Earned</th><th>Status</th></tr></thead>
+                <tbody>
+                  {userDb.map((s,i) => (
+                    <tr key={i}>
+                      <td style={{fontWeight:700}}>{s.name} ({s.child})</td>
+                      <td>Level 2 Explorer</td>
+                      <td>{user.stars || 12} ⭐</td>
+                      <td><span style={{background:'#E8F5E9', color:'#2E7D32', padding:'2px 8px', borderRadius:'6px', fontSize:'11px', fontWeight:900}}>ONLINE</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* HOMEWORK BOARD */}
+            <div className="nm-card" style={{padding:'20px', marginBottom:'24px'}}>
+              <div style={{fontWeight:900, fontSize:'16px', color:'var(--g)', marginBottom:'12px'}}>📝 Homework & Assignments Board</div>
+              <div style={{display:'flex', gap:'10px', marginBottom:'14px'}}>
+                <input
+                  type="text"
+                  value={newHw}
+                  onChange={e=>setNewHw(e.target.value)}
+                  placeholder="Enter a new homework assignment..."
+                  style={{flex:1, border:'2px solid #ddd', borderRadius:'10px', padding:'10px 14px', fontSize:'14px', outline:'none', fontFamily:'Nunito'}}
+                />
+                <button onClick={addHomework} className="btn-primary" style={{padding:'10px 20px'}}>Add</button>
+              </div>
+              <div style={{display:'flex', flexDirection:'column', gap:'8px'}}>
+                {homeworkList.map(h => (
+                  <div key={h.id} style={{background:'var(--gp)', borderRadius:'10px', padding:'10px 14px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                    <span style={{fontSize:'13px', fontWeight:700, color:'var(--text)'}}>{h.title}</span>
+                    <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
+                      <span style={{fontSize:'11px', color:'var(--soft)'}}>{h.due}</span>
+                      <button onClick={()=>deleteHomework(h.id)} style={{background:'none', border:'none', color:'#C62828', cursor:'pointer', fontSize:'14px'}}>✕</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* QUIZ BUILDER */}
+            <div className="nm-card" style={{padding:'20px'}}>
+              <div style={{fontWeight:900, fontSize:'16px', color:'var(--g)', marginBottom:'12px'}}>🏆 Live Quiz & Lesson Builder</div>
+              <div style={{display:'flex', flexDirection:'column', gap:'10px', marginBottom:'14px'}}>
+                <input
+                  type="text"
+                  value={customQ}
+                  onChange={e=>setCustomQ(e.target.value)}
+                  placeholder="Enter your custom quiz question..."
+                  style={{width:'100%', border:'2px solid #ddd', borderRadius:'10px', padding:'10px 14px', fontSize:'14px', outline:'none', fontFamily:'Nunito'}}
+                />
+                <input
+                  type="text"
+                  value={customA}
+                  onChange={e=>setCustomA(e.target.value)}
+                  placeholder="Enter the correct answer..."
+                  style={{width:'100%', border:'2px solid #ddd', borderRadius:'10px', padding:'10px 14px', fontSize:'14px', outline:'none', fontFamily:'Nunito'}}
+                />
+                <button onClick={saveCustomQuiz} className="btn-primary" style={{alignSelf:'flex-start', padding:'10px 24px'}}>Save Question</button>
+              </div>
+
+              {quizQuestions.length > 0 && (
+                <div style={{display:'flex', flexDirection:'column', gap:'8px'}}>
+                  <div style={{fontWeight:800, fontSize:'12px', color:'var(--soft)'}}>CUSTOM QUESTIONS ACTIVATED:</div>
+                  {quizQuestions.map(q => (
+                    <div key={q.id} style={{background:'#F1F8E9', borderLeft:'4px solid #558B2F', padding:'10px 14px', borderRadius:'10px'}}>
+                      <div style={{fontSize:'13px', fontWeight:800}}>{q.q}</div>
+                      <div style={{fontSize:'11px', color:'var(--soft)'}}>Ans: {q.a}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── SYSTEM ADMIN SUB TAB ── */}
+        {subTab === 'admin' && (
+          <div>
+            <div className="stat-grid">
+              <div className="stat-card nm-card"><div className="stat-n">3</div><div className="stat-l">Active Admins</div></div>
+              <div className="stat-card nm-card"><div className="stat-n">100%</div><div className="stat-l">API Uptime</div></div>
+              <div className="stat-card nm-card"><div className="stat-n">CLEAN</div><div className="stat-l">Moderation Level</div></div>
+            </div>
+
+            {/* AI SYSTEM PROMPT SETTINGS */}
+            <div className="nm-card" style={{padding:'20px', marginBottom:'24px'}}>
+              <div style={{fontWeight:900, fontSize:'16px', color:'var(--g)', marginBottom:'12px'}}>⚙️ AI System Prompt Configuration</div>
+              <textarea
+                value={promptSettings}
+                onChange={e=>setPromptSettings(e.target.value)}
+                style={{width:'100%', height:'120px', border:'2px solid #ddd', borderRadius:'10px', padding:'10px', fontSize:'13px', outline:'none', fontFamily:'monospace', marginBottom:'12px'}}
+              />
+              <button onClick={saveSystemPrompt} className="btn-primary" style={{padding:'10px 24px'}}>Save AI Settings</button>
+            </div>
+
+            {/* USER DATABASE MANAGEMENT */}
+            <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>👥 User Database Management</div>
+            <div className="ptable" style={{marginBottom:'24px'}}>
+              <table>
+                <thead><tr><th>User Info</th><th>Email</th><th>Role</th><th>Action</th></tr></thead>
+                <tbody>
+                  {userDb.map((u,i) => (
+                    <tr key={i}>
+                      <td style={{fontWeight:700}}>{u.name} ({u.child})</td>
+                      <td>{u.email}</td>
+                      <td>Student / Parent</td>
+                      <td>
+                        <button
+                          onClick={()=>toggleUserStatus(i)}
+                          style={{
+                            background: u.status==='Active'?'#FFEBEE':'#E8F5E9',
+                            color: u.status==='Active'?'#C62828':'#2E7D32',
+                            border:'none', borderRadius:'6px', padding:'4px 10px', fontSize:'11px', fontWeight:900, cursor:'pointer'
+                          }}
+                        >
+                          {u.status === 'Active' ? 'Block User' : 'Unblock'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* AI CONTENT MODERATION LOG */}
+            <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>🛡️ AI Content Moderation Log</div>
+            <div className="ptable" style={{marginBottom:'24px'}}>
+              <table>
+                <thead><tr><th>Query Prompt</th><th>Date</th><th>Safety Verdict</th></tr></thead>
+                <tbody>
+                  {moderationLogs.map((l,i) => (
+                    <tr key={i}>
+                      <td style={{fontFamily:'monospace', fontSize:'12px'}}>{l.prompt}</td>
+                      <td>{l.date}</td>
+                      <td>
+                        <span style={{
+                          background: l.status==='CLEAN'?'#E8F5E9':'#FFF3E0',
+                          color: l.status==='CLEAN'?'#2E7D32':'#EF6C00',
+                          padding:'2px 8px', borderRadius:'6px', fontSize:'10px', fontWeight:900
+                        }}>{l.status}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
@@ -3539,10 +3912,1087 @@ function PayPerHourGate({onUnlock, reason}){
   );
 }
 
+/* ═══════ AI INTERACTIVE BOOK READER ═══════ */
+function AIBookReader({onBack, user}){
+  const [theme, setTheme] = useState('kindness');
+  const [generating, setGenerating] = useState(false);
+  const [book, setBook] = useState(null);
+  const [curPage, setCurPage] = useState(0);
+  const [certificateUnlocked, setCertificateUnlocked] = useState(false);
+  const [answer, setAnswer] = useState('');
+  const [quizSuccess, setQuizSuccess] = useState(false);
+
+  const bookThemes = [
+    { id: 'kindness', label: 'Prophet\'s Kindness to Animals 🐪', desc: 'A beautiful story of how Prophet Muhammad ﷺ helped a tired camel in the desert.' },
+    { id: 'ramadan', label: 'Little Yasmin\'s First Fast 🌙', desc: 'A lovely story of young Yasmin learning about empathy, charity, and family during Ramadan.' },
+    { id: 'noah', label: 'Noah\'s Great Big Ark 🚢', desc: 'How Prophet Nuh عليه السلام gathered pairs of animals and stayed patient during the flood.' },
+    { id: 'honesty', label: 'The Honest Woodcutter 🌳', desc: 'A traditional fable teaching children why Allah loves those who always speak the truth.' }
+  ];
+
+  const bookDatabase = {
+    kindness: {
+      title: "The Sincere Camel & The Prophet's Mercy ﷺ",
+      pages: [
+        {
+          text: "In the hot golden deserts of Arabia, a young camel carried heavy loads every day. He was very tired and his owner forgot to feed him enough water.",
+          illus: "🐪🏜️☀️",
+          caption: "A tired camel under the hot desert sun."
+        },
+        {
+          text: "One day, Prophet Muhammad ﷺ visited the garden where the camel was tied. When the camel saw the Prophet ﷺ, tears began to stream from his large eyes.",
+          illus: "🕌🐪✨",
+          caption: "The camel crying when meeting the Prophet ﷺ."
+        },
+        {
+          text: "The Prophet ﷺ walked to the camel and gently stroked his head with his hands until the camel became calm and happy. The Prophet ﷺ then spoke to the owner.",
+          illus: "👳🐪💖",
+          caption: "The Prophet ﷺ comforting the camel."
+        },
+        {
+          text: "The Prophet ﷺ told the owner: 'Do you not fear Allah regarding this animal? He has complained to me that you overwork him and starve him.'",
+          illus: "🌳🌾🐪",
+          caption: "The owner learning about animal rights in Islam."
+        },
+        {
+          text: "The owner felt deeply sorry and promised to always treat the camel with love, plenty of fresh grass, and rest. This teaches us that animal mercy is a key part of our Deen!",
+          illus: "🐪🌿🌾🎉",
+          caption: "The happy camel enjoying fresh food!"
+        }
+      ],
+      question: "What did the Prophet ﷺ teach us about animals?",
+      correctAnswer: "mercy"
+    },
+    ramadan: {
+      title: "Little Yasmin's First Ramadan Fast 🌙",
+      pages: [
+        {
+          text: "Yasmin was 7 years old. She loved watching her parents wake up early for Suhoor to eat delicious dates and pray before the sun came up.",
+          illus: "👧🌙📅",
+          caption: "Yasmin seeing the crescent moon of Ramadan."
+        },
+        {
+          text: "This year, her mother said: 'Yasmin, you can try a half-day fast today! We call it a half-fast, to practice patience and gratitude.'",
+          illus: "👧🥘🕒",
+          caption: "Yasmin preparing for her practice fast."
+        },
+        {
+          text: "During the afternoon, Yasmin felt hungry. She looked at her favorite sweet cookies, but she remembered: 'I am fasting for Allah!' She chose to paint instead.",
+          illus: "👧🍪🎨",
+          caption: "Yasmin being strong and creative."
+        },
+        {
+          text: "When the evening Adhan sounded, her father handed her a sweet date and water. Yasmin felt so happy! She realized how blessed she was to have food every day.",
+          illus: "🕌🌴🥛🍪",
+          caption: "Iftar with family and dates."
+        },
+        {
+          text: "She decided to pack some of her favorite toys and share them with the orphans at the community center, because Ramadan is all about generosity!",
+          illus: "🎁👧🤝",
+          caption: "Yasmin sharing her gifts with others."
+        }
+      ],
+      question: "What do we eat first to break our fast (Iftar)?",
+      correctAnswer: "dates"
+    },
+    noah: {
+      title: "Prophet Nuh & The Great Floating Ark 🚢",
+      pages: [
+        {
+          text: "Prophet Nuh عليه السلام was a wise messenger. He called his people to worship only Allah for many years, but they chose to be proud and ignore him.",
+          illus: "👴🌳📣",
+          caption: "Nuh teaching his people with patience."
+        },
+        {
+          text: "Allah commanded Nuh: 'Build a great Ark of wood.' Nuh worked hard every day with his family, while others laughed. But Nuh trusted Allah fully.",
+          illus: "🚢🔨🔨",
+          caption: "Nuh building the giant wooden Ark."
+        },
+        {
+          text: "When the Ark was ready, Nuh gathered pairs of every animal on Earth — lions, birds, camels, and tiny ants. They marched into the ship safely.",
+          illus: "🦁🦅🐪🐜",
+          caption: "Pairs of animals boarding the Ark."
+        },
+        {
+          text: "A great flood of rain came from the sky and water rose from the earth. The Ark floated safely like a palace on the deep blue waves.",
+          illus: "🚢🌧️🌊🌊",
+          caption: "The Ark floating safely during the flood."
+        },
+        {
+          text: "Finally, the rain stopped and the Ark landed on Mount Judi. The animals came out happily. Nuh prayed to Allah with deep gratitude for saving them!",
+          illus: "☀️🏔️🕊️🐆",
+          caption: "A bright new beginning for the world!"
+        }
+      ],
+      question: "On which mountain did Nuh's Ark land?",
+      correctAnswer: "judi"
+    },
+    honesty: {
+      title: "The Honest Woodcutter & The Golden Axe 🪓",
+      pages: [
+        {
+          text: "Once, an honest woodcutter was working near a river. Suddenly, his iron axe slipped from his hand and fell deep into the flowing water.",
+          illus: "👨🌲🪓🌊",
+          caption: "The woodcutter losing his axe."
+        },
+        {
+          text: "He sat by the river crying, because he could not buy a new one. Suddenly, an angel appeared and offered to help him find his axe.",
+          illus: "👼👨🌊",
+          caption: "An angel appearing to help him."
+        },
+        {
+          text: "The angel jumped into the water and brought out a beautiful Axe made of pure gold! 'Is this yours?' asked the angel. 'No, that is not mine,' said the woodcutter.",
+          illus: "✨🪓💛👨",
+          caption: "The woodcutter refusing the Golden Axe."
+        },
+        {
+          text: "The angel dived again and brought a Silver Axe. The woodcutter said: 'No, that is not mine either.' Finally, the angel brought his old iron axe. 'Yes! That is mine!' he cheered.",
+          illus: "🪓🤍👨🎉",
+          caption: "Recognizing his honest old iron axe."
+        },
+        {
+          text: "The angel smiled and said: 'Allah loves honesty! Take all three axes as a reward.' This teaches us that honesty always brings Allah's barakah!",
+          illus: "👨🪓🎁✨",
+          caption: "Honesty rewarded with beautiful gifts."
+        }
+      ],
+      question: "What axe did the woodcutter refuse first out of honesty?",
+      correctAnswer: "gold"
+    }
+  };
+
+  function generateBook(){
+    setGenerating(true);
+    setTimeout(() => {
+      setBook(bookDatabase[theme]);
+      setCurPage(0);
+      setGenerating(false);
+      setCertificateUnlocked(false);
+      setQuizSuccess(false);
+      setAnswer('');
+      toast("📚 Book generated with AI Vector illustrations!");
+    }, 1500);
+  }
+
+  function handleNarrate(){
+    if (!book) return;
+    const page = book.pages[curPage];
+    speak(page.text, 'en-US');
+  }
+
+  function checkQuiz(){
+    if (answer.trim().toLowerCase() === book.correctAnswer) {
+      setQuizSuccess(true);
+      setCertificateUnlocked(true);
+      if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 50, spread: 60 });
+      }
+      toast("🌟 Correct! Completion Certificate unlocked!");
+    } else {
+      toast("❌ Try again! Re-read the book for the correct answer.");
+    }
+  }
+
+  return(
+    <>
+      <div className="lhdr">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <div className="l-title">📚 AI Interactive Books Hub</div>
+      </div>
+
+      <div style={{padding:'20px', maxWidth:'800px', margin:'0 auto'}}>
+        {!book ? (
+          <div>
+            <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>Generate an AI Storybook</div>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'14px', marginBottom:'20px'}}>
+              {bookThemes.map(bt => (
+                <div key={bt.id} className="nm-card" style={{padding:'20px', display:'flex', flexDirection:'column', gap:'8px', border: theme===bt.id?'2px solid var(--g)':''}} onClick={()=>setTheme(bt.id)}>
+                  <div style={{fontWeight:900, fontSize:'16px', color:'var(--text)'}}>{bt.label}</div>
+                  <div style={{fontSize:'12px', color:'var(--soft)', lineHeight:'1.5', flex:1}}>{bt.desc}</div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={generateBook}
+              disabled={generating}
+              className="btn-neumorph"
+              style={{width:'100%', padding:'16px', background:'var(--g)', color:'#fff', fontSize:'16px', fontWeight:900}}
+            >
+              {generating ? '⏳ Generating AI Illustrations & Narration...' : '🚀 Generate AI Book'}
+            </button>
+          </div>
+        ) : (
+          <div className="nm-card" style={{padding:'28px', position:'relative'}}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom:'1px dashed #ddd', paddingBottom:'12px', marginBottom:'20px'}}>
+              <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)'}}>{book.title}</div>
+              <button className="btn-neumorph" style={{padding:'6px 12px', fontSize:'11px'}} onClick={()=>setBook(null)}>🚪 Close Book</button>
+            </div>
+
+            {curPage < book.pages.length ? (
+              <div style={{textAlign:'center'}}>
+                {/* STORY VECTOR/EMOJI CANVAS */}
+                <div className="nm-inset-card anim-cloud" style={{width:'240px', height:'180px', margin:'0 auto 20px', display:'flex', alignItems:'center', justifyContents:'center', fontSize:'72px', background:'radial-gradient(circle, #fff 40%, var(--gp))', border:'1px solid rgba(255,255,255,0.8)'}}>
+                  <div style={{textAlign:'center', width:'100%'}}>{book.pages[curPage].illus}</div>
+                </div>
+                <div style={{fontSize:'12px', color:'var(--soft)', fontStyle:'italic', marginBottom:'14px'}}>"{book.pages[curPage].caption}"</div>
+
+                {/* STORY PARAGRAPH */}
+                <p style={{fontSize:'15px', color:'var(--text)', lineHeight:'1.8', minHeight:'80px', maxWidth:'520px', margin:'0 auto 20px'}}>{book.pages[curPage].text}</p>
+
+                <div style={{display:'flex', gap:'10px', justifyContent:'center', marginBottom:'20px'}}>
+                  <button onClick={handleNarrate} className="btn-neumorph" style={{padding:'10px 16px', background:'var(--gl)', color: 'var(--night)', fontSize:'12px'}}>🔊 Read to Me</button>
+                </div>
+
+                {/* PAGE CONTROLS */}
+                <div style={{display:'flex', justifyContents:'space-between', alignItems:'center', marginTop:'14px', borderTop:'1px solid #eee', paddingTop:'14px'}}>
+                  <button className="btn-secondary" onClick={()=>setCurPage(p=>Math.max(0, p-1))} disabled={curPage===0} style={{opacity:curPage===0?0.4:1}}>← Prev</button>
+                  <span style={{fontSize:'12px', fontWeight:800, color:'var(--soft)'}}>PAGE {curPage + 1} OF {book.pages.length}</span>
+                  <button className="btn-primary" onClick={()=>setCurPage(p=>p+1)}>Next →</button>
+                </div>
+              </div>
+            ) : (
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:'54px', marginBottom:'10px'}}>🎯</div>
+                <div style={{fontWeight:900, fontSize:'20px', color:'var(--g)', marginBottom:'6px'}}>Book Completed! Let's do a quick quiz.</div>
+                <p style={{fontSize:'13px', color:'var(--soft)', marginBottom:'20px'}}>Answer correctly to claim your Completion Certificate.</p>
+
+                <div className="nm-inset-card" style={{padding:'20px', maxWidth:'440px', margin:'0 auto 20px', textAlign:'left'}}>
+                  <div style={{fontWeight:800, fontSize:'14px', color:'var(--text)', marginBottom:'8px'}}>{book.question}</div>
+                  <input
+                    type="text"
+                    value={answer}
+                    onChange={e=>setAnswer(e.target.value)}
+                    placeholder="Enter answer (one word, e.g. mercy)"
+                    style={{width:'100%', border:'2px solid #ddd', borderRadius:'10px', padding:'10px 14px', fontSize:'14px', outline:'none', fontFamily:'Nunito'}}
+                  />
+                  <button className="btn-primary" onClick={checkQuiz} style={{width:'100%', marginTop:'12px', padding:'12px'}}>Check Answer</button>
+                </div>
+
+                {certificateUnlocked && (
+                  <div className="nm-card star-twinkle" style={{padding:'24px', background:'radial-gradient(circle, #fff 50%, var(--gld))', border:'5px double var(--gl)', maxWidth:'480px', margin:'20px auto 10px', textAlign:'center'}}>
+                    <div style={{fontFamily:'Amiri', fontSize:'24px', color:'var(--gold)'}}>بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</div>
+                    <div style={{fontSize:'22px', fontWeight:900, color:'var(--g)', marginTop:'10px'}}>CERTIFICATE OF COMPLETION</div>
+                    <div style={{fontSize:'12px', color:'var(--soft)', margin:'8px 0'}}>This certifies that the young explorer</div>
+                    <div style={{fontSize:'20px', fontWeight:900, borderBottom:'2px solid var(--g)', display:'inline-block', padding:'4px 20px', margin:'6px 0', color:'var(--text)'}}>{user.child || 'Student'}</div>
+                    <div style={{fontSize:'13px', color:'var(--soft)', margin:'8px 0'}}>has successfully read and completed the AI book:</div>
+                    <div style={{fontSize:'15px', fontWeight:800, color:'var(--g)'}}>{book.title}</div>
+                    <div style={{display:'flex', justifyContent:'space-between', borderTop:'1px dashed #ddd', marginTop:'20px', paddingTop:'12px', fontSize:'11px', color:'var(--soft)'}}>
+                      <span>Verified: NoorPath AI ✓</span>
+                      <span>Date: {new Date().toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ═══════ ALPHABET TRACING CANVAS ═══════ */
+function TracingCanvas({onBack}){
+  const [lang, setLang] = useState('ar'); // 'ar' | 'ur' | 'en'
+  const [letterIdx, setLetterIdx] = useState(0);
+  const canvasRef = useRef(null);
+  const [drawing, setDrawing] = useState(false);
+
+  const letters = {
+    ar: ['ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ'],
+    ur: ['ا', 'ب', 'پ', 'ت', 'ٹ', 'ث', 'ج'],
+    en: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+  };
+
+  const currentLetter = letters[lang][letterIdx];
+
+  useEffect(() => {
+    drawLetterGuide();
+  }, [lang, letterIdx]);
+
+  function drawLetterGuide() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Letter as light trace guide
+    ctx.font = lang === 'en' ? 'bold 150px Nunito' : 'bold 160px Amiri';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#E0E0E0';
+    ctx.fillText(currentLetter, canvas.width / 2, canvas.height / 2);
+  }
+
+  function getMousePos(canvasDom, event) {
+    const rect = canvasDom.getBoundingClientRect();
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top
+    };
+  }
+
+  function startDrawing(e) {
+    e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const pos = getMousePos(canvas, e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    ctx.lineWidth = 14;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#16335E';
+    setDrawing(true);
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const pos = getMousePos(canvas, e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }
+
+  function stopDrawing() {
+    setDrawing(false);
+  }
+
+  function handleCheck() {
+    if (typeof confetti !== 'undefined') {
+      confetti({ particleCount: 40, spread: 50 });
+    }
+    toast("🌟 Beautiful tracing! Masha Allah, keep it up!");
+  }
+
+  function handleReset() {
+    drawLetterGuide();
+  }
+
+  return(
+    <>
+      <div className="lhdr">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <div className="l-title">✍️ Interactive Tracing Canvas</div>
+      </div>
+
+      <div style={{padding:'20px', maxWidth:'600px', margin:'0 auto', textAlign:'center'}}>
+        {/* LANG TABS */}
+        <div className="script-toggle" style={{margin:'0 auto 20px'}}>
+          <button className={`script-btn ${lang==='ar'?'active':''}`} onClick={()=> {setLang('ar'); setLetterIdx(0);}}>Arabic</button>
+          <button className={`script-btn ${lang==='ur'?'active':''}`} onClick={()=> {setLang('ur'); setLetterIdx(0);}}>Urdu</button>
+          <button className={`script-btn ${lang==='en'?'active':''}`} onClick={()=> {setLang('en'); setLetterIdx(0);}}>English</button>
+        </div>
+
+        {/* TRACING BOX */}
+        <div className="nm-card" style={{padding:'24px', display:'inline-block', marginBottom:'20px'}}>
+          <div style={{fontSize:'14px', fontWeight:800, color:'var(--soft)', marginBottom:'10px'}}>TRACE THE LETTER BELOW</div>
+          <canvas
+            ref={canvasRef}
+            width="320"
+            height="320"
+            onMouseDown={startDrawing}
+            onMouseMove={draw}
+            onMouseUp={stopDrawing}
+            onMouseLeave={stopDrawing}
+            onTouchStart={startDrawing}
+            onTouchMove={draw}
+            onTouchEnd={stopDrawing}
+            style={{background:'#FFF', borderRadius:'14px', border:'2px solid rgba(22,51,94,0.15)', cursor:'crosshair', touchAction:'none'}}
+          />
+
+          <div style={{display:'flex', gap:'10px', marginTop:'14px'}}>
+            <button className="btn-secondary" onClick={handleReset} style={{flex:1}}>🔄 Clear</button>
+            <button className="btn-primary" onClick={handleCheck} style={{flex:2}}>✨ Check & Praise</button>
+          </div>
+        </div>
+
+        {/* LETTER NAVIGATION */}
+        <div style={{display:'flex', gap:'10px', justifyContent:'center'}}>
+          <button className="btn-secondary" onClick={()=>setLetterIdx(i=>Math.max(0, i-1))} disabled={letterIdx===0}>← Prev Letter</button>
+          <span style={{fontSize:'14px', fontWeight:800, alignSelf:'center', color:'var(--g)'}}>LETTER {letterIdx+1} OF {letters[lang].length}</span>
+          <button className="btn-primary" onClick={()=>setLetterIdx(i=>Math.min(letters[lang].length-1, i+1))} disabled={letterIdx===letters[lang].length-1}>Next Letter →</button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ═══════ AI FLASHCARDS & SHEETS ═══════ */
+function AIFlashcards({onBack}){
+  const [topic, setTopic] = useState('manners');
+  const [cards, setCards] = useState([]);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+
+  const topicsList = [
+    { id: 'manners', label: 'Daily Manners 🤝', emoji: '🤝' },
+    { id: 'animals', label: 'Arabic Animals 🐪', emoji: '🐪' },
+    { id: 'phrases', label: 'Islamic Phrases 💬', emoji: '💬' },
+    { id: 'colors', label: 'Colors in Arabic 🎨', emoji: '🎨' }
+  ];
+
+  const flashcardsData = {
+    manners: [
+      { front: 'Salaam', back: 'Saying "As-salamu alaykum" when meeting someone spreads peace and love!', translit: 'Peace be upon you', icon: '🤝' },
+      { front: 'Smiling', back: 'Prophet Muhammad ﷺ said: "Smiling in the face of your brother is a charity."', translit: 'Sadaqah', icon: '😊' },
+      { front: 'Right Hand', back: 'Always eat and drink with your right hand as taught by our beautiful Sunnah.', translit: 'Eat with blessing', icon: '🍽️' },
+      { front: 'Bismillah', back: 'Start every single action by saying "In the name of Allah" for endless barakah!', translit: 'Bismillahir Rahmanir Raheem', icon: '✨' }
+    ],
+    animals: [
+      { front: 'Kalb (كَلْب)', back: 'A faithful dog that guards and helps. Treat them with mercy and kindness.', translit: 'Dog', icon: '🐶' },
+      { front: 'Jamal (جَمَل)', back: 'The camel, designed beautifully by Allah to travel across hot desert sands.', translit: 'Camel', icon: '🐪' },
+      { front: 'Asad (أَسَد)', back: 'The strong lion, representing bravery and majesty in Allah\'s creation.', translit: 'Lion', icon: '🦁' },
+      { front: 'Fil (فِيل)', back: 'The elephant, mentioned in the Quran (Surah Al-Fil) with a big lesson of protection.', translit: 'Elephant', icon: '🐘' }
+    ],
+    phrases: [
+      { front: 'SubhanAllah', back: 'Say "Glory be to Allah" when you see something beautiful or amazing.', translit: 'Glory be to Allah', icon: '🌸' },
+      { front: 'Alhamdulillah', back: 'Say "Praise be to Allah" to show gratitude for food, health, and family.', translit: 'Praise be to Allah', icon: '🍲' },
+      { front: 'Allahu Akbar', back: 'Say "Allah is Great" during prayers and to remember Allah is greater than anything.', translit: 'Allah is the Greatest', icon: '🕌' },
+      { front: 'JazakAllahu Khairan', back: 'Say "May Allah reward you with goodness" to thank someone who helps you.', translit: 'Reward from Allah', icon: '💝' }
+    ],
+    colors: [
+      { front: 'Ahmar (أَحْمَر)', back: 'Red — like a sweet apple or a beautiful blooming rose.', translit: 'Red', icon: '🍎' },
+      { front: 'Akhdar (أَخْضَر)', back: 'Green — the color of Jannah, beautiful leaves, and healthy fields.', translit: 'Green', icon: '🌿' },
+      { front: 'Azraq (أَزْرَق)', back: 'Blue — like the endless sky and the deep refreshing ocean.', translit: 'Blue', icon: '🌊' },
+      { front: 'Asfar (أَصْفَر)', back: 'Yellow — like the bright warm sun and a blooming sunflower.', translit: 'Yellow', icon: '☀️' }
+    ]
+  };
+
+  useEffect(() => {
+    setCards(flashcardsData[topic]);
+    setActiveIdx(0);
+    setFlipped(false);
+  }, [topic]);
+
+  function handleNarrate(text, lang='en-US'){
+    speak(text, lang);
+  }
+
+  const currentCard = cards[activeIdx];
+
+  return(
+    <>
+      <div className="lhdr">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <div className="l-title">🗂️ Interactive AI Flashcards</div>
+      </div>
+
+      <div style={{padding:'20px', maxWidth:'600px', margin:'0 auto', textAlign:'center'}}>
+        {/* TOPIC SELECTOR */}
+        <div style={{display:'flex', gap:'8px', overflowX:'auto', paddingBottom:'14px', marginBottom:'20px'}} data-no-tilt>
+          {topicsList.map(tl => (
+            <button key={tl.id} className={`tjw-cat ${topic===tl.id?'active':''}`} onClick={()=>setTopic(tl.id)} style={{flexShrink:0}}>{tl.label}</button>
+          ))}
+        </div>
+
+        {currentCard && (
+          <div>
+            {/* FLASHCARD FLIP CONTAINER */}
+            <div
+              className="nm-card"
+              onClick={()=>setFlipped(!flipped)}
+              style={{
+                width:'280px',
+                height:'360px',
+                margin:'0 auto 20px',
+                display:'flex',
+                flexDirection:'column',
+                alignItems:'center',
+                justifyContent:'center',
+                padding:'24px',
+                cursor:'pointer',
+                background: flipped ? 'var(--gp)' : 'var(--cream)',
+                border: '2px solid rgba(255,255,255,0.8)',
+                transition: 'transform 0.4s, background 0.4s'
+              }}
+            >
+              {!flipped ? (
+                <div>
+                  <div style={{fontSize:'84px', marginBottom:'16px'}} className="anim-cloud">{currentCard.icon}</div>
+                  <div style={{fontSize:'28px', fontWeight:900, color:'var(--g)'}}>{currentCard.front}</div>
+                  <div style={{fontSize:'12px', color:'var(--soft)', fontWeight:800, marginTop:'8px'}}>TAP TO FLIP 🔄</div>
+                </div>
+              ) : (
+                <div>
+                  <div style={{fontSize:'13px', fontWeight:800, color:'var(--gold)', letterSpacing:'1.5px'}}>{currentCard.translit.toUpperCase()}</div>
+                  <div style={{fontSize:'15px', color:'var(--text)', lineHeight:'1.7', margin:'16px 0', minHeight:'120px'}}>{currentCard.back}</div>
+                  <button className="btn-neumorph" onClick={(e)=>{ e.stopPropagation(); handleNarrate(currentCard.back); }} style={{padding:'8px 14px', fontSize:'11px'}}>🔊 Hear Meaning</button>
+                </div>
+              )}
+            </div>
+
+            {/* NAVIGATION CONTROLS */}
+            <div style={{display:'flex', gap:'10px', justifyContent:'center'}}>
+              <button className="btn-secondary" onClick={()=>{ setFlipped(false); setActiveIdx(i=>Math.max(0, i-1)); }} disabled={activeIdx===0}>← Prev</button>
+              <span style={{fontSize:'14px', fontWeight:800, alignSelf:'center', color:'var(--g)'}}>CARD {activeIdx+1} OF {cards.length}</span>
+              <button className="btn-primary" onClick={()=>{ setFlipped(false); setActiveIdx(i=>Math.min(cards.length-1, i+1)); }} disabled={activeIdx===cards.length-1}>Next →</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ═══════ REWARDS & GAMIFICATION CENTER ═══════ */
+function RewardsCenter({onBack, user, onProgress}){
+  const [coins, setCoins] = useState(() => load('np_coins', 150));
+  const [xp, setXp] = useState(() => load('np_xp', 25));
+  const [selectedAvatar, setSelectedAvatar] = useState(() => load('np_selected_avatar', 'Yasmin'));
+  const [ownedAvatars, setOwnedAvatars] = useState(() => load('np_owned_avatars', ['Yasmin', 'Bilal']));
+  const [selectedPet, setSelectedPet] = useState(() => load('np_selected_pet', 'None'));
+  const [ownedPets, setOwnedPets] = useState(() => load('np_owned_pets', []));
+
+  const level = Math.floor(xp / 100) + 1;
+  const nextLevelXp = level * 100;
+  const prevLevelXp = (level - 1) * 100;
+  const xpPercentage = Math.min(100, Math.round(((xp - prevLevelXp) / (nextLevelXp - prevLevelXp)) * 100));
+
+  const avatarsList = [
+    { name: 'Yasmin', desc: 'Curious Quran Explorer 👧', cost: 0, icon: '👧' },
+    { name: 'Bilal', desc: 'Melodious Small Muezzin 👦', cost: 0, icon: '👦' },
+    { name: 'Sabir', desc: 'Patient Islamic Ustad 👳', cost: 50, icon: '👳' },
+    { name: 'Amina', desc: 'Wise Arabic Scholar 🧕', cost: 80, icon: '🧕' },
+  ];
+
+  const petsList = [
+    { name: 'Kaaba Sheep', desc: 'Loyal Eid Lamb 🐑', cost: 50, icon: '🐑' },
+    { name: 'Friendly Camel', desc: 'Desert Travel Companion 🐪', cost: 100, icon: '🐪' },
+    { name: 'Desert Falcon', desc: 'Sharp-eyed Flying Friend 🦅', cost: 150, icon: '🦅' },
+    { name: 'Fast Horse', desc: 'Fast Mubarak Stallion 🐎', cost: 200, icon: '🐎' },
+  ];
+
+  const badgesList = [
+    { name: 'First Steps 🐾', desc: 'Earn your first stars!', req: 'Start any module', unlocked: user.stars > 0 },
+    { name: 'Duas Scholar 🤲', desc: 'Practice and complete duas', req: 'Complete 3 daily duas', unlocked: (user.progress?.duas || 0) >= 3 },
+    { name: 'Hadees Lover 📗', desc: 'Listen to Riyad-us-Saliheen', req: 'Explore Riyad module', unlocked: true },
+    { name: 'AI Pioneer 🤖', desc: 'Ask any safe question to AI', req: 'Chat with AI Tutor', unlocked: true },
+    { name: 'Streak Hero 🔥', desc: 'Maintain a learning streak', req: 'Gain 7-day streak', unlocked: false },
+    { name: 'Kaaba Adopter 🕋', desc: 'Adopt your first pet friend', req: 'Buy any pet from the shop', unlocked: ownedPets.length > 0 },
+  ];
+
+  function buyAvatar(av){
+    if (ownedAvatars.includes(av.name)) {
+      setSelectedAvatar(av.name);
+      save('np_selected_avatar', av.name);
+      toast(`👤 Avatar switched to ${av.name}!`);
+      return;
+    }
+    if (coins >= av.cost) {
+      const newCoins = coins - av.cost;
+      const newOwned = [...ownedAvatars, av.name];
+      setCoins(newCoins);
+      setOwnedAvatars(newOwned);
+      setSelectedAvatar(av.name);
+      save('np_coins', newCoins);
+      save('np_owned_avatars', newOwned);
+      save('np_selected_avatar', av.name);
+      toast(`🎉 Bought and equipped ${av.name}!`);
+    } else {
+      toast("⚠️ Not enough coins! Complete more lessons and quizzes to earn coins.");
+    }
+  }
+
+  function buyPet(pet){
+    if (ownedPets.includes(pet.name)) {
+      if (selectedPet === pet.name) {
+        setSelectedPet('None');
+        save('np_selected_pet', 'None');
+        toast(`🐾 Left ${pet.name} in the garden.`);
+      } else {
+        setSelectedPet(pet.name);
+        save('np_selected_pet', pet.name);
+        toast(`🐾 Equiped ${pet.name} as your companion!`);
+      }
+      return;
+    }
+    if (coins >= pet.cost) {
+      const newCoins = coins - pet.cost;
+      const newOwned = [...ownedPets, pet.name];
+      setCoins(newCoins);
+      setOwnedPets(newOwned);
+      setSelectedPet(pet.name);
+      save('np_coins', newCoins);
+      save('np_owned_pets', newOwned);
+      save('np_selected_pet', pet.name);
+      toast(`🎉 Adopted ${pet.name}! Masha Allah.`);
+    } else {
+      toast("⚠️ Not enough coins! Keep studying to earn more.");
+    }
+  }
+
+  return(
+    <>
+      <div className="lhdr">
+        <button className="back-btn" onClick={onBack}>← Back</button>
+        <div className="l-title">👑 Rewards & Avatar Shop</div>
+      </div>
+
+      <div style={{padding:'20px', maxWidth:'800px', margin:'0 auto'}}>
+        {/* NEUMORPHIC XP & STATUS PANEL */}
+        <div className="nm-card" style={{padding:'24px', marginBottom:'24px', display:'flex', gap:'20px', alignItems:'center', flexWrap:'wrap'}}>
+          <div style={{fontSize:'48px'}} className="anim-cloud">👑</div>
+          <div style={{flex:1, minWidth:'200px'}}>
+            <div style={{fontSize:'18px', fontWeight:900, color:'var(--g)'}}>Level {level} Explorer</div>
+            <div style={{fontSize:'12px', color:'var(--soft)', marginBottom:'8px'}}>{xp} XP Total · {nextLevelXp - xp} XP to Level {level + 1}</div>
+            <div className="pbar" style={{height:'12px', background:'#eee', borderRadius:'10px'}}>
+              <div className="pfill" style={{width:`${xpPercentage}%`, background:'linear-gradient(90deg, var(--g), var(--gl))', borderRadius:'10px'}}></div>
+            </div>
+          </div>
+          <div className="nm-inset-card" style={{padding:'14px 20px', textAlign:'center', minWidth:'100px'}}>
+            <div style={{fontSize:'26px'}}>🪙</div>
+            <div style={{fontSize:'20px', fontWeight:900, color:'var(--gold)'}}>{coins}</div>
+            <div style={{fontSize:'10px', fontWeight:800, color:'var(--soft)'}}>COINS</div>
+          </div>
+        </div>
+
+        {/* EQUIPPED STATUS BAR */}
+        <div className="nm-card" style={{padding:'16px 20px', marginBottom:'24px', display:'flex', justifyContent:'space-around', flexWrap:'wrap', gap:'12px', background:'linear-gradient(135deg, var(--gp), #fff)'}}>
+          <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+            <span style={{fontSize:'28px'}}>👤</span>
+            <div>
+              <div style={{fontSize:'11px', color:'var(--soft)', fontWeight:800}}>SELECTED AVATAR</div>
+              <div style={{fontSize:'14px', fontWeight:900, color:'var(--g)'}}>{selectedAvatar}</div>
+            </div>
+          </div>
+          <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+            <span style={{fontSize:'28px'}} className="anim-leaf">🐾</span>
+            <div>
+              <div style={{fontSize:'11px', color:'var(--soft)', fontWeight:800}}>ACTIVE PET COMPANION</div>
+              <div style={{fontSize:'14px', fontWeight:900, color:'var(--g)'}}>{selectedPet}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* AVATAR SHOP */}
+        <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>👤 Customize Your Avatar</div>
+        <div className="cards" style={{marginBottom:'32px'}}>
+          {avatarsList.map(av => {
+            const owned = ownedAvatars.includes(av.name);
+            const active = selectedAvatar === av.name;
+            return (
+              <div key={av.name} className="nm-card" style={{padding:'20px 14px', textAlign:'center', position:'relative', border: active?'2.5px solid var(--g)':''}}>
+                <div style={{fontSize:'48px', marginBottom:'8px'}}>{av.icon}</div>
+                <div style={{fontWeight:900, fontSize:'15px', color:'var(--text)'}}>{av.name}</div>
+                <div style={{fontSize:'11px', color:'var(--soft)', margin:'4px 0 12px', minHeight:'32px'}}>{av.desc}</div>
+                <button
+                  onClick={() => buyAvatar(av)}
+                  className="btn-neumorph"
+                  style={{width:'100%', padding:'10px', fontSize:'12px', background: active?'var(--g)':owned?'var(--gp)':'var(--cream)', color: active?'#fff':'var(--g)'}}
+                >
+                  {active ? 'Equipped ✓' : owned ? 'Equip' : `🪙 ${av.cost}`}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* PET ADOPTION CENTRE */}
+        <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>🐾 Adopt a Pet Companion</div>
+        <div className="cards" style={{marginBottom:'32px'}}>
+          {petsList.map(pet => {
+            const owned = ownedPets.includes(pet.name);
+            const active = selectedPet === pet.name;
+            return (
+              <div key={pet.name} className="nm-card" style={{padding:'20px 14px', textAlign:'center', position:'relative', border: active?'2.5px solid var(--gold)':''}}>
+                <div style={{fontSize:'48px', marginBottom:'8px'}} className="anim-cloud">{pet.icon}</div>
+                <div style={{fontWeight:900, fontSize:'15px', color:'var(--text)'}}>{pet.name}</div>
+                <div style={{fontSize:'11px', color:'var(--soft)', margin:'4px 0 12px', minHeight:'32px'}}>{pet.desc}</div>
+                <button
+                  onClick={() => buyPet(pet)}
+                  className="btn-neumorph"
+                  style={{width:'100%', padding:'10px', fontSize:'12px', background: active?'var(--gold)':owned?'var(--gp)':'var(--cream)', color: active?'var(--night)':'var(--g)'}}
+                >
+                  {active ? 'Send to Garden' : owned ? 'Take with You' : `🪙 ${pet.cost}`}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* BADGES WALL */}
+        <div style={{fontWeight:900, fontSize:'18px', color:'var(--g)', marginBottom:'14px'}}>🏆 My Badges & Achievements Wall</div>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))', gap:'14px', paddingBottom:'40px'}}>
+          {badgesList.map(b => (
+            <div key={b.name} className="nm-card" style={{padding:'18px', display:'flex', gap:'12px', alignItems:'center', opacity: b.unlocked?1:0.55}}>
+              <div style={{fontSize:'36px', background: b.unlocked?'var(--gld)':'#f0f0e8', borderRadius:'14px', padding:'8px', width:'54px', height:'54px', display:'flex', alignItems:'center', justifyContents:'center'}} className={b.unlocked?'star-twinkle':''}>
+                {b.name.split(' ').slice(-1)[0]}
+              </div>
+              <div>
+                <div style={{fontWeight:900, fontSize:'14px', color: b.unlocked?'var(--g)':'#666'}}>{b.name.split(' ').slice(0,-1).join(' ')}</div>
+                <div style={{fontSize:'11px', color:'var(--soft)', marginTop:'2px'}}>{b.desc}</div>
+                <div style={{fontSize:'9px', fontWeight:800, color:'var(--gold)', marginTop:'4px', textTransform:'uppercase'}}>{b.unlocked ? 'Unlocked 🎉' : `Req: ${b.req}`}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ═══════ UI TRANSLATIONS ═══════ */
+const UI_TRANSLATIONS = {
+  en: {
+    greeting: "As-salamu alaykum!",
+    title: "NoorPath — Islamic Kids Learning Hub",
+    sub: "Arabic • Urdu • English • Duas • Prophets • 99 Names • AI Tutor",
+    hourActive: "HOUR ACTIVE",
+    allModules: "All Modules Unlocked This Hour",
+    arabic: "Arabic Alphabet",
+    arabicDesc: "28 letters with audio & meaning",
+    urdu: "Urdu Qaida",
+    urduDesc: "36 Urdu letters with examples",
+    english: "English ABC",
+    englishDesc: "26 letters with Urdu meaning",
+    duas: "Daily Duas",
+    duasDesc: "10 duas — Arabic, Urdu & English",
+    quiz: "Quiz & Games",
+    quizDesc: "Earn stars & test knowledge",
+    pillars: "5 Pillars of Islam",
+    pillarsDesc: "Learn the foundations of Islam",
+    prophets: "Prophet Stories",
+    prophetsDesc: "8 Prophets — stories & lessons",
+    seerat: "Seerat-un-Nabi ﷺ",
+    seeratDesc: "Nabi Pak ki mukammal zindagi — Audio Book",
+    riyad: "Riyad-us-Saliheen",
+    riyadDesc: "Imam Nawawi ki hadees ki kitab — Urdu audio",
+    names99: "99 Names of Allah",
+    names99Desc: "Asmaul Husna with meanings",
+    quran: "Listen to Quran",
+    quranDesc: "114 Surahs — choose your favorite Qari",
+    tajweed: "Tajweed Basics",
+    tajweedDesc: "Learn correct Quran recitation rules",
+    fiqh: "Bunyadi Fiqh Masail",
+    fiqhDesc: "Namaz, Roza, Zakat, Hajj — Hanafi & Shafi'i",
+    prayer: "Prayer Times",
+    prayerDesc: "Aaj ke Namaz ke awqaat — aapke location se",
+    qibla: "Qibla Compass",
+    qiblaDesc: "Kaaba ki sahi disha maloom karen",
+    tasbeeh: "Tasbeeh Counter",
+    tasbeehDesc: "Zikr aur dua ka shumar rakhein",
+    calendar: "Islamic Calendar",
+    calendarDesc: "Hijri tareekh aur ahem Islamic din",
+    recite: "Recitation Checker",
+    reciteDesc: "Apni Quran tilawat ka AI se andaza lagayen",
+    ai: "AI Islamic Tutor",
+    aiDesc: "Advanced Islamic education with AI",
+    parent: "Parent Dashboard",
+    parentDesc: "Track progress & payment history",
+    rewards: "Rewards & Shop",
+    rewardsDesc: "Adopt pet companions and unlock custom avatars!",
+    back: "Back",
+  },
+  ar: {
+    greeting: "السلام عليكم!",
+    title: "مسار النور — بوابة تعليم الأطفال الإسلامية",
+    sub: "العربية • الأردية • الإنجليزية • الأدعية • الأنبياء • 99 اسماً • معلم الذكاء الاصطناعي",
+    hourActive: "ساعة نشطة",
+    allModules: "جميع المواد مفتوحة هذه الساعة",
+    arabic: "الحروف العربية",
+    arabicDesc: "٢٨ حرفاً بالصوت والمعنى",
+    urdu: "القاعدة الأردية",
+    urduDesc: "٣٦ حرفاً أردياً مع الأمثلة",
+    english: "الإنجليزية ABC",
+    englishDesc: "٢٦ حرفاً مع المعنى الأردية",
+    duas: "الأدعية اليومية",
+    duasDesc: "١٠ أدعية — العربية والأردية والإنجليزية",
+    quiz: "مسابقات وألعاب",
+    quizDesc: "اكسب النجوم واختبر معلوماتك",
+    pillars: "أركان الإسلام الخمسة",
+    pillarsDesc: "تعلم أسس ومباني الإسلام",
+    prophets: "قصص الأنبياء",
+    prophetsDesc: "٨ أنبياء — قصص وعبر",
+    seerat: "السيرة النبوية ﷺ",
+    seeratDesc: "حياة النبي صلى الله عليه وسلم الكاملة — كتاب صوتي",
+    riyad: "رياض الصالحين",
+    riyadDesc: "كتاب الحديث للإمام النووي — صوت أردي",
+    names99: "أسماء الله الحسنى",
+    names99Desc: "٩٩ اسماً معانيها وفوائدها",
+    quran: "الاستماع للقرآن",
+    quranDesc: "١١٤ سورة — اختر قارئك المفضل",
+    tajweed: "أساسيات التجويد",
+    tajweedDesc: "تعلم قواعد التلاوة الصحيحة للقرآن",
+    fiqh: "مسائل الفقه الأساسية",
+    fiqhDesc: "الصلاة، الصيام، الزكاة، الحج — حنفي وشافعي",
+    prayer: "مواقيت الصلاة",
+    prayerDesc: "مواقيت صلاة اليوم حسب موقعك الجغرافي",
+    qibla: "بوصلة القبلة",
+    qiblaDesc: "اعرف اتجاه الكعبة المشرفة بدقة",
+    tasbeeh: "عداد التسبيح",
+    tasbeehDesc: "احسب وتابع الأذكار والأدعية",
+    calendar: "التقويم الهجري",
+    calendarDesc: "التقويم الهجري والشهور الإسلامية",
+    recite: "مدقق التلاوة",
+    reciteDesc: "قيم تلاوتك للقرآن بالذكاء الاصطناعي",
+    ai: "معلم الذكاء الاصطناعي",
+    aiDesc: "تعليم إسلامي متقدم مع الذكاء الاصطناعي",
+    parent: "لوحة تحكم الأهل",
+    parentDesc: "تتبع التقدم وسجل المدفوعات",
+    rewards: "المكافآت والمتجر",
+    rewardsDesc: "تبنى حيواناً أليفاً وافتح شخصيات مخصصة!",
+    back: "رجوع",
+  },
+  ur: {
+    greeting: "السلام علیکم!",
+    title: "نور پاتھ — اسلامی بچوں کا تعلیمی مرکز",
+    sub: "عربی • اردو • انگریزی • دعائیں • انبیاء • 99 نام • AI استاد",
+    hourActive: "ایک گھنٹہ فعال",
+    allModules: "تمام ماڈیولز اس گھنٹے انلاک ہیں",
+    arabic: "عربی حروفِ تہجی",
+    arabicDesc: "آڈیو اور معنی کے ساتھ 28 حروف",
+    urdu: "اردو قاعدہ",
+    urduDesc: "مثالوں کے ساتھ 36 اردو حروف",
+    english: "انگریزی حروفِ تہجی",
+    englishDesc: "اردو معنی کے ساتھ 26 حروف",
+    duas: "روزمرہ کی دعائیں",
+    duasDesc: "10 دعائیں — عربی، اردو اور انگریزی",
+    quiz: "کوئز اور گیمز",
+    quizDesc: "ستارے کمائیں اور علم آزمائیں",
+    pillars: "اسلام کے 5 ارکان",
+    pillarsDesc: "اسلام کے بنیادی ارکان سیکھیں",
+    prophets: "انبیاء کے قصص",
+    prophetsDesc: "8 انبیاء — کہانیاں اور اسباق",
+    seerat: "سیرت النبی ﷺ",
+    seeratDesc: "نبی پاک کی مکمل زندگی — آڈیو بک",
+    riyad: "ریاض الصالحین",
+    riyadDesc: "امام نووی کی حدیث کی کتاب — اردو آڈیو",
+    names99: "اللہ کے 99 نام",
+    names99Desc: "اسماء الحسنیٰ معانی کے ساتھ",
+    quran: "قرآن پاک سنیں",
+    quranDesc: "114 سورتیں — اپنے پسندیدہ قاری کا انتخاب کریں",
+    tajweed: "تجوید کے بنیادی اصول",
+    tajweedDesc: "قرآن پاک کی صحیح تلاوت کے اصول",
+    fiqh: "بنیادی فقہی مسائل",
+    fiqhDesc: "نماز، روزہ، زکوٰۃ، حج — حنفی اور شافعی",
+    prayer: "نماز کے اوقات",
+    prayerDesc: "آج کے نماز کے اوقات — آپ کے مقام سے",
+    qibla: "قبلہ نما",
+    qiblaDesc: "کعبہ کی صحیح سمت معلوم کریں",
+    tasbeeh: "تسبیح کاؤنٹر",
+    tasbeehDesc: "ذکر اور دعا کا شمار رکھیں",
+    calendar: "اسلامی کیلنڈر",
+    calendarDesc: "ہجری تاریخ اور اہم اسلامی ایام",
+    recite: "تلاوت چیکر",
+    reciteDesc: "اپنی قرآن تلاوت کا AI سے اندازہ لگائیں",
+    ai: "اے آئی ٹیوٹر",
+    aiDesc: "اے آئی کے ساتھ جدید اسلامی تعلیم",
+    parent: "والدین کا ڈیش بورڈ",
+    parentDesc: "ترقی اور ادائیگی کی تاریخ کو ٹریک کریں",
+    rewards: "انعامات اور دکان",
+    rewardsDesc: "پالتو جانور گود لیں اور اوتار خریدیں!",
+    back: "واپس",
+  },
+  fr: {
+    greeting: "As-salamu alaykum!",
+    title: "NoorPath — Hub d'Apprentissage Islamique",
+    sub: "Arabe • Ourdou • Anglais • Douas • Prophètes • 99 Noms • Tuteur IA",
+    hourActive: "HEURE ACTIVE",
+    allModules: "Tous les modules déverrouillés cette heure",
+    arabic: "Alphabet Arabe",
+    arabicDesc: "28 lettres avec audio & signification",
+    urdu: "Urdu Qaida",
+    urduDesc: "36 lettres ourdoues avec exemples",
+    english: "Anglais ABC",
+    englishDesc: "26 lettres avec sens en ourdou",
+    duas: "Duas Quotidiennes",
+    duasDesc: "10 duas — arabe, ourdou & anglais",
+    quiz: "Quiz & Jeux",
+    quizDesc: "Gagnez des étoiles & testez vos connaissances",
+    pillars: "5 Piliers de l'Islam",
+    pillarsDesc: "Apprenez les fondements de l'Islam",
+    prophets: "Histoires des Prophètes",
+    prophetsDesc: "8 Prophètes — histoires & leçons",
+    seerat: "Seerat-un-Nabi ﷺ",
+    seeratDesc: "La vie complète du Saint Prophète — Livre Audio",
+    riyad: "Riyad-us-Saliheen",
+    riyadDesc: "Le livre de hadiths de l'Imam Nawawi — audio ourdou",
+    names99: "99 Noms d'Allah",
+    names99Desc: "Asmaul Husna avec significations",
+    quran: "Écouter le Coran",
+    quranDesc: "114 Sourates — choisissez votre Qari préféré",
+    tajweed: "Bases du Tajweed",
+    tajweedDesc: "Apprenez les règles de récitation correctes",
+    fiqh: "Fiqh de Base",
+    fiqhDesc: "Prière, Jeûne, Zakat, Hajj — Hanafi & Shafi'i",
+    prayer: "Heures de Prière",
+    prayerDesc: "Heures de prière d'aujourd'hui — selon votre position",
+    qibla: "Boussole Qibla",
+    qiblaDesc: "Trouvez la direction exacte de la Kaaba",
+    tasbeeh: "Compteur de Tasbeeh",
+    tasbeehDesc: "Gardez le compte de votre Zikr et duas",
+    calendar: "Calendrier Islamique",
+    calendarDesc: "Date Hijri et jours islamiques importants",
+    recite: "Vérificateur de Récitation",
+    reciteDesc: "Évaluez votre récitation du Coran avec l'IA",
+    ai: "Tuteur IA Islamique",
+    aiDesc: "Éducation islamique avancée avec l'IA",
+    parent: "Tableau de Bord Parent",
+    parentDesc: "Suivez les progrès & l'historique des paiements",
+    back: "Retour",
+  },
+  es: {
+    greeting: "¡As-salamu alaykum!",
+    title: "NoorPath — Centro de Aprendizaje Islámico para Niños",
+    sub: "Árabe • Urdu • Inglés • Duas • Profetas • 99 Nombres • Tutor IA",
+    hourActive: "HORA ACTIVA",
+    allModules: "Todos los módulos desbloqueados esta hora",
+    arabic: "Alfabeto Árabe",
+    arabicDesc: "28 letras con audio y significado",
+    urdu: "Urdu Qaida",
+    urduDesc: "36 letras de urdu con ejemplos",
+    english: "Inglés ABC",
+    englishDesc: "26 letras con significado en urdu",
+    duas: "Duas Diarias",
+    duasDesc: "10 duas — árabe, urdu e inglés",
+    quiz: "Quiz y Juegos",
+    quizDesc: "Gana estrellas y prueba tus conocimientos",
+    pillars: "5 Pilares del Islam",
+    pillarsDesc: "Aprende los fundamentos del Islam",
+    prophets: "Historias de los Profetas",
+    prophetsDesc: "8 Profetas — historias y lecciones",
+    seerat: "Seerat-un-Nabi ﷺ",
+    seeratDesc: "La vida completa del Profeta — Audiolibro",
+    riyad: "Riyad-us-Saliheen",
+    riyadDesc: "Libro de hadices del Imam Nawawi — audio urdu",
+    names99: "99 Nombres de Alá",
+    names99Desc: "Asmaul Husna con significados",
+    quran: "Escuchar el Corán",
+    quranDesc: "114 Suras — elige tu Qari favorito",
+    tajweed: "Básicos del Tajweed",
+    tajweedDesc: "Aprende las reglas de recitación del Corán",
+    fiqh: "Fiqh Básico",
+    fiqhDesc: "Oración, Ayuno, Zakat, Hajj — Hanafi y Shafi'i",
+    prayer: "Horarios de Oración",
+    prayerDesc: "Horarios de oración de hoy — desde tu ubicación",
+    qibla: "Brújula Qibla",
+    qiblaDesc: "Encuentra la dirección exacta de la Kaaba",
+    tasbeeh: "Contador de Tasbeeh",
+    tasbeehDesc: "Lleva la cuenta de tu Zikr y duas",
+    calendar: "Calendario Islámico",
+    calendarDesc: "Fecha Hijri y días islámicos importantes",
+    recite: "Verificador de Recitación",
+    reciteDesc: "Evalúa tu recitación del Corán con IA",
+    ai: "Tutor IA Islámico",
+    aiDesc: "Educación islámica avanzada con IA",
+    parent: "Panel de Padres",
+    parentDesc: "Sigue el progreso e historial de pagos",
+    back: "Atrás",
+  },
+  tr: {
+    greeting: "As-selamu aleykum!",
+    title: "NoorPath — İslami Çocuk Eğitim Merkezi",
+    sub: "Arapça • Urduca • İngilizce • Dualar • Peygamberler • 99 İsim • Yapay Zeka",
+    hourActive: "SAAT AKTİF",
+    allModules: "Bu saat tüm modüller açık",
+    arabic: "Arap Alfabesi",
+    arabicDesc: "Ses ve anlam ile 28 harf",
+    urdu: "Urduca Kaide",
+    urduDesc: "Örneklerle 36 Urduca harf",
+    english: "İngilizce ABC",
+    englishDesc: "Urduca anlamıyla 26 harf",
+    duas: "Günlük Dualar",
+    duasDesc: "10 dua — Arapça, Urduca & İngilizce",
+    quiz: "Sınav ve Oyunlar",
+    quizDesc: "Yıldız kazanın & bilgileri test edin",
+    pillars: "İslam'ın 5 Şartı",
+    pillarsDesc: "İslam'ın temellerini öğrenin",
+    prophets: "Peygamber Hikayeleri",
+    prophetsDesc: "8 Peygamber — hikayeler & dersler",
+    seerat: "Siyer-i Nebi ﷺ",
+    seeratDesc: "Peygamberimizin tüm hayatı — Sesli Kitap",
+    riyad: "Riyazu's Salihin",
+    riyadDesc: "İmam Nevevi'nin hadis kitabı — Urduca ses",
+    names99: "Allah'ın 99 İsmi",
+    names99Desc: "Anlamları ile Esmaül Hüsna",
+    quran: "Kur'an Dinle",
+    quranDesc: "114 Sure — favori Karini seç",
+    tajweed: "Tecvid Kuralları",
+    tajweedDesc: "Doğru Kur'an okuma kurallarını öğrenin",
+    fiqh: "Temel Fıkıh",
+    fiqhDesc: "Namaz, Oruç, Zekat, Hac — Hanefi & Şafii",
+    prayer: "Namaz Vakitleri",
+    prayerDesc: "Bugünün namaz vakitleri — konumunuzdan",
+    qibla: "Kıble Pusulası",
+    qiblaDesc: "Kabe'nin doğru yönünü bulun",
+    tasbeeh: "Zikirmatik",
+    tasbeehDesc: "Zikir ve dualarınızı sayın",
+    calendar: "Hicri Takvim",
+    calendarDesc: "Hicri tarih ve önemli İslami günler",
+    recite: "Tilavet Kontrolü",
+    reciteDesc: "Kur'an tilavetinizi Yapay Zeka ile değerlendirin",
+    ai: "Yapay Zeka Eğitmeni",
+    aiDesc: "Yapay Zeka ile gelişmiş İslami eğitim",
+    parent: "Veli Paneli",
+    parentDesc: "Gelişimi ve ödeme geçmişini takip edin",
+    back: "Geri",
+  },
+  ms: {
+    greeting: "As-salamu alaykum!",
+    title: "NoorPath — Pusat Pembelajaran Islam Kanak-kanak",
+    sub: "Arab • Urdu • Inggeris • Doa • Nabi • 99 Nama • Tutor AI",
+    hourActive: "JAM AKTIF",
+    allModules: "Semua modul dinyahkunci jam ini",
+    arabic: "Abjad Arab",
+    arabicDesc: "28 huruf dengan audio & makna",
+    urdu: "Urdu Qaida",
+    urduDesc: "36 huruf Urdu dengan contoh",
+    english: "Inggeris ABC",
+    englishDesc: "26 huruf dengan makna Urdu",
+    duas: "Doa Harian",
+    duasDesc: "10 doa — Arab, Urdu & Inggeris",
+    quiz: "Kuiz & Permainan",
+    quizDesc: "Dapatkan bintang & uji pengetahuan",
+    pillars: "5 Rukun Islam",
+    pillarsDesc: "Ketahui asas-asas Islam",
+    prophets: "Kisah Para Nabi",
+    prophetsDesc: "8 Nabi — kisah & pengajaran",
+    seerat: "Sirah Nabawiyah ﷺ",
+    seeratDesc: "Kehidupan lengkap Rasulullah — Buku Audio",
+    riyad: "Riyad-us-Saliheen",
+    riyadDesc: "Kitab hadis Imam Nawawi — audio Urdu",
+    names99: "99 Nama Allah",
+    names99Desc: "Asmaul Husna dengan makna",
+    quran: "Dengar Al-Quran",
+    quranDesc: "114 Surah — pilih Qari kegemaran anda",
+    tajweed: "Asas Tajwid",
+    tajweedDesc: "Ketahui aturan bacaan Al-Quran yang betul",
+    fiqh: "Fikah Asas",
+    fiqhDesc: "Solat, Puasa, Zakat, Haji — Hanafi & Shafi'i",
+    prayer: "Waktu Solat",
+    prayerDesc: "Waktu solat hari ini — dari lokasi anda",
+    qibla: "Kompas Kiblat",
+    qiblaDesc: "Cari arah tepat Kaabah",
+    tasbeeh: "Kaunter Tasbih",
+    tasbeehDesc: "Kira dan simpan rekod Zikir & doa",
+    calendar: "Kalendar Islam",
+    calendarDesc: "Tarikh Hijriah & hari-hari penting Islam",
+    recite: "Penyemak Tilawah",
+    reciteDesc: "Nilaikan bacaan Al-Quran anda dengan AI",
+    ai: "Tutor Islam AI",
+    aiDesc: "Pendidikan Islam lanjutan dengan AI",
+    parent: "Papan Pemuka Ibu Bapa",
+    parentDesc: "Jejak kemajuan & sejarah pembayaran",
+    back: "Kembali",
+  }
+};
+
 /* ═══════ APP ROOT ═══════ */
 function App(){
   const [user,setUser]=useState(()=>load('np_session',{name:'Student',child:'',email:'guest',plan:'free',progress:{},stars:0,time:0}));
   const [screen,setScreen]=useState('home');
+  const [lang,setLang]=useState(() => load('np_lang', 'en'));
+  const t = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS['en'];
+
+  useEffect(() => {
+    document.body.dir = (lang === 'ar' || lang === 'ur') ? 'rtl' : 'ltr';
+    save('np_lang', lang);
+  }, [lang]);
   const [access,setAccess]=useState(()=>load('np_access',null));
   const [adminAccess,setAdminAccess]=useState(()=>{
     try{
@@ -3649,9 +5099,13 @@ function App(){
       case 'prayer': return <PrayerTimesMod onBack={back}/>;
       case 'recite': return <RecitationCheckerMod onBack={back}/>;
       case 'quiz': return <QuizMod onBack={back} onProgress={onProgress}/>;
+      case 'rewards': return <RewardsCenter onBack={back} user={user} onProgress={onProgress}/>;
+      case 'books': return <AIBookReader onBack={back} user={user}/>;
+      case 'tracing': return <TracingCanvas onBack={back}/>;
+      case 'flashcards': return <AIFlashcards onBack={back}/>;
       case 'ai': return <AITutor onBack={back} user={user}/>;
       case 'parent': return <ParentDash onBack={back} user={user}/>;
-      default: return <Home user={user} onNav={navTo}/>;
+      default: return <Home user={user} onNav={navTo} t={t}/>;
     }
   };
 
@@ -3669,6 +5123,31 @@ function App(){
           </button>)}
         </div>
         <div className="nav-right">
+          <select
+            value={lang}
+            onChange={(e)=>setLang(e.target.value)}
+            style={{
+              background: 'rgba(255,255,255,0.15)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '6px 10px',
+              fontSize: '12px',
+              fontFamily: 'Nunito',
+              fontWeight: 800,
+              cursor: 'pointer',
+              outline: 'none',
+              marginRight: '8px'
+            }}
+          >
+            <option value="en" style={{color:'#333'}}>🇬🇧 English</option>
+            <option value="ar" style={{color:'#333'}}>🇸🇦 العربية</option>
+            <option value="ur" style={{color:'#333'}}>🇵🇰 اردو</option>
+            <option value="fr" style={{color:'#333'}}>🇫🇷 Français</option>
+            <option value="es" style={{color:'#333'}}>🇪🇸 Español</option>
+            <option value="tr" style={{color:'#333'}}>🇹🇷 Türkçe</option>
+            <option value="ms" style={{color:'#333'}}>🇲🇾 Melayu</option>
+          </select>
           {isAdminSession
             ? <button className="nav-btn nav-plan" style={{background:'#6B3FA0',color:'#fff',display:'flex',alignItems:'center',gap:'6px'}}><LIcon name="crown" size={14} color="#fff"/> ADMIN</button>
             : <button className="nav-btn nav-plan" style={{background: timeLeft<5*60*1000 ? '#ff6b6b' : 'var(--gl)',display:'flex',alignItems:'center',gap:'6px'}}><LIcon name="timer" size={14} color="#333"/> {formatTime(timeLeft)}</button>
