@@ -8,95 +8,340 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --g:#16335E;--g2:#2C5C9E;--gp:#E8EEF8;
+  --g:#0d5c34; /* Primary Emerald Green */
+  --g2:#17a2b8; /* Turquoise */
+  --gp:#E8EEF8;
   --gl:#F0C040;--gold:#C9860A;
-  --night:#060A14;--cream:#FDFCF7;
-  --text:#1A2233;--soft:#7C8FB0;
+  --cream:#FDFCF7;--text:#1A2233;--soft:#7C8FB0;
   --green:#2E7D32;--orange:#EF6C00;--red:#C62828;
-  --r:18px;--sh:0 4px 24px rgba(44,92,158,0.13);
+  --r:20px;
+  --sh: 8px 8px 16px #e0dfd5, -8px -8px 16px #ffffff;
+  --shl: 12px 12px 24px #dbdacd, -12px -12px 24px #ffffff;
+  --sh-inset: inset 5px 5px 10px #e0dfd5, inset -5px -5px 10px #ffffff;
 }
 html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
 
 /* SHELL */
-.nav{background:linear-gradient(135deg,var(--g),#0d3520);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:30}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-.nav-mark{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.nav-text{font-size:17px;font-weight:900}
-.nav-sub{color:var(--gl);font-size:9px;font-weight:700;letter-spacing:1px}
-.nav-back{background:rgba(255,255,255,0.12);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer}
-.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav {
+  background: var(--cream);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-shadow: var(--sh);
+  border-bottom: 1px solid rgba(255,255,255,0.8);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--g)}
+.nav-mark{
+  width:38px;height:38px;
+  background:var(--cream);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow: inset 3px 3px 6px #e0dfd5, inset -3px -3px 6px #ffffff;
+}
+.nav-text{font-size:17px;font-weight:900;color:var(--g)}
+.nav-sub{color:var(--gold);font-size:9px;font-weight:700;letter-spacing:1px}
+
+.btn-neumorph {
+  background: var(--cream);
+  color: var(--g);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 12px;
+  box-shadow: 4px 4px 8px #e0dfd5, -4px -4px 8px #ffffff;
+  font-family:'Nunito',sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-neumorph:hover {
+  transform: translateY(-1px);
+  box-shadow: 6px 6px 12px #dbdacd, -6px -6px 12px #ffffff;
+  color: var(--g2);
+}
+.btn-neumorph:active {
+  transform: translateY(1px);
+  box-shadow: inset 3px 3px 6px #e0dfd5, inset -3px -3px 6px #ffffff;
+}
 
 /* TAB BAR */
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:14px 16px;background:#fff;border-bottom:1px solid #eee;-webkit-overflow-scrolling:touch}
-.tab{flex-shrink:0;background:var(--gp);border:1.5px solid transparent;border-radius:100px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--g);cursor:pointer;white-space:nowrap;transition:all 0.2s}
-.tab.active{background:var(--g);color:#fff}
+.tabs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 16px 20px;
+  background: var(--cream);
+  -webkit-overflow-scrolling: touch;
+  margin: 12px auto;
+  max-width: 760px;
+  border-radius: 16px;
+  box-shadow: var(--sh-inset);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+.tab {
+  flex-shrink: 0;
+  background: var(--cream);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--soft);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 3px 3px 6px #e0dfd5, -3px -3px 6px #ffffff;
+  transition: all 0.2s;
+}
+.tab.active {
+  color: var(--g);
+  box-shadow: inset 3px 3px 6px #e0dfd5, inset -3px -3px 6px #ffffff;
+  border-color: rgba(13,92,52,0.2);
+}
 
 /* PAGES */
 .page{display:none;padding:18px;max-width:760px;margin:0 auto}
 .page.active{display:block}
-.hdr{margin-bottom:16px}
+.hdr{margin-bottom:20px}
 .hdr-eyebrow{font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
 .hdr-title{font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px}
 .hdr-sub{font-size:13px;color:var(--soft);line-height:1.6}
 
 /* RECITER */
-.script-toggle{display:flex;background:#fff;border-radius:12px;padding:4px;margin-bottom:14px;box-shadow:var(--sh);width:fit-content}
-.script-btn{background:transparent;border:none;padding:8px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:var(--soft);cursor:pointer;border-radius:9px}
-.script-btn.active{background:var(--g);color:#fff}
+.script-toggle{
+  display:flex;background:var(--cream);border-radius:14px;padding:4px;margin-bottom:14px;
+  box-shadow: var(--sh-inset);border:1px solid rgba(255,255,255,0.4);width:fit-content;
+}
+.script-btn{
+  background:transparent;border:none;padding:8px 16px;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:var(--soft);cursor:pointer;border-radius:10px;
+  transition: all 0.2s;
+}
+.script-btn.active{
+  background:var(--cream);color:var(--g);
+  box-shadow: 3px 3px 6px #e0dfd5, -3px -3px 6px #ffffff;
+}
 
-.verse-card{background:#fff;border-radius:18px;padding:22px;box-shadow:var(--sh);margin-bottom:14px}
+.verse-card {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  margin-bottom: 20px;
+}
 .verse-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:11px;color:var(--soft);font-weight:700;letter-spacing:1px}
-.verse-num{background:var(--g);color:#fff;font-weight:900;border-radius:8px;padding:3px 10px;font-size:11px}
+.verse-num {
+  background: var(--cream);
+  color: var(--g);
+  font-weight: 900;
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 11px;
+  box-shadow: inset 2px 2px 5px #e0dfd5, inset -2px -2px 5px #ffffff;
+}
 .verse-arabic{font-family:'Amiri',serif;font-size:30px;direction:rtl;line-height:2;text-align:right;color:var(--text)}
 .verse-arabic.indopak{font-family:'Scheherazade New',serif;font-size:34px;line-height:2.1}
-.word{cursor:pointer;padding:2px 4px;border-radius:6px;transition:background 0.2s;display:inline-block}
-.word:hover{background:#FFF8E1}
-.word.good{background:#E8F5E9;color:var(--green)}
-.word.warn{background:#FFF3E0;color:var(--orange)}
-.word.bad{background:#FFEBEE;color:var(--red);text-decoration:underline wavy var(--red)}
-.verse-trans{font-size:13px;color:var(--soft);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px dashed #e8e8e0}
+.word {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: inline-block;
+  border: 1px solid transparent;
+}
+.word:hover {
+  box-shadow: var(--sh);
+  transform: translateY(-1px);
+}
+.word.good {
+  background: #E8F5E9;
+  color: var(--green);
+  border-color: rgba(46,125,50,0.2);
+  box-shadow: inset 2px 2px 5px #c8e6c9, inset -2px -2px 5px #ffffff;
+}
+.word.warn {
+  background: #FFF3E0;
+  color: var(--orange);
+  border-color: rgba(239,108,0,0.2);
+  box-shadow: inset 2px 2px 5px #ffe0b2, inset -2px -2px 5px #ffffff;
+}
+.word.bad {
+  background: #FFEBEE;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  border-color: rgba(198,40,40,0.2);
+  box-shadow: inset 2px 2px 5px #ffcdd2, inset -2px -2px 5px #ffffff;
+}
+.verse-trans{font-size:13px;color:var(--soft);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(0,0,0,0.08)}
 
-.controls{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);margin-bottom:14px}
-.mic-row{display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap}
-.mic-btn{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,#C62828,#E53935);border:none;color:#fff;font-size:30px;cursor:pointer;box-shadow:0 8px 24px rgba(198,40,40,0.4);transition:transform 0.15s}
-.mic-btn:hover{transform:scale(1.05)}
-.mic-btn.listening{animation:pulse 1.2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,0.5)}70%{box-shadow:0 0 0 20px rgba(198,40,40,0)}100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}}
-.btn-secondary{background:var(--gp);color:var(--g);border:none;border-radius:12px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer}
-.btn-secondary:hover{background:#d4ebe0}
-.btn-primary{background:var(--g);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer}
-.btn-primary:hover{background:var(--g2)}
+.controls {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  margin-bottom: 20px;
+}
+.mic-row{display:flex;align-items:center;gap:18px;justify-content:center;flex-wrap:wrap}
 
-.transcript{margin-top:14px;background:#FAFAFA;border-radius:12px;padding:12px;font-size:13px;color:var(--soft);min-height:38px;font-style:italic}
-.result{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.result-chip{background:#fff;border:1.5px solid #e8e8e0;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:800}
+.mic-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid rgba(255,255,255,0.8);
+  color: var(--red);
+  font-size: 32px;
+  cursor: pointer;
+  box-shadow: 6px 6px 12px #e0dfd5, -6px -6px 12px #ffffff;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mic-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 8px 8px 16px #dbdacd, -8px -8px 16px #ffffff;
+}
+.mic-btn.listening {
+  color: #fff;
+  background: var(--red);
+  box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2);
+  animation: pulse 1.2s infinite alternate;
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(198,40,40,0.4); }
+  100% { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(198,40,40,0); }
+}
+
+.transcript {
+  margin-top: 18px;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13px;
+  color: var(--soft);
+  min-height: 44px;
+  font-style: italic;
+  box-shadow: var(--sh-inset);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+.result{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.result-chip {
+  background: var(--cream);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 2px 2px 4px #e0dfd5, -2px -2px 4px #ffffff;
+}
 .result-chip.good{border-color:var(--green);color:var(--green);background:#E8F5E9}
 .result-chip.warn{border-color:var(--orange);color:var(--orange);background:#FFF3E0}
 .result-chip.bad{border-color:var(--red);color:var(--red);background:#FFEBEE}
 
 /* SPEED */
-.speed-row{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
-.speed-pill{background:var(--gp);border:none;border-radius:100px;padding:8px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--g);cursor:pointer}
-.speed-pill.active{background:var(--g);color:#fff}
+.speed-row{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.speed-pill {
+  background: var(--cream);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--soft);
+  cursor: pointer;
+  box-shadow: 2px 2px 4px #e0dfd5, -2px -2px 4px #ffffff;
+  transition: all 0.2s;
+}
+.speed-pill.active {
+  color: var(--g);
+  box-shadow: inset 2px 2px 4px #e0dfd5, inset -2px -2px 4px #ffffff;
+}
 
 /* COMPARE WITH QARI */
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
 @media (max-width:560px){.compare-grid{grid-template-columns:1fr}}
-.compare-side{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh);text-align:center}
+.compare-side {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  text-align: center;
+}
 .compare-side h4{font-size:13px;font-weight:900;color:var(--text);margin-bottom:8px}
 .compare-side .sub{font-size:11px;color:var(--soft);margin-bottom:14px}
-.qari-pick{width:100%;padding:8px;border:1.5px solid #e8e8e0;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;background:#fff}
-.play-circle{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 6px 18px rgba(44,92,158,0.3)}
+.qari-pick {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  background: var(--cream);
+  box-shadow: var(--sh-inset);
+  color: var(--text);
+}
+.play-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--g);
+  border: 1px solid rgba(255,255,255,0.8);
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 4px 4px 8px #e0dfd5, -4px -4px 8px #ffffff;
+  transition: all 0.2s;
+}
+.play-circle:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 12px #dbdacd, -6px -6px 12px #ffffff;
+}
 
 /* PROGRESS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-.stat{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--sh);text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.stat {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  text-align: center;
+}
 .stat-num{font-size:28px;font-weight:900;color:var(--g);line-height:1}
 .stat-lbl{font-size:11px;color:var(--soft);font-weight:800;letter-spacing:1px;margin-top:6px;text-transform:uppercase}
-.bar-wrap{height:10px;background:#EEE;border-radius:100px;overflow:hidden;margin-top:8px}
+.bar-wrap {
+  height: 12px;
+  background: var(--cream);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 8px;
+  box-shadow: var(--sh-inset);
+  border: 1px solid rgba(255,255,255,0.4);
+}
 .bar{height:100%;background:linear-gradient(90deg,var(--g),var(--gl));border-radius:100px;transition:width 0.6s}
-.history-list{background:#fff;border-radius:18px;padding:6px;box-shadow:var(--sh)}
-.history-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #f4f4ef;font-size:13px}
+
+.history-list {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 12px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+.history-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px dashed #f0f0e8;font-size:13px}
 .history-row:last-child{border-bottom:none}
 .history-row .label{font-weight:800;color:var(--text)}
 .history-row .date{font-size:11px;color:var(--soft)}
@@ -104,44 +349,132 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 .empty{padding:40px 20px;text-align:center;color:var(--soft);font-size:14px}
 
 /* MAKHARIJ */
-.mak-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.mak-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);text-align:center;cursor:pointer;transition:transform 0.15s}
-.mak-card:hover{transform:translateY(-3px)}
+.mak-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.mak-card {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 18px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.mak-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shl);
+}
 .mak-letter{font-family:'Amiri',serif;font-size:54px;color:var(--g);line-height:1;margin-bottom:6px}
 .mak-name{font-size:13px;font-weight:900;color:var(--text);margin-bottom:2px}
 .mak-tip{font-size:11px;color:var(--soft);line-height:1.5}
-.mak-region{display:inline-block;background:var(--gp);color:var(--g);font-size:10px;font-weight:900;border-radius:100px;padding:3px 10px;margin-top:8px}
+.mak-region {
+  display: inline-block;
+  background: var(--cream);
+  color: var(--g);
+  font-size: 10px;
+  font-weight: 900;
+  border-radius: 100px;
+  padding: 3px 10px;
+  margin-top: 8px;
+  box-shadow: inset 1.5px 1.5px 3px #e0dfd5, inset -1.5px -1.5px 3px #ffffff;
+}
 
 /* MAKHARIJ DETAIL MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(13,31,20,0.85);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .modal-bg.open{display:flex}
-.modal{background:#fff;border-radius:24px;padding:26px;max-width:420px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.4);max-height:90vh;overflow-y:auto}
+.modal {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 26px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shl);
+  border: 1px solid rgba(255,255,255,0.9);
+  max-height: 90vh;
+  overflow-y: auto;
+}
 .modal-letter{font-family:'Amiri',serif;font-size:96px;color:var(--g);line-height:1;margin-bottom:6px}
 .modal-name{font-size:18px;font-weight:900;color:var(--text);margin-bottom:14px}
 .head-svg{width:200px;height:200px;margin:8px auto 14px;display:block}
-.modal-desc{font-size:13px;color:var(--soft);line-height:1.7;text-align:left;background:#FAFAFA;border-radius:12px;padding:14px;margin-bottom:14px}
-.modal-close{background:var(--g);color:#fff;border:none;border-radius:12px;padding:10px 20px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer}
+.modal-desc {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+  text-align: left;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--sh-inset);
+  border: 1px solid rgba(255,255,255,0.4);
+}
 
 /* DOWNLOAD MANAGER */
-.dl-list{background:#fff;border-radius:18px;padding:6px;box-shadow:var(--sh)}
-.dl-row{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid #f4f4ef;gap:12px}
+.dl-list {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 10px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+.dl-row{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px dashed #f0f0e8;gap:12px}
 .dl-row:last-child{border-bottom:none}
 .dl-info{flex:1;min-width:0}
 .dl-name{font-weight:800;font-size:14px;color:var(--text)}
 .dl-meta{font-size:11px;color:var(--soft);margin-top:2px}
-.dl-prog{height:6px;background:#EEE;border-radius:100px;overflow:hidden;margin-top:8px;display:none}
+.dl-prog {
+  height: 8px;
+  background: var(--cream);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 8px;
+  display: none;
+  box-shadow: var(--sh-inset);
+}
 .dl-prog.show{display:block}
 .dl-prog .fill{height:100%;width:0;background:var(--g);border-radius:100px;transition:width 0.4s}
-.dl-btn{background:var(--g);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif}
-.dl-btn.done{background:#E8F5E9;color:var(--green)}
+.dl-btn{background:var(--cream);color:var(--g);border:1px solid rgba(255,255,255,0.8);border-radius:10px;padding:8px 14px;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:3px 3px 6px #e0dfd5, -3px -3px 6px #ffffff}
+.dl-btn.done{background:#E8F5E9;color:var(--green);box-shadow:none}
 
 /* TAJWEED RULES GLOSSARY */
 .tjw-cats{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
-.tjw-cat{flex-shrink:0;background:#fff;border:1.5px solid #e8e8e0;border-radius:100px;padding:7px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--soft);cursor:pointer;white-space:nowrap}
-.tjw-cat.active{background:var(--g);color:#fff;border-color:var(--g)}
-.tjw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.tjw-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);cursor:pointer;transition:transform 0.15s;border-left:5px solid #ccc;display:flex;flex-direction:column;gap:6px}
-.tjw-card:hover{transform:translateY(-3px)}
+.tjw-cat {
+  flex-shrink: 0;
+  background: var(--cream);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--soft);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 2px 2px 4px #e0dfd5, -2px -2px 4px #ffffff;
+}
+.tjw-cat.active {
+  color: var(--g);
+  box-shadow: inset 2px 2px 4px #e0dfd5, inset -2px -2px 4px #ffffff;
+}
+.tjw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.tjw-card {
+  background: var(--cream);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: var(--sh);
+  border: 1px solid rgba(255,255,255,0.8);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  border-left: 5px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tjw-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shl);
+}
 .tjw-card .ar{font-family:'Amiri',serif;font-size:30px;line-height:1;color:var(--text)}
 .tjw-card .nm{font-size:14px;font-weight:900;color:var(--text)}
 .tjw-card .tag{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--soft)}
@@ -149,36 +482,56 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
 .tjw-badge{display:inline-block;background:var(--g);color:#fff;font-size:10px;font-weight:900;letter-spacing:2px;border-radius:100px;padding:3px 12px}
 .tjw-arabic{font-family:'Amiri',serif;font-size:54px;color:var(--g);line-height:1;margin-top:6px}
 .tjw-letters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
-.tjw-letter{font-family:'Amiri',serif;font-size:26px;background:#FAFAFA;border:1.5px solid #e8e8e0;border-radius:10px;padding:4px 12px;color:var(--text);cursor:pointer;transition:background 0.15s}
-.tjw-letter:hover{background:var(--gp);border-color:var(--g)}
-.tjw-examples{display:flex;flex-direction:column;gap:10px}
-.tjw-example{background:#FAFAFA;border-radius:14px;padding:14px;border:1.5px solid #f0f0e8;cursor:pointer;transition:all 0.15s}
-.tjw-example:hover{background:#fff;border-color:var(--g)}
+.tjw-letter {
+  font-family: 'Amiri', serif;
+  font-size: 26px;
+  background: var(--cream);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  border-radius: 10px;
+  padding: 4px 12px;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 2px 2px 4px #e0dfd5, -2px -2px 4px #ffffff;
+  transition: all 0.15s;
+}
+.tjw-letter:hover {
+  box-shadow: inset 1.5px 1.5px 3px #e0dfd5, inset -1.5px -1.5px 3px #ffffff;
+}
+.tjw-examples{display:flex;flex-direction:column;gap:12px}
+.tjw-example {
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 14px;
+  border: 1.5px solid rgba(255,255,255,0.8);
+  box-shadow: var(--sh);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tjw-example:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shl);
+}
 .tjw-example .ear{font-family:'Amiri',serif;font-size:24px;color:var(--text);direction:rtl;text-align:right;line-height:1.6}
 .tjw-example .latin{font-size:12px;color:var(--g);font-weight:800;margin-top:4px;font-style:italic}
 .tjw-example .meaning{font-size:11px;color:var(--soft);margin-top:2px}
-.tjw-example .play-tag{display:inline-block;background:var(--gl);color:var(--night);font-size:9px;font-weight:900;letter-spacing:1px;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.tjw-example .play-tag{display:inline-block;background:var(--g);color:#fff;font-size:9px;font-weight:900;letter-spacing:1px;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--night);color:#fff;border-radius:100px;padding:12px 22px;font-weight:800;font-size:13px;box-shadow:0 12px 40px rgba(0,0,0,0.3);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:300}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--cream);color:var(--text);border-radius:100px;padding:12px 22px;font-weight:800;font-size:13px;box-shadow:var(--sh);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:300;border:1px solid rgba(255,255,255,0.9)}
 .toast.show{opacity:1}
-
-/* PRACTICE WORD MODAL */
-.word-modal-arabic{font-family:'Amiri',serif;font-size:64px;color:var(--g);margin:8px 0 4px}
-.word-modal-trans{font-size:14px;color:var(--soft);margin-bottom:18px}
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a href="landing.html" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <div class="nav-mark">🕌</div>
     <div>
-      <div class="nav-text">NoorPath <span style="color:var(--gl)">Reciter Pro</span></div>
+      <div class="nav-text">NoorPath <span style="color:var(--gold)">Reciter Pro</span></div>
       <div class="nav-sub">AL-SIRAAT–STYLE LEARNING</div>
     </div>
   </a>
-  <button class="nav-back" onclick="history.back()">← Back</button>
+  <button class="btn-neumorph" onclick="history.back()">← Back</button>
 </nav>
 
 <!-- TABS -->
@@ -200,7 +553,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
   </div>
 
   <!-- Surah & Ayah picker -->
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:end" data-no-tilt>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:end" data-no-tilt>
     <div style="flex:1;min-width:200px">
       <div style="font-size:10px;font-weight:900;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px">SURAH</div>
       <select id="surahPick" class="qari-pick" style="margin-bottom:0"></select>
@@ -209,8 +562,8 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
       <div style="font-size:10px;font-weight:900;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px">AYAH</div>
       <select id="ayahPick" class="qari-pick" style="margin-bottom:0"></select>
     </div>
-    <button class="btn-secondary" id="btnPrev" title="Previous ayah" style="padding:9px 12px">←</button>
-    <button class="btn-secondary" id="btnNext" title="Next ayah" style="padding:9px 12px">→</button>
+    <button class="btn-neumorph" id="btnPrev" title="Previous ayah" style="padding:10px 14px">←</button>
+    <button class="btn-neumorph" id="btnNext" title="Next ayah" style="padding:10px 14px">→</button>
   </div>
 
   <!-- Multi-script toggle -->
@@ -232,9 +585,9 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
   <!-- Mic + speed -->
   <div class="controls">
     <div class="mic-row">
-      <button class="btn-secondary" id="btnHear">🔊 Hear Qari</button>
+      <button class="btn-neumorph" id="btnHear">🔊 Hear Qari</button>
       <button class="mic-btn" id="btnMic" title="Tap to record">🎙️</button>
-      <button class="btn-secondary" id="btnReset">↻ Reset</button>
+      <button class="btn-neumorph" id="btnReset">↻ Reset</button>
     </div>
     <div class="speed-row" data-no-tilt>
       <span style="font-size:11px;font-weight:900;color:var(--soft);align-self:center;letter-spacing:1px">SPEED:</span>
@@ -248,7 +601,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
     <div id="aiSummary" style="margin-top:10px;font-size:12px;color:var(--soft);text-align:center;font-style:italic;display:none"></div>
   </div>
 
-  <div style="font-size:12px;color:var(--soft);text-align:center;line-height:1.7;background:#FFF8E1;border-radius:12px;padding:12px">
+  <div style="font-size:12px;color:var(--text);text-align:center;line-height:1.7;background:var(--cream);border-radius:12px;padding:12px;box-shadow:var(--sh-inset);border:1px solid rgba(255,255,255,0.4)">
     💡 Click any <b>green/orange/red</b> word above to practice it in isolation. Your accuracy is automatically saved to the Progress page.
   </div>
 </section>
@@ -288,7 +641,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
       <div class="sub">Record then playback to compare</div>
       <button class="mic-btn" id="cmpMic" style="width:60px;height:60px;font-size:22px">🎙️</button>
       <div style="margin-top:14px">
-        <button class="btn-secondary" id="cmpPlayMine" disabled style="opacity:0.55">▶ Play Mine</button>
+        <button class="btn-neumorph" id="cmpPlayMine" disabled style="opacity:0.55">▶ Play Mine</button>
       </div>
       <div style="font-size:11px;color:var(--soft);margin-top:10px" id="cmpStatus">No recording yet</div>
     </div>
@@ -314,7 +667,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
       <!-- side profile of head; region highlights inserted by JS -->
     </svg>
     <div class="modal-desc" id="mDesc"></div>
-    <button class="modal-close" onclick="closeMak()">Got it</button>
+    <button class="btn-neumorph" onclick="closeMak()">Got it</button>
   </div>
 </div>
 
@@ -344,7 +697,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
     <div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:14px 0 8px">EXAMPLES · TAP TO HEAR</div>
     <div id="tjwExamples" class="tjw-examples"></div>
     <div style="text-align:center;margin-top:18px">
-      <button class="modal-close" onclick="closeTjw()">Got it</button>
+      <button class="btn-neumorph" onclick="closeTjw()">Got it</button>
     </div>
   </div>
 </div>
@@ -357,19 +710,19 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
     <div class="hdr-sub">Auto-tracked from every recitation session. Locally saved (private).</div>
   </div>
   <div class="stats-grid" id="statsGrid"></div>
-  <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:var(--sh);margin-bottom:14px">
+  <div style="background:var(--cream);border-radius:18px;padding:18px;box-shadow:var(--sh);margin-bottom:14px;border:1px solid rgba(255,255,255,0.8)">
     <div style="font-weight:900;font-size:14px;margin-bottom:10px;color:var(--text)">Overall accuracy</div>
     <div class="bar-wrap"><div class="bar" id="overallBar" style="width:0%"></div></div>
     <div style="font-size:11px;color:var(--soft);margin-top:6px" id="overallTxt">No sessions yet</div>
   </div>
   <div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:2px;margin:12px 4px 8px">RECENT SESSIONS</div>
   <div class="history-list" id="historyList"></div>
-  <div style="text-align:center;margin-top:14px">
-    <button class="btn-secondary" id="btnClearProg">Clear all progress</button>
+  <div style="text-align:center;margin-top:18px">
+    <button class="btn-neumorph" id="btnClearProg">Clear all progress</button>
   </div>
 </section>
 
-<!-- ============ PAGE 5: DOWNLOADS ============ -->
+<!-- ============ PAGE 6: DOWNLOADS ============ -->
 <section class="page" id="page-downloads">
   <div class="hdr">
     <div class="hdr-eyebrow">PAGE 6 / 6</div>
@@ -377,7 +730,7 @@ html,body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--te
     <div class="hdr-sub">Surahs aur Qari recordings phone par save kar lo — internet ke bina bhi seekho.</div>
   </div>
   <div class="dl-list" id="dlList"></div>
-  <div style="font-size:12px;color:var(--soft);text-align:center;margin-top:14px;background:#FAFAFA;border-radius:12px;padding:12px;line-height:1.7">
+  <div style="font-size:12px;color:var(--soft);text-align:center;margin-top:14px;background:var(--cream);border-radius:12px;padding:12px;line-height:1.7;box-shadow:var(--sh-inset);border:1px solid rgba(255,255,255,0.4)">
     📦 Downloaded items aapke device par local storage mein safe rahenge aur Reciter Pro mein offline play hoonge.
   </div>
 </section>
@@ -426,7 +779,7 @@ const MAKHARIJ = [
     desc:"Zabaan ki tip front teeth ke piche. Heavy/full-mouth sound — air ko cup-shape se nikalna. Light 's' (س) se zyada bhari."},
   { letter:"ض", name:"Ḍād", region:"Side of tongue + molars", regionClass:"tongue-side",
     tip:"Unique to Arabic — side of tongue.",
-    desc:"Zabaan ka kinara (side) upper molars ko touch karta hai. Sirf Arabic mein hai — practice karo dheere dheere."},
+    desc:"Zabaan ka kinara (side) upper molars ko touch karta hai. Sirf Arabic mein hai — practice karo daily."},
   { letter:"ط", name:"Ṭā", region:"Tongue tip + upper gum", regionClass:"teeth",
     tip:"Heavy 'T' with explosion.",
     desc:"Zabaan ki tip upper gum line ko touch karti hai. Heavy explosive sound — full mouth. Light 'ت' se distinct."},
@@ -541,7 +894,7 @@ const TAJWEED = [
     letters: ["ا","و","ي"],
     examples: [
       { ar:"قَالَ",                lat:"qāla",            mean:"He said (2 counts on ا)" },
-      { ar:"يَقُولُ",              lat:"yaqūlu",          mean:"He says (2 counts on و)" },
+      { ar:"يَقُولُ",              lat:"yaqūlu",          mean:"He says (2 counts on ও)" },
       { ar:"قِيلَ",                lat:"qīla",            mean:"It was said (2 counts on ي)" }
     ]
   },
@@ -941,7 +1294,7 @@ function openWordPractice(i){
   const mb = $("#makModal");
   $("#mLetter").textContent = ar;
   $("#mName").textContent = `${VERSE.label} ${VERSE.surah}:${VERSE.ayah} — word ${i+1}`;
-  $("#mDesc").innerHTML = `<b>Practice this word in isolation.</b><br/>Tap to hear it slowly, then repeat 5× before continuing.<br/><br/><button class="btn-primary" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 0.6)">▶ Play slow</button> &nbsp; <button class="btn-secondary" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 1)">▶ Normal</button>`;
+  $("#mDesc").innerHTML = `<b>Practice this word in isolation.</b><br/>Tap to hear it slowly, then repeat 5× before continuing.<br/><br/><button class="btn-neumorph" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 0.6)">▶ Play slow</button> &nbsp; <button class="btn-neumorph" onclick="speakArabic('${ar.replace(/'/g,"\\'")}', 1)">▶ Normal</button>`;
   $("#mSvg").innerHTML = "";
   mb.classList.add("open");
 }
@@ -1036,9 +1389,9 @@ function headSvg(region){
     <path d="M125 108 Q120 130 110 150" stroke="#8D6E63" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
     ${zones[region] || ""}
     <!-- label arrow -->
-    <circle cx="178" cy="105" r="4" fill="#0A1428"/>
-    <line x1="178" y1="105" x2="155" y2="120" stroke="#0A1428" stroke-width="1.4"/>
-    <text x="178" y="100" text-anchor="middle" font-size="10" font-weight="900" fill="#0A1428">Makhraj</text>
+    <circle cx="178" cy="105" r="4" fill="#0a1428"/>
+    <line x1="178" y1="105" x2="155" y2="120" stroke="#0a1428" stroke-width="1.4"/>
+    <text x="178" y="100" text-anchor="middle" font-size="10" font-weight="900" fill="#0a1428">Makhraj</text>
   </svg>`;
 }
 function openMak(i){
@@ -1046,7 +1399,7 @@ function openMak(i){
   $("#mLetter").textContent = m.letter;
   $("#mName").textContent = m.name + " — " + m.region;
   $("#mSvg").outerHTML = `<div id="mSvg" class="head-svg">${headSvg(m.regionClass)}</div>`;
-  $("#mDesc").innerHTML = m.desc + `<br/><br/><button class="btn-primary" onclick="speakArabic('${m.letter}',0.7)">▶ Hear letter</button>`;
+  $("#mDesc").innerHTML = m.desc + `<br/><br/><button class="btn-neumorph" onclick="speakArabic('${m.letter}',0.7)">▶ Hear letter</button>`;
   $("#makModal").classList.add("open");
 }
 function closeMak(){ $("#makModal").classList.remove("open"); }
